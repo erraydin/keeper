@@ -1,0 +1,43 @@
+
+.SideBar {
+    position: fixed;
+    width: 220px;
+    max-width: 70%;
+    height: 100%;
+    left: 0;
+    top: 85px;
+    background-color: white;
+    padding: 16px 32px;
+    box-sizing: border-box;
+    box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+
+.NavigationItems {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    height: 100%;
+}
+
+.NavigationItem {
+    margin: 15px 0;
+    box-sizing: border-box;
+    display: block;
+    height: 100%;
+}
+
+.NavigationItem a {
+    color: #8F5C2C;
+    text-decoration: none;
+    width: 100%;
+    box-sizing: border-box;
+    display: block;
+}
+
+.NavigationItem a:hover,
+.NavigationItem a:active,
+.NavigationItem a.active {
+    color:#40A4C8;
+}
+

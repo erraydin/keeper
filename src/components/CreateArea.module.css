@@ -1,0 +1,46 @@
+.Form {
+    position: relative;
+    width: 480px;
+    margin: 30px auto 20px auto;
+    background: #fff;
+    padding: 15px 5px 10px 15px;
+    border-radius: 7px;
+    box-shadow: 0 1px 5px rgb(138, 137, 137);
+}
+
+.Form input,
+.Form textarea {
+  width: 100%;
+  border: none;
+  padding: 4px;
+  outline: none;
+  font-size: 1.2em;
+  font-family: inherit;
+  resize: none;
+}
+
+.Form button {
+  /* position: absolute;
+  right: 18px; */
+  bottom: 0px;
+  position: relative;
+  float: right;
+  margin-right: 10px;
+  background: white;
+  color: #f5ba13;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 30px;
+  cursor: pointer;
+  outline: none;
+}
+
+.Form button:hover,
+.Form button:active {
+    color:#ffda77;
+}
+
+.Buttons {
+  height: 30px;
+}
