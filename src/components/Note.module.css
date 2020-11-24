@@ -6,17 +6,26 @@
   width: 240px;
   margin: 16px;
   float: left;
+  cursor: default;
 }
+
+.Note:hover {
+  box-shadow: 0 1px 5px rgb(138, 137, 137);
+}
+
+
 .Note h2 {
   font-weight: 500;
-  font-size: 1.1em;
+  font-size: 1em;
   margin-bottom: 6px;
+  color: rgb(46, 46, 46);
 }
 .Note p {
   font-size: 1.1em;
   margin-bottom: 10px;
   white-space: pre-wrap;
   word-wrap: break-word;
+  color: rgb(46, 46, 46);
 }
 
 .Note button {

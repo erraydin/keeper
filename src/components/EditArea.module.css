@@ -1,39 +1,31 @@
 .Form {
-  position: relative;
+  z-index: 500;
+  position: fixed;
+  top: 30%;
   width: 480px;
   margin: 30px auto 20px auto;
+  left: 35%;
   background: #fff;
   padding: 15px 5px 10px 15px;
   border-radius: 7px;
-  box-shadow: 0 1px 5px rgb(138, 137, 137);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.35);
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 800px) {
   .Form {
-    margin-left: 252px;
-  }
-}
-@media (max-width: 780px) {
-  .Form {
-    margin-left: 153px;
+    width: 400px;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   .Form {
-    width: 70%;
-  }
-}
-
-@media (max-width: 570px) {
-  .Form {
-    width: 65%;
+    width: 350px;
   }
 }
 
 @media (max-width: 533px) {
   .Form {
-    width: 60%;
+    width: 240px;
   }
 }
 

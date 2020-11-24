@@ -5,20 +5,19 @@ import Header from "./components/Header";
 import SideBar from "./components/SideBar";
 import NotesPage from "./components/NotesPage";
 import TrashPage from "./components/TrashPage";
-import EditLabelsPage from "./components/EditLabelsPage";
 import NotFoundPage from "./components/NotFoundPage";
 
 
-const routes = (
-  <Switch>
-    <Route path="/" exact component={NotesPage} />
-    <Route path="/trash" component={TrashPage} />
-    <Route path="/edit-labels" component={EditLabelsPage} />
-    <Route component={NotFoundPage} />
-  </Switch>
-);
+
 
 function App() {
+  const routes = (
+    <Switch>
+      <Route path="/" exact component={NotesPage} />
+      <Route path="/trash" exact component={TrashPage} />
+      <Route component={NotFoundPage} />
+    </Switch>
+  );
   return (
     <BrowserRouter>
       <Header />
@@ -27,5 +26,7 @@ function App() {
     </BrowserRouter>
   );
 }
+
+
 
 export default App;

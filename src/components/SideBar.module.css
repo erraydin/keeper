@@ -12,6 +12,12 @@
     box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.3);
 }
 
+@media (max-width: 780px) {
+    .SideBar {
+      width: 120px;
+    }
+  }
+
 
 .NavigationItems {
     margin: 0;
@@ -20,24 +26,5 @@
     height: 100%;
 }
 
-.NavigationItem {
-    margin: 15px 0;
-    box-sizing: border-box;
-    display: block;
-    height: 100%;
-}
 
-.NavigationItem a {
-    color: #8F5C2C;
-    text-decoration: none;
-    width: 100%;
-    box-sizing: border-box;
-    display: block;
-}
-
-.NavigationItem a:hover,
-.NavigationItem a:active,
-.NavigationItem a.active {
-    color:#40A4C8;
-}
 

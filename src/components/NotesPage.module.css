@@ -1,0 +1,73 @@
+.Notes {
+  margin-left: 236px;
+}
+
+@media (max-width: 780px) {
+  .Notes {
+    margin-left: 136px;
+  }
+}
+
+.Empty {
+  position: sticky;
+  width: 300px;
+  margin: 170px auto 20px auto;
+  left: 42%;
+  background: #fff;
+  border-radius: 7px;
+  text-align: center;
+}
+@media (max-width: 780px) {
+  .Empty {
+    left: 35%;
+  }
+}
+
+@media (max-width: 480px) {
+  .Empty {
+    width: 250px;
+  }
+}
+
+
+@media (max-height: 750px) {
+  .Empty {
+    margin-top: 140px;
+  }
+}
+
+@media (max-height: 700px) {
+  .Empty {
+    margin-top: 125px;
+  }
+}
+
+@media (max-height: 650px) {
+  .Empty {
+    margin-top: 105px;
+  }
+}
+
+@media (max-height: 600px) {
+  .Empty {
+    margin-top: 90px;
+  }
+}
+
+
+.Icon {
+  font-size: 130px;
+  color: #ececec;
+}
+
+.Note {
+  color: #8d9094;
+  font-size: 23px;
+}
+
+/* @media (max-width: 780px) {
+  .Empty {
+    left: 35%;
+  }
+} */
+

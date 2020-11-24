@@ -1,6 +1,6 @@
 const initialState = {
-    label: "",
-    text: ""
+    filterLabel: "",
+    filterText: ""
 };
 
 const filtersReducer = (state=initialState, action) => {

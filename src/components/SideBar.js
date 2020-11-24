@@ -1,54 +1,15 @@
 import React from "react";
 import classes from "./SideBar.module.css";
-import { NavLink } from "react-router-dom";
+import NavigationItem from "./NavigationItem";
 
 function SideBar() {
   return (
     <React.Fragment>
       <div className={classes.SideBar}>
-        {/* <NavLink activeClassName={classes.active} to="/" exact>
-          <span ><span class="material-icons" style={{verticalAlign: "middle"}}>note</span> <span style={{verticalAlign: "middle"}}>Notes</span></span>
-        </NavLink>
-        <NavLink activeClassName={classes.active} to="trash" exact>
-          🗑 Trash
-        </NavLink> */}
-
         <nav>
           <ul className={classes.NavigationItems}>
-            <li className={classes.NavigationItem}>
-              <NavLink activeClassName={classes.active} to="/" exact>
-                <span
-                  className="material-icons"
-                  style={{ verticalAlign: "middle" }}
-                >
-                  note
-                </span>{" "}
-                <span style={{ verticalAlign: "middle" }}>Notes</span>
-              </NavLink>
-            </li>
-
-            <li className={classes.NavigationItem}>
-              <NavLink activeClassName={classes.active} to="/trash" exact>
-                <span
-                  className="material-icons"
-                  style={{ verticalAlign: "middle" }}
-                >
-                  delete
-                </span>
-                <span style={{ verticalAlign: "middle" }}>Trash</span>
-              </NavLink>
-            </li>
-            <li className={classes.NavigationItem}>
-              <NavLink activeClassName={classes.active} to="/edit-labels" exact>
-                <span
-                  className="material-icons"
-                  style={{ verticalAlign: "middle" }}
-                >
-                  edit
-                </span>
-                <span style={{ verticalAlign: "middle" }}>Edit Labels</span>
-              </NavLink>
-            </li>
+            <NavigationItem path="/" iconName="note" title="Notes" />
+            <NavigationItem path="/trash" iconName="delete" title="Trash" />
           </ul>
         </nav>
       </div>

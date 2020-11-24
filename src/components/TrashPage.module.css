@@ -1,0 +1,59 @@
+.Notes {
+  margin-left: 236px;
+}
+
+@media (max-width: 780px) {
+  .Notes {
+    margin-left: 136px;
+  }
+}
+
+.Empty {
+  position: fixed;
+  top: 35%;
+  margin: 30px auto 20px auto;
+  left: 47%;
+  background: #fff;
+  padding: 15px 5px 10px 15px;
+  border-radius: 7px;
+  text-align: center;
+}
+
+@media (max-width: 780px) {
+    .Empty {
+      left: 40%;
+    }
+  }
+
+.Icon {
+  font-size: 130px;
+  color: #ececec;
+}
+
+.Note {
+  color: #8d9094;
+  font-size: 23px;
+}
+
+
+.Button {
+  border-radius: 7px;
+  box-shadow: 0px 1px 3px rgb(138, 138, 137);
+  padding: 10px 7px;
+  border-radius: 7px;
+  border: none;
+  display: block;
+  font-size: 15px;
+  position: relative;
+  margin: 30px auto 20px 30px;
+  background: white;
+  color: #383835;
+  cursor: pointer;
+  outline: none;
+}
+
+.Button:hover,
+.Button:active {
+    background-color: rgb(245, 245, 245);
+}
+

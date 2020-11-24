@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import classes from "./CreateArea.module.css";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "./Button";
-import LabelIcon from "@material-ui/icons/Label";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import CloseIcon from "@material-ui/icons/Close";
 
 function CreateArea(props) {
@@ -24,11 +24,18 @@ function CreateArea(props) {
     setExpanded(true);
   }
 
-  function addNoteHandler() {
-    props.addNote({ title: title, content: content });
+  function cancelExpand() {
+    setExpanded(false);
     setTitle("");
     setContent("");
-    setExpanded(false);
+  }
+
+  function addNoteHandler() {
+      props.addNote({ title: title, content: content });
+      setTitle("");
+      setContent("");
+      setExpanded(false);
+    
   }
 
   function cancelNoteHandler() {
@@ -62,11 +69,6 @@ function CreateArea(props) {
           <Button tooltipTitle="Add Note" onClick={addNoteHandler}>
             <AddIcon />
           </Button>
-
-          <Button tooltipTitle="Add Label" onClick>
-            <LabelIcon />
-          </Button>
-
           <Button tooltipTitle="Cancel" onClick={cancelNoteHandler}>
             <CloseIcon />
           </Button>
@@ -75,7 +77,9 @@ function CreateArea(props) {
     </form>
   );
 
-  return <div>{create}</div>;
+  return (
+    <ClickAwayListener onClickAway={cancelExpand}>{create}</ClickAwayListener>
+  );
 }
 
 export default CreateArea;

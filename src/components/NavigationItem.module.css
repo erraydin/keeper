@@ -1,0 +1,20 @@
+.NavigationItem {
+    margin: 15px 0;
+    box-sizing: border-box;
+    display: block;
+    height: 100%;
+}
+
+.NavigationItem a {
+    color: #836830;
+    text-decoration: none;
+    width: 100%;
+    box-sizing: border-box;
+    display: block;
+}
+
+.NavigationItem a:hover,
+.NavigationItem a:active,
+.NavigationItem a.active {
+    color:#3eb5e0;
+}
