@@ -1,5 +1,15 @@
 const initialState = {
-  notes: [],
+  notes: [{
+    id: "asdasdsad",
+    title: "bu bir baslik",
+    content: "bu bir not",
+    labels: ["ali", "veli"]
+  }],
+  labels: [
+    "ali",
+    "veli",
+    "develi",
+  ],
   trash: [],
 };
 
@@ -47,6 +57,12 @@ const notesReducer = (state = initialState, action) => {
       return {
         ...state,
         trash: [],
+      }
+    case "ADD_NEW_LABEL":
+      const newLabels = state.labels.includes(action.label) ? [...state.labels] : [action.label, ...state.labels];
+      return {
+        ...state,
+        labels: newLabels
       }
     default:
       return state;

@@ -1,43 +1,68 @@
 .List {
-    background: #fff;
-    border-radius: 7px;
-    border: 1px solid #ccc;
-    padding: 10px;
-    width: 240px;
-    margin: 16px;
-    float: left;
-  }
-  .List h2 {
-    font-weight: 500;
-    font-size: 1.1em;
-    margin-bottom: 6px;
-  }
-  .List ul {
-    font-size: 1.1em;
-    margin-bottom: 10px;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-  }
+  z-index: 500;
+  background: #fff;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  padding: 10px 0;
+  margin: 16px;
+  float: left;
+  box-shadow: 1px 1px 10px rgb(163, 163, 163);
+}
+.List h2 {
+  font-weight: 500;
+  font-size: 1.1em;
+  margin-bottom: 6px;
+}
+.List .Input {
+  width: 100%;
+  border: none;
+  padding: 5px 10px;
+  outline: none;
+  font-size: 1em;
+  font-family: inherit;
+  resize: none;
+}
+.List ul {
+  font-size: 1.1em;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
 
-  .List li {
-      list-style: none;
-  }
-  
-  .List button {
-    position: relative;
-    float: right;
-    margin-right: 10px;
-    color: #f5ba13;
-    background-color: white;
-    border: none;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    cursor: pointer;
-    outline: none;
-  }
-  
-  .List button:hover,
-  .List button:active {
-      color:#ffda77;
-  }
+.List li {
+  list-style: none;
+  padding: 0 10px;
+}
+
+.List li:hover {
+  cursor: pointer;
+  background-color: rgba(194, 194, 194, 0.308);
+}
+.List .Checked {
+  display: inline-block;
+  color: rgb(3, 2, 0);
+}
+
+.List .Unchecked {
+  display: inline-block;
+  color: white;
+}
+
+.List button {
+  position: relative;
+  float: right;
+  margin-right: 10px;
+  color: #f5ba13;
+  background-color: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  outline: none;
+}
+
+.List button:hover,
+.List button:active {
+  color: #ffda77;
+}

@@ -28,6 +28,25 @@
   color: rgb(46, 46, 46);
 }
 
+.Note .Labels {
+  margin-top: 5px;
+  width: 120px;
+  text-overflow: ellipsis;
+  overflow:hidden;
+  white-space:nowrap;
+}
+
+.Note .Label {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 10px;
+  background-color: rgba(163, 163, 163, 0.253);
+  border-radius: 10px;
+  min-width: 40px;
+  text-align: center;
+}
+
 .Note button {
   position: relative;
   float: right;

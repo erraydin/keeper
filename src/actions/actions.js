@@ -11,3 +11,5 @@ export const editNote = (index, note) => ({type: "EDIT", note: note, index: inde
 export const restoreNote = (index) => ({type: "RESTORE", index: index});
 
 export const emptyTrash = () => ({type: "EMPTY_TRASH"});
+
+export const addNewLabel = (label) => ({type: "ADD_NEW_LABEL", label});

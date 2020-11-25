@@ -3,7 +3,7 @@
   width: 480px;
   margin: 30px auto 20px auto;
   background: #fff;
-  padding: 15px 5px 10px 15px;
+  padding: 1px 1px 1px 1px;
   border-radius: 7px;
   box-shadow: 0 1px 5px rgb(138, 137, 137);
 }
@@ -41,7 +41,7 @@
 .Form textarea {
   width: 100%;
   border: none;
-  padding: 4px;
+  padding: 10px;
   outline: none;
   font-size: 1.2em;
   font-family: inherit;

@@ -1,22 +1,67 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./List.module.css";
 import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { addNewLabel } from "../actions/actions";
+import { connect } from "react-redux";
 
 function List(props) {
+  const [newLabel, setNewLabel] = useState("");
+
+  function changeNewLabel(event) {
+    setNewLabel(event.target.value);
+  }
+
+  useEffect(() => {
+    console.log(props.labels);
+    console.log(props.chosenLabels)
+  }, [props.labels, props.chosenLabels])
+
+  function handleEnter(event) {
+    if (event.key === "Enter") {
+      props.addNewLabel(newLabel);
+      setNewLabel("");
+    }
+  }
+
+  // <input
+  //   onChange={() => {
+  //     return;
+  //   }}
+  //   checked={props.chosenLabels[index]}
+  //   type="checkbox"
+  //   id={index}
+  //   style={{ marginRight: "8px" }}
+  // />;
+
   return (
     <div className={classes.List}>
-      <h2>{props.title}</h2>
+      <input
+        onKeyPress={handleEnter}
+        className={classes.Input}
+        autoComplete="off"
+        name="label"
+        placeholder="Add label..."
+        value={newLabel}
+        onChange={changeNewLabel}
+      />
       <ul>
-        {props.content.map((item, index) => {
+        {props.labels.map((item, index) => {
           return (
-            <li>
-              <input
-                type="checkbox"
-                id={index}
-                style={{ marginRight: "8px" }}
-              ></input>
-              <label for={index}>{item}</label>
+            <li onClick={() => props.clickHandler(index)}>
+              <div
+                className={
+                  props.chosenLabels[index]
+                    ? classes.Checked
+                    : classes.Unchecked
+                }
+              >
+                {" "}
+                ✓
+              </div>
+              <div style={{ display: "inline-block", marginLeft: "10px" }}>
+                {item}
+              </div>
             </li>
           );
         })}
@@ -34,5 +79,14 @@ function List(props) {
     </div>
   );
 }
-
-export default List;
+const mapStateToProps = (state) => {
+  return {
+    labels: state.main.labels,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addNewLabel: (label) => dispatch(addNewLabel(label)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(List);

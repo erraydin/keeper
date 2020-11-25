@@ -3,6 +3,7 @@ import classes from "./EditArea.module.css";
 import Button from "./Button";
 import CloseIcon from "@material-ui/icons/Close";
 import DoneIcon from '@material-ui/icons/Done';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 function EditArea(props) {
   const [title, setTitle] = useState(props.note.title);
@@ -26,12 +27,11 @@ function EditArea(props) {
       />
 
       <div style={{ display: "flex" }}>
-        <textarea
+        <TextareaAutosize
           value={content}
           onChange={changeText}
           name="content"
           placeholder="Edit your note..."
-          rows="3"
         />
       </div>
 
@@ -42,7 +42,8 @@ function EditArea(props) {
             props.editNote(props.editedIndex, {
               title: title,
               content: content,
-              id: props.note.id
+              id: props.note.id,
+              labels: props.note.labels,
             });
             props.closeEdit();
           }}

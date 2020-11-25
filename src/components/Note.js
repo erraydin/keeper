@@ -14,6 +14,11 @@ function Note(props) {
       {props.note.title === "" && props.note.content === "" ? (
         <p style={{ color: "gray" }}>Empty note</p>
       ) : null}
+      <div className={classes.Labels}>
+        {props.note.labels.map((label) => {
+          return <span className={classes.Label}>{label}</span>;
+        })}
+      </div>
       <Button
         tooltipTitle={props.deleteTooltip}
         onClick={() => props.deleteNote(props.index)}
