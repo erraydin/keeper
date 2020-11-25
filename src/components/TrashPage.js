@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { connect } from "react-redux";
 import Note from "./Note";
 import Masonry from "react-masonry-component";
@@ -23,6 +23,9 @@ const noTrash = (
 );
 
 function TrashPage(props) {
+  useEffect(() => {
+    console.log(props);
+  })
   const yesTrash = (
     <button
       className={classes.Button}
@@ -50,7 +53,7 @@ function TrashPage(props) {
                 deleteNote={props.deleteNotePermanently}
                 deleteTooltip="Delete Permanently"
                 showEditButton={false}
-                onClick={props.restoreNote}
+                restoreNote={props.restoreNote}
               />
             );
           })}
@@ -62,6 +65,7 @@ function TrashPage(props) {
 const mapStateToProps = (state) => {
   return {
     trash: state.main.trash,
+    notes: state.main.notes,
   };
 };
 

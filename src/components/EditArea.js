@@ -39,7 +39,7 @@ function EditArea(props) {
         <Button
           tooltipTitle="Confirm changes"
           onClick={() => {
-            props.editNote(props.editedIndex, {
+            props.editNote(props.note.id, {
               title: title,
               content: content,
               id: props.note.id,

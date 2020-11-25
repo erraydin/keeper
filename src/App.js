@@ -6,15 +6,19 @@ import SideBar from "./components/SideBar";
 import NotesPage from "./components/NotesPage";
 import TrashPage from "./components/TrashPage";
 import NotFoundPage from "./components/NotFoundPage";
+import { connect } from "react-redux";
 
 
 
 
-function App() {
+function App(props) {
   const routes = (
     <Switch>
       <Route path="/" exact component={NotesPage} />
       <Route path="/trash" exact component={TrashPage} />
+      {props.labels.map(label => {
+        return <Route path={"/label/"+label} exact component={NotesPage} />
+      })}
       <Route component={NotFoundPage} />
     </Switch>
   );
@@ -27,6 +31,11 @@ function App() {
   );
 }
 
+const mapStateToProps = (state) => {
+  return {
+    labels: state.main.labels,
+  };
+};
 
 
-export default App;
+export default connect(mapStateToProps)(App);

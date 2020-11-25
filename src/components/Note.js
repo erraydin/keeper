@@ -8,7 +8,7 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 function Note(props) {
   return (
-    <div className={classes.Note} onClick={() => props.onClick(props.index)}>
+    <div className={classes.Note} onClick={props.showEditButton ? () => props.onClick(props.index) : null}>
       <h2>{props.note.title}</h2>
       <p>{props.note.content}</p>
       {props.note.title === "" && props.note.content === "" ? (
@@ -24,7 +24,7 @@ function Note(props) {
           tooltipTitle={props.deleteTooltip}
           onClick={(event) => {
             event.stopPropagation();
-            return props.deleteNote(props.index);
+            return props.deleteNote(props.note.id);
           }}
         >
           {props.showEditButton ? <DeleteIcon /> : <DeleteForeverIcon />}
@@ -40,7 +40,7 @@ function Note(props) {
         ) : (
           <Button
             tooltipTitle="Restore"
-            onClick={() => props.onClick(props.index)}
+            onClick={() => props.restoreNote(props.note.id)}
           >
             <RestoreFromTrashIcon />
           </Button>

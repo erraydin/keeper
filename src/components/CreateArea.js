@@ -97,6 +97,7 @@ function CreateArea(props) {
     setExpanded(false);
     setTitle("");
     setContent("");
+    setChosenLabels(new Array(props.labels.length).fill(false));
   }
   const handleEnterForTitle = (event) => {
     if (event.key === "Enter") {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CreateArea from "./CreateArea";
 import EditArea from "./EditArea";
 import { connect } from "react-redux";
@@ -7,6 +7,7 @@ import Masonry from "react-masonry-component";
 import { addNote, deleteNote, editNote } from "../actions/actions";
 import classes from "./NotesPage.module.css";
 import Backdrop from "./Backdrop";
+import getVisibleNotes from "../selectors/notes";
 
 function NotesPage(props) {
   const [editedIndex, setEditedIndex] = useState(null);
@@ -20,7 +21,11 @@ function NotesPage(props) {
     setEditing(false);
     setEditedIndex(null);
   }
+  useEffect(() => {
+    console.log(props);
+  })
 
+  
   const noNotes = (
     <div className={classes.Empty}>
       <span
@@ -33,6 +38,11 @@ function NotesPage(props) {
     </div>
   );
   
+  const path = props.match.path;
+  const filterLabel =props.match.path === "/" ? "" : path.slice(7, path.length);
+  const filterText = props.text;
+  const displayedNotes = getVisibleNotes(props.notes, filterLabel, filterText);
+  //const displayedNotes = props.notes;
   return (
     <React.Fragment>
       <CreateArea />
@@ -45,10 +55,10 @@ function NotesPage(props) {
         ></EditArea>
       ) : null}
       <Backdrop show={editing} onClick={closeEditHandler} transparent={false} />
-      {props.notes.length === 0 ? noNotes : null}
+      {displayedNotes.length === 0 ? noNotes : null}
       <div className={classes.Notes}>
         <Masonry>
-          {props.notes.map((note, index) => {
+          {displayedNotes.map((note, index) => {
             return (
               <Note
                 key={note.id}
@@ -69,14 +79,15 @@ function NotesPage(props) {
 const mapStateToProps = (state) => {
   return {
     notes: state.main.notes,
+    text: state.filters.filterText,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     addNote: (note) => dispatch(addNote(note)),
-    deleteNote: (index) => dispatch(deleteNote(index)),
-    editNote: (index, note) => dispatch(editNote(index, note)),
+    deleteNote: (id) => dispatch(deleteNote(id)),
+    editNote: (id, note) => dispatch(editNote(id, note)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NotesPage);
