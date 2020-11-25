@@ -23,26 +23,36 @@ function NotesPage(props) {
   }
   useEffect(() => {
     console.log(props);
-  })
+  });
 
-  
-  const noNotes = (
-    <div className={classes.Empty}>
-      <span
-        className={"material-icons " + classes.Icon}
-        style={{ verticalAlign: "middle" }}
-      >
-        note
-      </span>
-      <p className={classes.Note}>Notes you add appear here</p>
-    </div>
-  );
-  
   const path = props.match.path;
-  const filterLabel =props.match.path === "/" ? "" : path.slice(7, path.length);
+  const filterLabel = path === "/" ? "" : path.slice(7, path.length);
   const filterText = props.text;
   const displayedNotes = getVisibleNotes(props.notes, filterLabel, filterText);
-  //const displayedNotes = props.notes;
+
+  const noNotes =
+    path === "/" ? (
+      <div className={classes.Empty}>
+        <span
+          className={"material-icons-outlined " + classes.Icon}
+          style={{ verticalAlign: "middle" }}
+        >
+          note
+        </span>
+        <p className={classes.Note}>Notes you add appear here</p>
+      </div>
+    ) : (
+      <div className={classes.Empty}>
+        <span
+          className={"material-icons " + classes.Icon}
+          style={{ verticalAlign: "middle" }}
+        >
+          label_outline
+        </span>
+        <p className={classes.Note}>No notes with this label yet</p>
+      </div>
+    );
+
   return (
     <React.Fragment>
       <CreateArea />

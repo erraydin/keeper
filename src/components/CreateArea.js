@@ -6,7 +6,7 @@ import AddIcon from "@material-ui/icons/Add";
 import Button from "./Button";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import CloseIcon from "@material-ui/icons/Close";
-import LabelIcon from "@material-ui/icons/Label";
+import LabelOutlinedIcon from '@material-ui/icons/LabelOutlined';
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import Popper from "@material-ui/core/Popper";
 import List from "./List";
@@ -99,12 +99,15 @@ function CreateArea(props) {
     setContent("");
     setChosenLabels(new Array(props.labels.length).fill(false));
   }
-  const handleEnterForTitle = (event) => {
-    if (event.key === "Enter") {
-      addNoteHandler();
-    }
-  };
+  
 
+  function handleEnterForTitle(event) {
+    if (event.key === "Enter") {
+      textAreaRef.current.focus();
+    }
+  }
+
+  const textAreaRef = useRef(null);
   const create = (
     <div className={classes.Form}>
       {isExpanded ? (
@@ -120,6 +123,7 @@ function CreateArea(props) {
       ) : null}
       <div style={{ display: "flex" }}>
         <TextareaAutosize
+          ref={textAreaRef}
           onClick={() => {
             expand();
             closeLabelEditHandler();
@@ -148,7 +152,7 @@ function CreateArea(props) {
               <CloseIcon />
             </Button>
             <Button tooltipTitle="Add Labels" onClick={labelHandler}>
-              <LabelIcon />
+              <LabelOutlinedIcon />
             </Button>
           </div>
           <Popper id={id} open={open} anchorEl={labelPopperLocation}>

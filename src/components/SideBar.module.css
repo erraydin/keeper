@@ -6,8 +6,8 @@
     height: 100%;
     left: 0;
     top: 85px;
-    background-color: white;
-    padding: 16px 32px;
+    background-color: rgb(255, 255, 255);
+    padding: 16px 0;
     box-sizing: border-box;
     box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.3);
 }

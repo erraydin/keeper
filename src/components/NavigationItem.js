@@ -6,7 +6,7 @@ function NavigationItem(props) {
   return (
     <li className={classes.NavigationItem}>
       <NavLink activeClassName={classes.active} to={props.path} exact>
-        <span className="material-icons" style={{ verticalAlign: "middle" }}>
+        <span className="material-icons-outlined" style={{ verticalAlign: "middle", display: "inline-block", width: "30px" }}>
           {props.iconName}
         </span>{" "}
         <span style={{ verticalAlign: "middle" }}>{props.title}</span>
