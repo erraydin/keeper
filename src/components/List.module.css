@@ -16,14 +16,20 @@
 .List .Input {
   width: 100%;
   border: none;
-  padding: 5px 10px;
+  padding: 5px 10px 5px 20px;
   outline: none;
   font-size: 1em;
   font-family: inherit;
   resize: none;
 }
+
+.List .InputArea {
+  display: inline-flex;
+  padding-right: 5px;
+}
+
 .List ul {
-  font-size: 1.1em;
+  font-size: 1em;
   margin-bottom: 10px;
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -31,25 +37,20 @@
 
 .List li {
   list-style: none;
-  padding: 0 10px;
+  padding: 0 20px;
 }
 
 .List li:hover {
   cursor: pointer;
   background-color: rgba(194, 194, 194, 0.308);
 }
-.List .Checked {
+.List .Checkbox {
   display: inline-block;
-  color: rgb(3, 2, 0);
+  color: rgb(126, 126, 126);
 }
 
-.List .Unchecked {
-  display: inline-block;
-  color: white;
-}
 
 .List button {
-  position: relative;
   float: right;
   margin-right: 10px;
   color: #f5ba13;

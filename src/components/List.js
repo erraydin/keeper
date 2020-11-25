@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import classes from "./List.module.css";
-import Tooltip from "@material-ui/core/Tooltip";
-import DeleteIcon from "@material-ui/icons/Delete";
 import { addNewLabel } from "../actions/actions";
 import { connect } from "react-redux";
+import Button from "./Button";
+import AddIcon from '@material-ui/icons/Add';
 
 function List(props) {
   const [newLabel, setNewLabel] = useState("");
@@ -14,14 +14,19 @@ function List(props) {
 
   useEffect(() => {
     console.log(props.labels);
-    console.log(props.chosenLabels)
-  }, [props.labels, props.chosenLabels])
+    console.log(props.chosenLabels);
+  }, [props.labels, props.chosenLabels]);
 
   function handleEnter(event) {
     if (event.key === "Enter") {
       props.addNewLabel(newLabel);
       setNewLabel("");
     }
+  }
+
+  function addHandler() {
+    props.addNewLabel(newLabel);
+    setNewLabel("");
   }
 
   // <input
@@ -36,6 +41,7 @@ function List(props) {
 
   return (
     <div className={classes.List}>
+      <div className={classes.InputArea}>
       <input
         onKeyPress={handleEnter}
         className={classes.Input}
@@ -44,20 +50,21 @@ function List(props) {
         placeholder="Add label..."
         value={newLabel}
         onChange={changeNewLabel}
-      />
+      />{" "}
+      <Button tooltipTitle="Add new label" onClick={addHandler}>
+        <AddIcon />
+      </Button>
+      </div>
       <ul>
         {props.labels.map((item, index) => {
           return (
             <li onClick={() => props.clickHandler(index)}>
-              <div
-                className={
-                  props.chosenLabels[index]
-                    ? classes.Checked
-                    : classes.Unchecked
-                }
-              >
-                {" "}
-                ✓
+              <div className={classes.Checkbox}>
+                {props.chosenLabels[index] ? (
+                  <i className="far fa-check-square"></i>
+                ) : (
+                  <i className="far fa-square"></i>
+                )}
               </div>
               <div style={{ display: "inline-block", marginLeft: "10px" }}>
                 {item}
@@ -66,16 +73,6 @@ function List(props) {
           );
         })}
       </ul>
-      <Tooltip title="Delete Note">
-        <button
-          type="button"
-          onClick={() => {
-            props.deleteNote(props.id);
-          }}
-        >
-          <DeleteIcon />
-        </button>
-      </Tooltip>
     </div>
   );
 }

@@ -71,5 +71,21 @@
 }
 
 .Buttons {
-  height: 30px;
+  height: 35px;
+}
+
+.Labels {
+  padding-left: 20px;
+}
+
+.Label {
+  display: inline-block;
+  margin-right: 10px;
+  background-color: rgba(163, 163, 163, 0.253);
+  border-radius: 10px;
+  min-width: 40px;
+  text-align: center;
+  padding: 0 10px;
+  padding-bottom: 5px;
+  padding-top: 3px;
 }

@@ -58,7 +58,7 @@ function CreateArea(props) {
       setChosenLabels((prevChosenLabels) => {
         const newChosenLabels = [...prevChosenLabels];
         newChosenLabels[index] = !prevChosenLabels[index];
-        console.log(newChosenLabels);
+        //console.log(newChosenLabels);
         return newChosenLabels;
       });
     },
@@ -69,14 +69,13 @@ function CreateArea(props) {
   useEffect(() => {
     if (isFirstTimeAddingLabel.current) {
       isFirstTimeAddingLabel.current = false;
-      console.log(props.notes);
+      //console.log(props.notes);
       return;
     }
     setChosenLabels((prevChosenLabels) => {
       const newChosenLabels = [true, ...prevChosenLabels];
       return newChosenLabels;
     });
-    
   }, [props.labels.length, props.notes]);
 
   const open = Boolean(labelPopperLocation);
@@ -85,7 +84,7 @@ function CreateArea(props) {
   function addNoteHandler() {
     const labels = props.labels.filter((_, index) => {
       return chosenLabels[index];
-    })
+    });
     props.addNote({ title: title, content: content, labels: labels });
     setTitle("");
     setContent("");
@@ -133,6 +132,13 @@ function CreateArea(props) {
       </div>
       {isExpanded ? (
         <React.Fragment>
+          <div className={classes.Labels} onClick={closeLabelEditHandler}>
+            {props.labels.filter((_, index) => {
+              return chosenLabels[index];
+            }).map(label => {
+              return <span className={classes.Label}>{label}</span>
+            })}
+          </div>
           <div className={classes.Buttons} onClick={closeLabelEditHandler}>
             <Button tooltipTitle="Add Note" onClick={addNoteHandler}>
               <AddIcon />
@@ -148,6 +154,7 @@ function CreateArea(props) {
             <List
               chosenLabels={chosenLabels}
               clickHandler={labelClickHandler}
+              confirmHandler={closeLabelEditHandler}
             />
           </Popper>
         </React.Fragment>

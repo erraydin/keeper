@@ -1,15 +1,6 @@
 const initialState = {
-  notes: [{
-    id: "asdasdsad",
-    title: "bu bir baslik",
-    content: "bu bir not",
-    labels: ["ali", "veli"]
-  }],
-  labels: [
-    "ali",
-    "veli",
-    "develi",
-  ],
+  notes: [],
+  labels: [],
   trash: [],
 };
 

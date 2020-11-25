@@ -32,7 +32,7 @@ function NotesPage(props) {
       <p className={classes.Note}>Notes you add appear here</p>
     </div>
   );
-
+  
   return (
     <React.Fragment>
       <CreateArea />
@@ -44,7 +44,7 @@ function NotesPage(props) {
           closeEdit={closeEditHandler}
         ></EditArea>
       ) : null}
-      <Backdrop show={editing} onClick={closeEditHandler} transparent={false}/>
+      <Backdrop show={editing} onClick={closeEditHandler} transparent={false} />
       {props.notes.length === 0 ? noNotes : null}
       <div className={classes.Notes}>
         <Masonry>

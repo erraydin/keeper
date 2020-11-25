@@ -8,36 +8,44 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 function Note(props) {
   return (
-    <div className={classes.Note}>
+    <div className={classes.Note} onClick={() => props.onClick(props.index)}>
       <h2>{props.note.title}</h2>
       <p>{props.note.content}</p>
       {props.note.title === "" && props.note.content === "" ? (
         <p style={{ color: "gray" }}>Empty note</p>
       ) : null}
-      <div className={classes.Labels}>
-        {props.note.labels.map((label) => {
-          return <span className={classes.Label}>{label}</span>;
-        })}
-      </div>
-      <Button
-        tooltipTitle={props.deleteTooltip}
-        onClick={() => props.deleteNote(props.index)}
-      >
-        {props.showEditButton ? <DeleteIcon /> : <DeleteForeverIcon />}
-      </Button>
-
-      {props.showEditButton ? (
-        <Button tooltipTitle="Edit" onClick={() => props.onClick(props.index)}>
-          <EditIcon />
-        </Button>
-      ) : (
+      <div className={classes.ButtonArea}>
+        <div className={classes.Labels}>
+          {props.note.labels.map((label) => {
+            return <span className={classes.Label}>{label}</span>;
+          })}
+        </div>
         <Button
-          tooltipTitle="Restore"
-          onClick={() => props.onClick(props.index)}
+          tooltipTitle={props.deleteTooltip}
+          onClick={(event) => {
+            event.stopPropagation();
+            return props.deleteNote(props.index);
+          }}
         >
-          <RestoreFromTrashIcon />
+          {props.showEditButton ? <DeleteIcon /> : <DeleteForeverIcon />}
         </Button>
-      )}
+
+        {props.showEditButton ? (
+          <Button
+            tooltipTitle="Edit"
+            onClick={() => props.onClick(props.index)}
+          >
+            <EditIcon />
+          </Button>
+        ) : (
+          <Button
+            tooltipTitle="Restore"
+            onClick={() => props.onClick(props.index)}
+          >
+            <RestoreFromTrashIcon />
+          </Button>
+        )}
+      </div>
     </div>
   );
 }
