@@ -4,6 +4,9 @@ import { addNewLabel } from "../actions/actions";
 import { connect } from "react-redux";
 import Button from "./Button";
 import AddIcon from '@material-ui/icons/Add';
+import AddLabelItem from "./AddLabelItem";
+
+
 
 function AddLabels(props) {
   const [newLabel, setNewLabel] = useState("");
@@ -14,34 +17,25 @@ function AddLabels(props) {
   useEffect (() => {
     inputRef.current.focus();
   }, []) 
-  // useEffect(() => {
-  //   console.log(props.labels);
-  //   console.log(props.chosenLabels);
-  // }, [props.labels, props.chosenLabels]);
+  
 
   function handleEnter(event) {
     if (event.key === "Enter") {
       props.addNewLabel(newLabel);
+      props.addNewChosenLabelHandler(newLabel);
       setNewLabel("");
       inputRef.current.focus();
     }
   }
 
-  function addHandler() {
-    props.addNewLabel(newLabel);
-    setNewLabel("");
-    inputRef.current.focus();
-  }
-
-  // <input
-  //   onChange={() => {
-  //     return;
-  //   }}
-  //   checked={props.chosenLabels[index]}
-  //   type="checkbox"
-  //   id={index}
-  //   style={{ marginRight: "8px" }}
-  // />;
+  
+    function addHandler () {
+      props.addNewLabel(newLabel);
+      props.addNewChosenLabelHandler(newLabel);
+      setNewLabel("");
+      inputRef.current.focus()
+    }
+  
 
   return (
     <div className={classes.List}>
@@ -61,20 +55,10 @@ function AddLabels(props) {
       </Button>
       </div>
       <ul>
-        {props.labels.map((item, index) => {
+        {props.labels.map((label) => {
           return (
-            <li key={item.id} onClick={() => props.clickHandler(index)}>
-              <div className={classes.Checkbox}>
-                {props.chosenLabels[index] ? (
-                  <i className="far fa-check-square"></i>
-                ) : (
-                  <i className="far fa-square"></i>
-                )}
-              </div>
-              <div style={{ display: "inline-block", marginLeft: "10px" }}>
-                {item.labelName}
-              </div>
-            </li>
+            <AddLabelItem key={label} label={label} clickHandler={props.clickHandler} filterLabel={props.filterLabel} chosenLabels={props.chosenLabels}/>
+            
           );
         })}
       </ul>

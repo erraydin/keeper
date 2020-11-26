@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { connect } from "react-redux";
 import { addNewLabel, addNote } from "../actions/actions";
 import classes from "./CreateArea.module.css";
@@ -12,21 +12,44 @@ import Popper from "@material-ui/core/Popper";
 import AddLabels from "./AddLabels";
 
 function CreateArea(props) {
-  const initialChosenLabels = new Array(props.labels.length).fill(false);
-  if (props.labelName !== "") {
-    const initialIndex = props.labels.findIndex(
-      (label) => label.labelName === props.labelName
-    );
-    initialChosenLabels[initialIndex] = true
+  
+  let initialChosenLabels = [];
+  if (props.filterLabel !== ""){
+    initialChosenLabels = [props.filterLabel];
   }
-
+  
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [chosenLabels, setChosenLabels] = useState(initialChosenLabels);
   const [isExpanded, setExpanded] = useState(false);
   const [labelPopperLocation, setlabelPopperLocation] = useState(null);
 
-  
+  // useEffect(() => {
+  //   console.log(chosenLabels);
+  // }, [chosenLabels])
+
+
+  function toggleLabelClickHandler(label, checked) {
+    if (checked) {
+      setChosenLabels((prevChosenLabels) => {
+        return prevChosenLabels.filter((chosenLabel) => {
+          return label !== chosenLabel;
+        });
+      });
+    } else {
+      setChosenLabels((prevChosenLabels) => {
+        return [label, ...prevChosenLabels];
+      });
+    }
+  }
+
+  function addNewChosenLabelHandler(label) {
+    if (label !=="" && !chosenLabels.includes(label)) {
+      setChosenLabels((prevChosenLabels) => {
+        return [label, ...prevChosenLabels];
+      });
+    }
+  }
 
   function changeTitle(event) {
     setTitle(event.target.value);
@@ -61,45 +84,18 @@ function CreateArea(props) {
       setlabelPopperLocation(null);
     }
   }
-  const labelClickHandler = useCallback(
-    (index) => {
-      setChosenLabels((prevChosenLabels) => {
-        const newChosenLabels = [...prevChosenLabels];
-        newChosenLabels[index] = !prevChosenLabels[index];
-        //console.log(newChosenLabels);
-        return newChosenLabels;
-      });
-    },
-    [setChosenLabels]
-  );
 
-  const isFirstTimeAddingLabel = useRef(true);
-  useEffect(() => {
-    if (isFirstTimeAddingLabel.current) {
-      isFirstTimeAddingLabel.current = false;
-      //console.log(props.notes);
-      return;
-    }
-    setChosenLabels((prevChosenLabels) => {
-      const newChosenLabels = [true, ...prevChosenLabels];
-      return newChosenLabels;
-    });
-  }, [props.labels.length]);
+  
 
   const open = Boolean(labelPopperLocation);
   const id = open ? "simple-popper" : undefined;
-  
 
   function addNoteHandler() {
-    const labels = props.labels.filter((_, index) => {
-      return chosenLabels[index];
-    });
-    props.addNote({ title: title, content: content, labels: labels });
+    props.addNote({ title: title, content: content, labels: chosenLabels });
     setTitle("");
     setContent("");
     setExpanded(false);
     setChosenLabels(initialChosenLabels);
-    // isFirstTimeAddingLabel.current = true;
   }
 
   function cancelNoteHandler() {
@@ -109,7 +105,7 @@ function CreateArea(props) {
     setChosenLabels(initialChosenLabels);
   }
 
-  function handleEnterForTitle(event) {
+  function handleKeyPressForTitle(event) {
     if (event.key === "Enter") {
       textAreaRef.current.focus();
     }
@@ -120,7 +116,7 @@ function CreateArea(props) {
     <div className={classes.Form}>
       {isExpanded ? (
         <input
-          onKeyPress={handleEnterForTitle}
+          onKeyPress={handleKeyPressForTitle}
           onClick={closeLabelEditHandler}
           autoComplete="off"
           value={title}
@@ -146,17 +142,14 @@ function CreateArea(props) {
       {isExpanded ? (
         <React.Fragment>
           <div className={classes.Labels} onClick={closeLabelEditHandler}>
-            {props.labels
-              .filter((_, index) => {
-                return chosenLabels[index];
-              })
-              .map((label) => {
-                return (
-                  <span key={label.id} className={classes.Label}>
-                    {label.labelName}
-                  </span>
-                );
-              })}
+            {chosenLabels.map((label) => {
+              return (
+                <span key={label} className={classes.Label}>
+                  {label}
+                </span>
+              );
+            })}
+            
           </div>
           <div className={classes.Buttons} onClick={closeLabelEditHandler}>
             <Button tooltipTitle="Add Note" onClick={addNoteHandler}>
@@ -172,8 +165,10 @@ function CreateArea(props) {
           <Popper id={id} open={open} anchorEl={labelPopperLocation}>
             <AddLabels
               chosenLabels={chosenLabels}
-              clickHandler={labelClickHandler}
+              addNewChosenLabelHandler={addNewChosenLabelHandler}
+              clickHandler={toggleLabelClickHandler}
               confirmHandler={closeLabelEditHandler}
+              filterLabel={props.filterLabel}
             />
           </Popper>
         </React.Fragment>

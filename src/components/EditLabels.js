@@ -6,6 +6,7 @@ import Button from "./Button";
 import AddIcon from "@material-ui/icons/Add";
 import EditLabel from "./EditLabel";
 
+
 function EditLabels(props) {
   const [newLabel, setNewLabel] = useState("");
   const inputRef = useRef(null);
@@ -31,16 +32,6 @@ function EditLabels(props) {
     inputRef.current.focus()
   }
 
-  
-  // <input
-  //   onChange={() => {
-  //     return;
-  //   }}
-  //   checked={props.chosenLabels[index]}
-  //   type="checkbox"
-  //   id={index}
-  //   style={{ marginRight: "8px" }}
-  // />;
 
   return (
     <div className={classes.Form}>
@@ -61,11 +52,11 @@ function EditLabels(props) {
         </Button>
       </div>
       <ul>
-        {props.labels.map((item) => {
+        {props.labels.map((label) => {
           return (
-            <li key={item.id}>
+            <li key={label}>
               <div className={classes.InputArea}>
-                <EditLabel label={item} />
+                <EditLabel label={label} />
               </div>
             </li>
           );

@@ -12,10 +12,10 @@ export const restoreNote = (id) => ({type: "RESTORE", id: id});
 
 export const emptyTrash = () => ({type: "EMPTY_TRASH"});
 
-export const addNewLabel = (labelName) => ({type: "ADD_NEW_LABEL", label: {labelName: labelName, id: uuidv4()}});
+export const addNewLabel = (label) => ({type: "ADD_NEW_LABEL", label: label});
 
 //Deletes a label completely, from all notes, all trash notes, and from labels list
 export const deleteLabel = (id) => ({type: "DELETE_LABEL", id: id});
 
-export const editLabel = (id, newLabelName) => ({type: "EDIT_LABEL", id: id, newLabelName: newLabelName});
+export const editLabel = (oldLabel, newLabel) => ({type: "EDIT_LABEL", oldLabel: oldLabel, newLabel: newLabel});
 

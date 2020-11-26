@@ -17,7 +17,7 @@ function Note(props) {
       <div className={classes.ButtonArea}>
         <div className={classes.Labels}>
           {props.note.labels.map((label) => {
-            return <span key={label.id} className={classes.Label}>{label.labelName}</span>;
+            return <span key={label} className={classes.Label}>{label}</span>;
           })}
         </div>
         <Button

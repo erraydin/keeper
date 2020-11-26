@@ -18,7 +18,7 @@ function EditArea(props) {
   }
 
   const create = (
-    <form className={classes.Form}>
+    <div className={classes.Form}>
       <input
         value={title}
         onChange={changeTitle}
@@ -54,7 +54,7 @@ function EditArea(props) {
           <CloseIcon />
         </Button>
       </div>
-    </form>
+    </div>
   );
 
   return <div>{create}</div>;

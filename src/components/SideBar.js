@@ -15,10 +15,10 @@ function SideBar(props) {
             {props.labels.map((label) => {
               return (
                 <NavigationItem
-                  key={label.id}
-                  path={"/label/" + label.labelName}
+                  key={label}
+                  path={"/label/" + label}
                   iconName="label"
-                  title={label.labelName}
+                  title={label}
                 />
               );
             })}

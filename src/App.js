@@ -29,7 +29,7 @@ function App(props) {
       <Route path="/" exact component={NotesPage} />
       <Route path="/trash" exact component={TrashPage} />
       {props.labels.map(label => {
-        return <Route key={label.id} path={"/label/"+label.labelName} exact component={NotesPage} />
+        return <Route key={label} path={"/label/"+label} exact component={NotesPage} />
       })}
       <Route component={NotFoundPage} />
     </Switch>

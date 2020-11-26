@@ -1,6 +1,6 @@
 const initialState = {
   notes: [],
-  labels: [{labelName: "ali", id: " asdas32f123fd"}],
+  labels: [],
   trash: [],
 };
 
@@ -60,12 +60,8 @@ const notesReducer = (state = initialState, action) => {
         trash: [],
       };
     case "ADD_NEW_LABEL":
-      const labelNames = state.labels.map((label) => {
-        return label.labelName;
-      });
       const newLabels =
-        labelNames.includes(action.label.labelName) ||
-        action.label.labelName === ""
+        state.labels.includes(action.label) || action.label === "" 
           ? [...state.labels]
           : [action.label, ...state.labels];
       return {
@@ -73,24 +69,19 @@ const notesReducer = (state = initialState, action) => {
         labels: newLabels,
       };
     case "EDIT_LABEL":
-      if (!action.newLabelName) {
-         return state; 
+      if (!action.newLabel) {
+        return state;
       }
-      const editLabelIndex = state.labels.findIndex(
-        (label) => label.id === action.id
-      );
+      const editLabelIndex = state.labels.indexOf(action.oldLabel)
       const editedLabels = [...state.labels];
-      editedLabels[editLabelIndex] = {
-        labelName: action.newLabelName,
-        id: action.id,
-      };
+      editedLabels[editLabelIndex] = action.newLabel
 
       const editedLabelNotes = state.notes.map((note) => {
         const newLabelsOfNote = note.labels.map((label) => {
-          if (label.id === action.id) {
-            return { ...label, labelName: action.newLabelName };
+          if (label === action.oldLabel) {
+            return action.newLabel;
           } else {
-            return { ...label };
+            return label;
           }
         });
         return { ...note, labels: newLabelsOfNote };
@@ -98,10 +89,10 @@ const notesReducer = (state = initialState, action) => {
 
       const editedLabelTrash = state.trash.map((note) => {
         const newLabelsOfTrashNote = note.labels.map((label) => {
-          if (label.id === action.id) {
-            return { ...label, labelName: action.newLabelName };
+          if (label === action.oldLabel) {
+            return action.newLabel;
           } else {
-            return { ...label };
+            return label;
           }
         });
         return { ...note, labels: newLabelsOfTrashNote };

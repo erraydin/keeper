@@ -19,7 +19,7 @@ function EditLabel(props) {
   //   console.log(labelName + " zaa");
   // }, [props.labelName, labelName]);
 
-  const [labelName, setLabelName] = useState(props.label.labelName);
+  const [labelName, setLabelName] = useState(props.label);
   const inputRef = useRef(null);
 
   function changeLabelName(event) {
@@ -27,22 +27,20 @@ function EditLabel(props) {
   }
 
   function editHandler() {
-    props.editLabel(props.label.id, labelName);
+    props.editLabel(props.label, labelName);
   }
 
   function handleEnter(event) {
     if (event.key === "Enter") {
-      props.editLabel(props.label.id, labelName);
+      props.editLabel(props.label, labelName);
       inputRef.current.blur();
     }
   }
   
   useEffect(() => {
-    const index = props.labels.findIndex(label => {
-      return label.id === props.label.id
-    })
-    setLabelName(props.labels[index].labelName);
-  }, [props.labels, props.label.id])
+    const index = props.labels.indexOf(props.label)
+    setLabelName(props.labels[index]);
+  }, [props.labels, props.label]);
 
   return (
     <div className={classes.InputArea}>
@@ -74,7 +72,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    editLabel: (id, newLabelName) => dispatch(editLabel(id, newLabelName)),
+    editLabel: (oldLabel, newLabel) => dispatch(editLabel(oldLabel, newLabel)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(EditLabel);

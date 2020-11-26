@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Note from "./Note";
 import Masonry from "react-masonry-component";
 import { addNote, deleteNote, editNote } from "../actions/actions";
+import { setFilterLabel } from "../actions/filters";
 import classes from "./NotesPage.module.css";
 import Backdrop from "./Backdrop";
 import getVisibleNotes from "../selectors/notes";
@@ -27,7 +28,7 @@ function NotesPage(props) {
   });
 
   const path = props.match.path;
-  const filterLabel = path === "/" ? "" : path.slice(7, path.length);
+  const filterLabel = (path === "/") ? "" : path.slice(7, path.length);
   const filterText = props.text;
   const displayedNotes = getVisibleNotes(props.notes, filterLabel, filterText);
 
@@ -56,7 +57,7 @@ function NotesPage(props) {
 
   return (
     <React.Fragment>
-      <CreateArea labelName={filterLabel}/>
+      <CreateArea filterLabel={filterLabel}/>
       {editing ? (
         
         <EditArea
@@ -93,6 +94,8 @@ const mapStateToProps = (state) => {
   return {
     notes: state.main.notes,
     text: state.filters.filterText,
+    labels: state.main.labels,
+    filterLabel: state.filters.filterLabel,
   };
 };
 
@@ -101,6 +104,7 @@ const mapDispatchToProps = (dispatch) => {
     addNote: (note) => dispatch(addNote(note)),
     deleteNote: (id) => dispatch(deleteNote(id)),
     editNote: (id, note) => dispatch(editNote(id, note)),
+    setFilterLabel: (filterLabel) => dispatch(setFilterLabel(filterLabel)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NotesPage);
