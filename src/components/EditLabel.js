@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Button from "./Button";
 import { connect } from "react-redux";
 import EditIcon from '@material-ui/icons/Edit';
@@ -20,6 +20,7 @@ function EditLabel(props) {
   // }, [props.labelName, labelName]);
 
   const [labelName, setLabelName] = useState(props.label.labelName);
+  const inputRef = useRef(null);
 
   function changeLabelName(event) {
     setLabelName(event.target.value);
@@ -32,6 +33,7 @@ function EditLabel(props) {
   function handleEnter(event) {
     if (event.key === "Enter") {
       props.editLabel(props.label.id, labelName);
+      inputRef.current.blur();
     }
   }
   
@@ -48,6 +50,8 @@ function EditLabel(props) {
         <DeleteForeverIcon />
       </Button>
       <input
+        ref={inputRef}
+        type="text"
         className={classes.Input}
         onKeyPress={handleEnter}
         style={{ display: "inline-block", paddingLeft: "0" }}

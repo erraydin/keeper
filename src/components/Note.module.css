@@ -44,6 +44,7 @@
   font-size: 0.8em;
   display: inline-block;
   overflow: hidden;
+  white-space:nowrap;
   text-overflow: ellipsis;
   margin-right: 10px;
   background-color: rgba(163, 163, 163, 0.253);

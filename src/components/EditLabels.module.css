@@ -26,12 +26,24 @@
   .InputArea input {
     width: 100%;
     border: none;
-    padding: 5px 10px 5px 45px;
+    padding: 5px 10px 5px 20px;
     outline: none;
     font-size: 1.1em;
     font-family: inherit;
     resize: none;
     margin-right: 10px;
+  }
+  .InputArea p {
+    width: 100%;
+    border: none;
+    padding: 5px 10px 5px 20px;
+    outline: none;
+    font-size: 1em;
+    font-family: inherit;
+    resize: none;
+    margin-right: 10px;
+    font-weight: 600;
+    color: rgb(2, 2, 2);
   }
 
   .Form .InputArea {
@@ -41,7 +53,6 @@
 
   .Form ul {
     font-size: 1em;
-    margin-bottom: 10px;
     white-space: pre-wrap;
     word-wrap: break-word;
   }
@@ -83,4 +94,7 @@
     height: 30px;
   }
 
+  .DoneButton button{
+    margin-bottom: 10px;
+  }
   /* #f5ba13 */

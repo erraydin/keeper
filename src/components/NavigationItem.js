@@ -6,10 +6,29 @@ function NavigationItem(props) {
   return (
     <li className={classes.NavigationItem}>
       <NavLink activeClassName={classes.active} to={props.path} exact>
-        <span className="material-icons-outlined" style={{ verticalAlign: "middle", display: "inline-block", width: "30px" }}>
+        <span
+          className="material-icons-outlined"
+          style={{
+            verticalAlign: "middle",
+            display: "inline-block",
+            width: "30px",
+          }}
+        >
           {props.iconName}
         </span>{" "}
-        <span style={{ verticalAlign: "middle", display: "inline-block", paddingBottom: "3px" }}>{props.title}</span>
+        <span
+          style={{
+            verticalAlign: "middle",
+            display: "inline-block",
+            paddingBottom: "3px",
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+            width: "80%"
+          }}
+        >
+          {props.title}
+        </span>
       </NavLink>
     </li>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import classes from "./EditLabels.module.css";
 import { addNewLabel } from "../actions/actions";
 import { connect } from "react-redux";
@@ -6,8 +6,13 @@ import Button from "./Button";
 import AddIcon from "@material-ui/icons/Add";
 import EditLabel from "./EditLabel";
 
-function AddLabels(props) {
+function EditLabels(props) {
   const [newLabel, setNewLabel] = useState("");
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus()
+  }, []);
 
   function changeNewLabel(event) {
     setNewLabel(event.target.value);
@@ -23,8 +28,10 @@ function AddLabels(props) {
   function addHandler() {
     props.addNewLabel(newLabel);
     setNewLabel("");
+    inputRef.current.focus()
   }
 
+  
   // <input
   //   onChange={() => {
   //     return;
@@ -37,8 +44,10 @@ function AddLabels(props) {
 
   return (
     <div className={classes.Form}>
+      <div className={classes.InputArea}><p stye={{marginLeft: "20px", padding: "10px"}}>Edit Labels</p></div>
       <div className={classes.InputArea}>
         <input
+          ref={inputRef}
           onKeyPress={handleEnter}
           className={classes.Input}
           autoComplete="off"
@@ -62,9 +71,11 @@ function AddLabels(props) {
           );
         })}
       </ul>
-      <Button tooltipTitle="Add new label" onClick={addHandler}>
-        Done
+      <div className={classes.DoneButton}>
+      <Button tooltipTitle="Close" onClick={props.closeEditLabels}>
+        Close
       </Button>
+      </div>
     </div>
   );
 }
@@ -79,4 +90,4 @@ const mapDispatchToProps = (dispatch) => {
     addNewLabel: (label) => dispatch(addNewLabel(label)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(AddLabels);
+export default connect(mapStateToProps, mapDispatchToProps)(EditLabels);

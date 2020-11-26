@@ -38,7 +38,7 @@ function App(props) {
     <BrowserRouter>
       <Header />
       <SideBar openEditLabels={openEditLabels}/>
-      {editingLabels ? <EditLabels /> : null}
+      {editingLabels ? <EditLabels closeEditLabels={closeEditLabels}/> : null}
       <Backdrop show={editingLabels} onClick={closeEditLabels} transparent={false}/>
       {routes}
     </BrowserRouter>

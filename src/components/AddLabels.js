@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import classes from "./AddLabels.module.css";
 import { addNewLabel } from "../actions/actions";
 import { connect } from "react-redux";
@@ -7,11 +7,13 @@ import AddIcon from '@material-ui/icons/Add';
 
 function AddLabels(props) {
   const [newLabel, setNewLabel] = useState("");
-
+  const inputRef = useRef(null);
   function changeNewLabel(event) {
     setNewLabel(event.target.value);
   }
-
+  useEffect (() => {
+    inputRef.current.focus();
+  }, []) 
   // useEffect(() => {
   //   console.log(props.labels);
   //   console.log(props.chosenLabels);
@@ -21,12 +23,14 @@ function AddLabels(props) {
     if (event.key === "Enter") {
       props.addNewLabel(newLabel);
       setNewLabel("");
+      inputRef.current.focus();
     }
   }
 
   function addHandler() {
     props.addNewLabel(newLabel);
     setNewLabel("");
+    inputRef.current.focus();
   }
 
   // <input
@@ -43,6 +47,7 @@ function AddLabels(props) {
     <div className={classes.List}>
       <div className={classes.InputArea}>
       <input
+        ref={inputRef}
         onKeyPress={handleEnter}
         className={classes.Input}
         autoComplete="off"

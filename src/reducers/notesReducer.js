@@ -1,6 +1,6 @@
 const initialState = {
   notes: [],
-  labels: [],
+  labels: [{labelName: "ali", id: " asdas32f123fd"}],
   trash: [],
 };
 

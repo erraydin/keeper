@@ -26,6 +26,8 @@ function CreateArea(props) {
   const [isExpanded, setExpanded] = useState(false);
   const [labelPopperLocation, setlabelPopperLocation] = useState(null);
 
+  
+
   function changeTitle(event) {
     setTitle(event.target.value);
   }
@@ -86,6 +88,7 @@ function CreateArea(props) {
 
   const open = Boolean(labelPopperLocation);
   const id = open ? "simple-popper" : undefined;
+  
 
   function addNoteHandler() {
     const labels = props.labels.filter((_, index) => {
@@ -96,7 +99,7 @@ function CreateArea(props) {
     setContent("");
     setExpanded(false);
     setChosenLabels(initialChosenLabels);
-    isFirstTimeAddingLabel.current = true;
+    // isFirstTimeAddingLabel.current = true;
   }
 
   function cancelNoteHandler() {
