@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./SideBar.module.css";
 import NavigationItem from "./NavigationItem";
+import EditLabelsNavItem from "./EditLabelsNavItem";
 import { connect } from "react-redux";
 
 function SideBar(props) {
@@ -10,21 +11,7 @@ function SideBar(props) {
         <nav>
           <ul className={classes.NavigationItems}>
             <NavigationItem path="/" iconName="note" title="Notes" />
-            <li className={classes.NavigationItem} onClick={props.openEditLabels}>
-              <div>
-                <span
-                  className="material-icons-outlined"
-                  style={{
-                    verticalAlign: "middle",
-                    display: "inline-block",
-                    width: "30px",
-                  }}
-                >
-                  edit
-                </span>{" "}
-                <span style={{ verticalAlign: "middle" }}>Edit Labels</span>
-              </div>
-            </li>
+
             {props.labels.map((label) => {
               return (
                 <NavigationItem
@@ -35,6 +22,7 @@ function SideBar(props) {
                 />
               );
             })}
+            <EditLabelsNavItem openEditLabels={props.openEditLabels} />
             <NavigationItem path="/trash" iconName="delete" title="Trash" />
           </ul>
         </nav>

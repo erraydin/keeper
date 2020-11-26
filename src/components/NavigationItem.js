@@ -9,7 +9,7 @@ function NavigationItem(props) {
         <span className="material-icons-outlined" style={{ verticalAlign: "middle", display: "inline-block", width: "30px" }}>
           {props.iconName}
         </span>{" "}
-        <span style={{ verticalAlign: "middle" }}>{props.title}</span>
+        <span style={{ verticalAlign: "middle", display: "inline-block", paddingBottom: "3px" }}>{props.title}</span>
       </NavLink>
     </li>
   );

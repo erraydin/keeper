@@ -48,9 +48,9 @@
   float: right;
   margin-right: 10px;
   background: white;
-  color: #f5ba13;
+  color: #646464cb;
   border: none;
-  border-radius: 50%;
+  border-radius: 100%;
   width: 35px;
   height: 30px;
   cursor: pointer;
@@ -59,7 +59,7 @@
 
 .Form button:hover,
 .Form button:active {
-  color: #ffda77;
+  background-color: rgba(172, 172, 172, 0.247);
 }
 
 .Buttons {

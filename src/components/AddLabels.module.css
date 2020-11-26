@@ -53,10 +53,10 @@
 .List button {
   float: right;
   margin-right: 10px;
-  color: #f5ba13;
+  color: #646464cb;
   background-color: white;
   border: none;
-  border-radius: 50%;
+  border-radius: 100%;
   width: 36px;
   height: 36px;
   cursor: pointer;
@@ -65,5 +65,5 @@
 
 .List button:hover,
 .List button:active {
-  color: #ffda77;
+  background-color: rgba(172, 172, 172, 0.247);
 }

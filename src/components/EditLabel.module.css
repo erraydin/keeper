@@ -1,0 +1,17 @@
+.input {
+    width: 70%;
+    border: none;
+    padding: 5px 10px 5px 45px;
+    outline: none;
+    font-size: 1.1em;
+    font-family: inherit;
+    resize: none;
+    margin-right: 10px;
+  }
+
+
+
+.InputArea {
+    display: inline-flex;
+    width: 100%;
+}

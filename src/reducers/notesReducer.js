@@ -73,6 +73,9 @@ const notesReducer = (state = initialState, action) => {
         labels: newLabels,
       };
     case "EDIT_LABEL":
+      if (!action.newLabelName) {
+         return state; 
+      }
       const editLabelIndex = state.labels.findIndex(
         (label) => label.id === action.id
       );

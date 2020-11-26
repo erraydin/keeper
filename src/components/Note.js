@@ -1,10 +1,10 @@
 import React from "react";
 import classes from "./Note.module.css";
-import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import Button from "./Button";
-import RestoreFromTrashOutlinedIcon from '@material-ui/icons/RestoreFromTrashOutlined';
-import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
+import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 function Note(props) {
   return (
@@ -27,7 +27,7 @@ function Note(props) {
             return props.deleteNote(props.note.id);
           }}
         >
-          {props.showEditButton ? <DeleteOutlinedIcon /> : <DeleteForeverOutlinedIcon />}
+          {props.showEditButton ? <DeleteIcon /> : <DeleteForeverIcon />}
         </Button>
 
         {props.showEditButton ? (
@@ -35,14 +35,14 @@ function Note(props) {
             tooltipTitle="Edit"
             onClick={() => props.onClick(props.index)}
           >
-            <EditOutlinedIcon />
+            <EditIcon />
           </Button>
         ) : (
           <Button
             tooltipTitle="Restore"
             onClick={() => props.restoreNote(props.note.id)}
           >
-            <RestoreFromTrashOutlinedIcon />
+            <RestoreFromTrashIcon />
           </Button>
         )}
       </div>

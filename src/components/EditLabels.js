@@ -12,7 +12,7 @@ function AddLabels(props) {
   function changeNewLabel(event) {
     setNewLabel(event.target.value);
   }
-  
+
   function handleEnter(event) {
     if (event.key === "Enter") {
       props.addNewLabel(newLabel);
@@ -52,17 +52,19 @@ function AddLabels(props) {
         </Button>
       </div>
       <ul>
-        {props.labels.map((item, index) => {
+        {props.labels.map((item) => {
           return (
             <li key={item.id}>
               <div className={classes.InputArea}>
-                {/* <input value={item.labelName}></input> */}
-                <EditLabel label={item}/>
+                <EditLabel label={item} />
               </div>
             </li>
           );
         })}
       </ul>
+      <Button tooltipTitle="Add new label" onClick={addHandler}>
+        Done
+      </Button>
     </div>
   );
 }

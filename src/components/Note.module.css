@@ -59,10 +59,10 @@
   position: relative;
   float: right;
   margin-right: 5px;
-  color: #f5ba13;
+  color:#646464cb;
   background-color: white;
   border: none;
-  border-radius: 50%;
+  border-radius: 100%;
   width: 30px;
   height: 30px;
   cursor: pointer;
@@ -71,5 +71,5 @@
 
 .Note button:hover,
 .Note button:active {
-    color:#ffda77;
+  background-color: rgba(172, 172, 172, 0.247);
 }

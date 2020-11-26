@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "./Button";
 import { connect } from "react-redux";
-import AddIcon from "@material-ui/icons/Add";
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { editLabel } from "../actions/actions";
 import classes from "./EditLabel.module.css";
+
 
 function EditLabel(props) {
   // const [labelName, setLabelName] = useState(
@@ -24,22 +26,38 @@ function EditLabel(props) {
   }
 
   function editHandler() {
-    console.log(labelName);
     props.editLabel(props.label.id, labelName);
   }
 
+  function handleEnter(event) {
+    if (event.key === "Enter") {
+      props.editLabel(props.label.id, labelName);
+    }
+  }
   
+  useEffect(() => {
+    const index = props.labels.findIndex(label => {
+      return label.id === props.label.id
+    })
+    setLabelName(props.labels[index].labelName);
+  }, [props.labels, props.label.id])
+
   return (
-    <div>
+    <div className={classes.InputArea}>
+      <Button tooltipTitle="Delete this label" onClick={editHandler}>
+        <DeleteForeverIcon />
+      </Button>
       <input
-        style={{ display: "inline-block", marginLeft: "10px" }}
+        className={classes.Input}
+        onKeyPress={handleEnter}
+        style={{ display: "inline-block", paddingLeft: "0" }}
         value={labelName}
         onChange={changeLabelName}
         name="label name"
-        placeholder="Change label name"
+        placeholder="Edit label name..."
       />
-      <Button tooltipTitle="Add new label" onClick={editHandler}>
-        <AddIcon />
+      <Button tooltipTitle="Confirm edit" onClick={editHandler}>
+        <EditIcon />
       </Button>
     </div>
   );

@@ -18,12 +18,12 @@
 }
 
 .NavigationItem a:hover {
-  background-color: rgba(192, 192, 192, 0.192);
+  background-color:rgba(172, 172, 172, 0.247);
 }
 
 .NavigationItem a.active,
 .NavigationItem a.active:hover {
-  background-color: #0fe3ff36;
+  background-color: rgba(172, 172, 172, 0.247);
 }
 
 /* #f1b10336 */

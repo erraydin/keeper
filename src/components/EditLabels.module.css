@@ -2,7 +2,7 @@
     z-index: 500;
     position: fixed;
     top: 35%;
-    width: 350px;
+    width: 300px;
     margin: 30px auto 20px auto;
     left: 40%;
     background: #fff;
@@ -23,8 +23,7 @@
     }
   }
   
-  .Form input,
-  .Form textarea {
+  .InputArea input {
     width: 100%;
     border: none;
     padding: 5px 10px 5px 45px;
@@ -66,9 +65,9 @@
     padding-top: 5px;
     margin: 0 10px;
     background: white;
-    color: #f5ba13;
+    color: #646464cb;
     border: none;
-    border-radius: 50%;
+    border-radius: 100%;
     width: 35px;
     height: 30px;
     cursor: pointer;
@@ -77,9 +76,11 @@
   
   .Form button:hover,
   .Form button:active {
-    color: #ffda77;
+    background-color: rgba(172, 172, 172, 0.247);
   }
   
   .Buttons {
     height: 30px;
   }
+
+  /* #f5ba13 */
