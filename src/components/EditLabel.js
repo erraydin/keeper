@@ -1,44 +1,51 @@
 import React, { useState, useEffect, useRef } from "react";
 import Button from "./Button";
 import { connect } from "react-redux";
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import { editLabel } from "../actions/actions";
 import classes from "./EditLabel.module.css";
-
+import { useHistory, useLocation } from "react-router-dom";
 
 function EditLabel(props) {
-  // const [labelName, setLabelName] = useState(
-  //   props.labelName ? props.labelName : "am"
-  // );
-
-  // useEffect(() => {
-  //   if (props.labelName) {
-  //     setLabelName(props.labelName);
-  //   }
-  //   console.log(labelName + " zaa");
-  // }, [props.labelName, labelName]);
-
   const [labelName, setLabelName] = useState(props.label);
   const inputRef = useRef(null);
 
+  const location = useLocation();
+  const history = useHistory();
   function changeLabelName(event) {
     setLabelName(event.target.value);
   }
 
   function editHandler() {
-    props.editLabel(props.label, labelName);
+    if (!props.labels.includes(labelName)) {
+      props.editLabel(props.label, labelName);
+      if ("/label/" + props.label === location.pathname) {
+        history.push("/label/" + labelName);
+      }
+    } else {
+      setLabelName(props.label);
+      inputRef.current.focus();
+    }
   }
 
   function handleEnter(event) {
     if (event.key === "Enter") {
-      props.editLabel(props.label, labelName);
-      inputRef.current.blur();
+      if (!props.labels.includes(labelName)) {
+        props.editLabel(props.label, labelName);
+        if ("/label/" + props.label === location.pathname) {
+          history.push("/label/" + labelName);
+        }
+        inputRef.current.blur();
+      } else{
+        setLabelName(props.label);
+      }
+      
     }
   }
-  
+
   useEffect(() => {
-    const index = props.labels.indexOf(props.label)
+    const index = props.labels.indexOf(props.label);
     setLabelName(props.labels[index]);
   }, [props.labels, props.label]);
 
@@ -67,6 +74,7 @@ function EditLabel(props) {
 const mapStateToProps = (state) => {
   return {
     labels: state.main.labels,
+    filterLabel: state.filters.filterLabel,
   };
 };
 

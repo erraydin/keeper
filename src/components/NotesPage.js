@@ -27,6 +27,7 @@ function NotesPage(props) {
     console.log(props);
   });
 
+
   const path = props.match.path;
   const filterLabel = (path === "/") ? "" : path.slice(7, path.length);
   const filterText = props.text;
