@@ -10,8 +10,30 @@ function SideBar(props) {
         <nav>
           <ul className={classes.NavigationItems}>
             <NavigationItem path="/" iconName="note" title="Notes" />
-            {props.labels.map(label => {
-              return <NavigationItem path={"/label/" + label} iconName="label" title={label} />
+            <li className={classes.NavigationItem} onClick={props.openEditLabels}>
+              <div>
+                <span
+                  className="material-icons-outlined"
+                  style={{
+                    verticalAlign: "middle",
+                    display: "inline-block",
+                    width: "30px",
+                  }}
+                >
+                  edit
+                </span>{" "}
+                <span style={{ verticalAlign: "middle" }}>Edit Labels</span>
+              </div>
+            </li>
+            {props.labels.map((label) => {
+              return (
+                <NavigationItem
+                  key={label.id}
+                  path={"/label/" + label.labelName}
+                  iconName="label"
+                  title={label.labelName}
+                />
+              );
             })}
             <NavigationItem path="/trash" iconName="delete" title="Trash" />
           </ul>

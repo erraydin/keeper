@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
-import classes from "./List.module.css";
+import React, { useState } from "react";
+import classes from "./AddLabels.module.css";
 import { addNewLabel } from "../actions/actions";
 import { connect } from "react-redux";
 import Button from "./Button";
 import AddIcon from '@material-ui/icons/Add';
 
-function List(props) {
+function AddLabels(props) {
   const [newLabel, setNewLabel] = useState("");
 
   function changeNewLabel(event) {
     setNewLabel(event.target.value);
   }
 
-  useEffect(() => {
-    console.log(props.labels);
-    console.log(props.chosenLabels);
-  }, [props.labels, props.chosenLabels]);
+  // useEffect(() => {
+  //   console.log(props.labels);
+  //   console.log(props.chosenLabels);
+  // }, [props.labels, props.chosenLabels]);
 
   function handleEnter(event) {
     if (event.key === "Enter") {
@@ -58,7 +58,7 @@ function List(props) {
       <ul>
         {props.labels.map((item, index) => {
           return (
-            <li onClick={() => props.clickHandler(index)}>
+            <li key={item.id} onClick={() => props.clickHandler(index)}>
               <div className={classes.Checkbox}>
                 {props.chosenLabels[index] ? (
                   <i className="far fa-check-square"></i>
@@ -67,7 +67,7 @@ function List(props) {
                 )}
               </div>
               <div style={{ display: "inline-block", marginLeft: "10px" }}>
-                {item}
+                {item.labelName}
               </div>
             </li>
           );
@@ -86,4 +86,4 @@ const mapDispatchToProps = (dispatch) => {
     addNewLabel: (label) => dispatch(addNewLabel(label)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(List);
+export default connect(mapStateToProps, mapDispatchToProps)(AddLabels);

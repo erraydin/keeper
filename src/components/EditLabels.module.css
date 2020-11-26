@@ -1,0 +1,85 @@
+.Form {
+    z-index: 500;
+    position: fixed;
+    top: 35%;
+    width: 350px;
+    margin: 30px auto 20px auto;
+    left: 40%;
+    background: #fff;
+    border-radius: 7px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.35);
+  }
+  
+  
+  @media (max-width: 700px) {
+    .Form {
+      width: 300px;
+    }
+  }
+  
+  @media (max-width: 533px) {
+    .Form {
+      width: 240px;
+    }
+  }
+  
+  .Form input,
+  .Form textarea {
+    width: 100%;
+    border: none;
+    padding: 5px 10px 5px 45px;
+    outline: none;
+    font-size: 1.1em;
+    font-family: inherit;
+    resize: none;
+    margin-right: 10px;
+  }
+
+  .Form .InputArea {
+    display: inline-flex;
+    width: 100%;
+  }
+
+  .Form ul {
+    font-size: 1em;
+    margin-bottom: 10px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  .Form li {
+    list-style: none;
+  }
+
+  .Form .Item {
+      display: inline-block;
+      width: 100%;
+      padding: 5px 20px 0 0;
+  }
+  
+  .Form button {
+    /* position: absolute;
+    right: 18px; */
+    bottom: 0px;
+    position: relative;
+    float: right;
+    padding-top: 5px;
+    margin: 0 10px;
+    background: white;
+    color: #f5ba13;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 30px;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .Form button:hover,
+  .Form button:active {
+    color: #ffda77;
+  }
+  
+  .Buttons {
+    height: 30px;
+  }

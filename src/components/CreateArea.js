@@ -6,17 +6,23 @@ import AddIcon from "@material-ui/icons/Add";
 import Button from "./Button";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import CloseIcon from "@material-ui/icons/Close";
-import LabelOutlinedIcon from '@material-ui/icons/LabelOutlined';
+import LabelOutlinedIcon from "@material-ui/icons/LabelOutlined";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import Popper from "@material-ui/core/Popper";
-import List from "./List";
+import AddLabels from "./AddLabels";
 
 function CreateArea(props) {
+  const initialChosenLabels = new Array(props.labels.length).fill(false);
+  if (props.labelName !== "") {
+    const initialIndex = props.labels.findIndex(
+      (label) => label.labelName === props.labelName
+    );
+    initialChosenLabels[initialIndex] = true
+  }
+
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [chosenLabels, setChosenLabels] = useState(
-    new Array(props.labels.length).fill(false)
-  );
+  const [chosenLabels, setChosenLabels] = useState(initialChosenLabels);
   const [isExpanded, setExpanded] = useState(false);
   const [labelPopperLocation, setlabelPopperLocation] = useState(null);
 
@@ -39,7 +45,7 @@ function CreateArea(props) {
     setTitle("");
     setContent("");
     setlabelPopperLocation(null);
-    setChosenLabels(new Array(props.labels.length).fill(false));
+    setChosenLabels(initialChosenLabels);
   }
   //open label edit, bad naming
   function labelHandler(event) {
@@ -76,7 +82,7 @@ function CreateArea(props) {
       const newChosenLabels = [true, ...prevChosenLabels];
       return newChosenLabels;
     });
-  }, [props.labels.length, props.notes]);
+  }, [props.labels.length]);
 
   const open = Boolean(labelPopperLocation);
   const id = open ? "simple-popper" : undefined;
@@ -89,7 +95,7 @@ function CreateArea(props) {
     setTitle("");
     setContent("");
     setExpanded(false);
-    setChosenLabels(new Array(props.labels.length).fill(false));
+    setChosenLabels(initialChosenLabels);
     isFirstTimeAddingLabel.current = true;
   }
 
@@ -97,9 +103,8 @@ function CreateArea(props) {
     setExpanded(false);
     setTitle("");
     setContent("");
-    setChosenLabels(new Array(props.labels.length).fill(false));
+    setChosenLabels(initialChosenLabels);
   }
-  
 
   function handleEnterForTitle(event) {
     if (event.key === "Enter") {
@@ -138,11 +143,17 @@ function CreateArea(props) {
       {isExpanded ? (
         <React.Fragment>
           <div className={classes.Labels} onClick={closeLabelEditHandler}>
-            {props.labels.filter((_, index) => {
-              return chosenLabels[index];
-            }).map(label => {
-              return <span className={classes.Label}>{label}</span>
-            })}
+            {props.labels
+              .filter((_, index) => {
+                return chosenLabels[index];
+              })
+              .map((label) => {
+                return (
+                  <span key={label.id} className={classes.Label}>
+                    {label.labelName}
+                  </span>
+                );
+              })}
           </div>
           <div className={classes.Buttons} onClick={closeLabelEditHandler}>
             <Button tooltipTitle="Add Note" onClick={addNoteHandler}>
@@ -156,7 +167,7 @@ function CreateArea(props) {
             </Button>
           </div>
           <Popper id={id} open={open} anchorEl={labelPopperLocation}>
-            <List
+            <AddLabels
               chosenLabels={chosenLabels}
               clickHandler={labelClickHandler}
               confirmHandler={closeLabelEditHandler}

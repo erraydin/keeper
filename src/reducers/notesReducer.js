@@ -13,14 +13,16 @@ const notesReducer = (state = initialState, action) => {
       };
     case "EDIT":
       const editedNotes = [...state.notes];
-      const editIndex = state.notes.findIndex(note => note.id === action.id)
+      const editIndex = state.notes.findIndex((note) => note.id === action.id);
       editedNotes[editIndex] = action.note;
       return {
         ...state,
         notes: editedNotes,
       };
     case "DELETE":
-      const deleteIndex = state.notes.findIndex(note => note.id === action.id)
+      const deleteIndex = state.notes.findIndex(
+        (note) => note.id === action.id
+      );
       const deletedNotes = state.notes.filter((_, index) => {
         return index !== deleteIndex;
       });
@@ -30,17 +32,21 @@ const notesReducer = (state = initialState, action) => {
         trash: [...state.trash, state.notes[deleteIndex]],
       };
     case "RESTORE":
-      const restoreIndex = state.trash.findIndex(note => note.id === action.id)
+      const restoreIndex = state.trash.findIndex(
+        (note) => note.id === action.id
+      );
       const restoredTrash = state.trash.filter((_, index) => {
-        return index !== restoreIndex
+        return index !== restoreIndex;
       });
       return {
         ...state,
         notes: [...state.notes, state.trash[restoreIndex]],
         trash: restoredTrash,
-      }
+      };
     case "DELETE_PERMANENTLY":
-      const permDeleteIndex = state.trash.findIndex(note => note.id === action.id)
+      const permDeleteIndex = state.trash.findIndex(
+        (note) => note.id === action.id
+      );
       const newTrash = state.trash.filter((_, index) => {
         return index !== permDeleteIndex;
       });
@@ -52,13 +58,57 @@ const notesReducer = (state = initialState, action) => {
       return {
         ...state,
         trash: [],
-      }
+      };
     case "ADD_NEW_LABEL":
-      const newLabels = state.labels.includes(action.label) || action.label==="" ? [...state.labels] : [action.label, ...state.labels];
+      const labelNames = state.labels.map((label) => {
+        return label.labelName;
+      });
+      const newLabels =
+        labelNames.includes(action.label.labelName) ||
+        action.label.labelName === ""
+          ? [...state.labels]
+          : [action.label, ...state.labels];
       return {
         ...state,
-        labels: newLabels
-      }
+        labels: newLabels,
+      };
+    case "EDIT_LABEL":
+      const editLabelIndex = state.labels.findIndex(
+        (label) => label.id === action.id
+      );
+      const editedLabels = [...state.labels];
+      editedLabels[editLabelIndex] = {
+        labelName: action.newLabelName,
+        id: action.id,
+      };
+
+      const editedLabelNotes = state.notes.map((note) => {
+        const newLabelsOfNote = note.labels.map((label) => {
+          if (label.id === action.id) {
+            return { ...label, labelName: action.newLabelName };
+          } else {
+            return { ...label };
+          }
+        });
+        return { ...note, labels: newLabelsOfNote };
+      });
+
+      const editedLabelTrash = state.trash.map((note) => {
+        const newLabelsOfTrashNote = note.labels.map((label) => {
+          if (label.id === action.id) {
+            return { ...label, labelName: action.newLabelName };
+          } else {
+            return { ...label };
+          }
+        });
+        return { ...note, labels: newLabelsOfTrashNote };
+      });
+
+      return {
+        labels: editedLabels,
+        notes: editedLabelNotes,
+        trash: editedLabelTrash,
+      };
     default:
       return state;
   }

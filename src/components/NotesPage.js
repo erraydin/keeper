@@ -9,6 +9,7 @@ import classes from "./NotesPage.module.css";
 import Backdrop from "./Backdrop";
 import getVisibleNotes from "../selectors/notes";
 
+
 function NotesPage(props) {
   const [editedIndex, setEditedIndex] = useState(null);
   const [editing, setEditing] = useState(false);
@@ -55,16 +56,18 @@ function NotesPage(props) {
 
   return (
     <React.Fragment>
-      <CreateArea />
+      <CreateArea labelName={filterLabel}/>
       {editing ? (
+        
         <EditArea
           note={props.notes[editedIndex]}
           editNote={props.editNote}
           editedIndex={editedIndex}
           closeEdit={closeEditHandler}
         ></EditArea>
+        
       ) : null}
-      <Backdrop show={editing} onClick={closeEditHandler} transparent={false} />
+      <Backdrop show={editing} onClick={closeEditHandler} transparent={false} /> 
       {displayedNotes.length === 0 ? noNotes : null}
       <div className={classes.Notes}>
         <Masonry>
