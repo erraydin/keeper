@@ -7,6 +7,7 @@
   margin: 16px;
   float: left;
   cursor: default;
+  position: relative;
 }
 
 .Note:hover {
@@ -14,12 +15,6 @@
 }
 
 
-.Note h2 {
-  font-weight: 500;
-  font-size: 1em;
-  margin-bottom: 6px;
-  color: rgb(46, 46, 46);
-}
 .Note p {
   font-size: 1.1em;
   margin-bottom: 10px;
@@ -28,12 +23,18 @@
   color: rgb(46, 46, 46);
 }
 
+.Note .Title {
+  font-weight: 500;
+  font-size: 1em;
+  margin-bottom: 6px;
+  margin-right: 8px;
+  color: rgb(46, 46, 46);
+}
+
 .Note .Labels {
   margin-top: 3px;
-  width: 155px;
-  text-overflow: ellipsis;
-  overflow:hidden;
-  white-space:nowrap;
+  width: 100%;
+  padding-right: 10px;
 }
 
 .ButtonArea {
@@ -43,17 +44,18 @@
 .Note .Label {
   font-size: 0.8em;
   display: inline-block;
-  overflow: hidden;
-  white-space:nowrap;
-  text-overflow: ellipsis;
   margin-right: 10px;
   background-color: rgba(163, 163, 163, 0.253);
   border-radius: 10px;
   min-width: 40px;
-  text-align: center;
+  max-width: 130px;
   padding: 0 10px;
   padding-bottom: 5px;
   padding-top: 3px;
+  position: relative;
+  margin-top: 3px;
+  margin-bottom: 2px;
+  text-align: center;
 }
 
 .Note button {
@@ -74,3 +76,45 @@
 .Note button:active {
   background-color: rgba(172, 172, 172, 0.247);
 }
+
+.Label button {
+  width: auto;
+  height: auto;
+  background-color: rgba(163, 163, 163, 0);
+  color: black;
+  margin-right: 0;
+}
+
+.Button {
+  display: none;
+  position: absolute;
+  margin-top: 2px;
+  right: 4px;
+}
+
+.Label:hover .Button {
+  display: inline-block;
+}
+
+.Label:hover .LabelText {
+  width: max(80%, calc(100% - 10px));
+}
+.Label:hover {
+  text-align: left;
+}
+
+.LabelText {
+  display: inline-block;
+  overflow: hidden;
+  white-space:nowrap;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+
+.RemainingLabels {
+  display: inline-block;
+  background-color: rgba(163, 163, 163, 0.253);
+  padding: 3px 10px;
+  border-radius: 3px;
+}
+

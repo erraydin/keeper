@@ -83,10 +83,46 @@
   margin-right: 10px;
   background-color: rgba(163, 163, 163, 0.253);
   border-radius: 10px;
-  min-width: 40px;
-  text-align: center;
+  min-width: 50px;
+  max-width: 90%;
   padding: 0 10px;
   padding-bottom: 5px;
   padding-top: 3px;
   margin-top: 5px;
+  position: relative;
+  text-align: center;
+}
+
+.Label button {
+  width: auto;
+  height: auto;
+  background-color: rgba(163, 163, 163, 0);
+  color: black;
+  margin-right: 0;
+}
+
+.Button {
+  display: none;
+  position: absolute;
+  margin-top: 4px;
+  right: 7px;
+}
+.Label:hover {
+  text-align: left;
+}
+
+.Label:hover .Button {
+  display: inline-flex;
+}
+
+.Label:hover .LabelText {
+  width: max(75%, calc(100% - 10px));
+}
+
+.LabelText {
+  display: inline-block;
+  overflow: hidden;
+  white-space:nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }

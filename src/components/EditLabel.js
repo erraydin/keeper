@@ -3,7 +3,7 @@ import Button from "./Button";
 import { connect } from "react-redux";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import { editLabel } from "../actions/actions";
+import { editLabel, deleteLabelCompletely } from "../actions/actions";
 import classes from "./EditLabel.module.css";
 import { useHistory, useLocation } from "react-router-dom";
 
@@ -29,6 +29,10 @@ function EditLabel(props) {
     }
   }
 
+  function deleteHandler() {
+    props.deleteLabelCompletely(props.label);
+  }
+
   function handleEnter(event) {
     if (event.key === "Enter") {
       if (!props.labels.includes(labelName)) {
@@ -51,7 +55,7 @@ function EditLabel(props) {
 
   return (
     <div className={classes.InputArea}>
-      <Button tooltipTitle="Delete this label" onClick={editHandler}>
+      <Button tooltipTitle="Delete this label" onClick={deleteHandler}>
         <DeleteForeverIcon />
       </Button>
       <input
@@ -81,6 +85,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     editLabel: (oldLabel, newLabel) => dispatch(editLabel(oldLabel, newLabel)),
+    deleteLabelCompletely: (label) => dispatch(deleteLabelCompletely(label)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(EditLabel);

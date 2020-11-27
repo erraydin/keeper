@@ -103,6 +103,44 @@ const notesReducer = (state = initialState, action) => {
         notes: editedLabelNotes,
         trash: editedLabelTrash,
       };
+    case "DELETE_LABEL_COMPLETELY":
+      const deletedLabels = state.labels.filter(label => {
+        return label !== action.label;
+      });
+      
+      const deletedLabelNotes = state.notes.map(note => {
+        const deletedLabelsOfNote = note.labels.filter(label => {
+          return label !== action.label;
+        });
+        return {...note, labels: deletedLabelsOfNote}
+      })
+
+      const deletedLabelTrash = state.trash.map(note => {
+        const deletedLabelsOfTrash = note.labels.filter(label => {
+          return label !== action.label;
+        });
+        return {...note, labels: deletedLabelsOfTrash}
+      })
+      return {
+        labels: deletedLabels,
+        notes: deletedLabelNotes,
+        trash: deletedLabelTrash,
+      }
+    case "DELETE_LABEL_FROM_NOTE":
+      const indexOfNote = state.notes.findIndex(note => {
+        return note.id === action.noteId;
+      });
+      const newLabelsOfLabelRemovedNote = state.notes[indexOfNote].labels.filter(label => {
+        return label !== action.label;
+      })
+
+      const labelRemovedNotesArray = [...state.notes];
+      labelRemovedNotesArray[indexOfNote] = {...state.notes[indexOfNote], labels: newLabelsOfLabelRemovedNote};
+
+      return {
+        ...state,
+        notes: labelRemovedNotesArray,
+      }
     default:
       return state;
   }

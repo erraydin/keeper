@@ -18,6 +18,15 @@ function EditArea(props) {
   const id = open ? "simple-popper" : undefined;
 
   const textAreaRef = useRef(null);
+  function confirmEditHandler() {
+    props.editNote(props.note.id, {
+      title: title,
+      content: content,
+      id: props.note.id,
+      labels: chosenLabels,
+    });
+    props.closeEdit();
+  }
 
   function labelHandler(event) {
     setlabelPopperLocation((oldLabelPopperLocation) => {
@@ -37,6 +46,14 @@ function EditArea(props) {
         return [label, ...prevChosenLabels];
       });
     }
+  }
+
+  function removeLabelFromNote(label) {
+    setChosenLabels((prevChosenLabels) => {
+      return prevChosenLabels.filter((chosenLabel) => {
+        return label !== chosenLabel;
+      });
+    });
   }
 
   function toggleLabelClickHandler(label, checked) {
@@ -90,25 +107,31 @@ function EditArea(props) {
       <div className={classes.Labels} onClick={closeLabelEditHandler}>
         {chosenLabels.map((label) => {
           return (
-            <span key={label} className={classes.Label}>
-              {label}
-            </span>
+            <div key={label} className={classes.Label}>
+              <div className={classes.LabelText}>{label}</div>
+              <div className={classes.Button}>
+                <Button
+                  tooltipTitle="Delete label"
+                  onClick={() => removeLabelFromNote(label)}
+                >
+                  <span
+                    className="material-icons-outlined"
+                    style={{
+                      verticalAlign: "middle",
+                      display: "inline-block",
+                      fontSize: "15px",
+                    }}
+                  >
+                    close
+                  </span>
+                </Button>
+              </div>
+            </div>
           );
         })}
       </div>
       <div className={classes.Buttons}>
-        <Button
-          tooltipTitle="Confirm changes"
-          onClick={() => {
-            props.editNote(props.note.id, {
-              title: title,
-              content: content,
-              id: props.note.id,
-              labels: chosenLabels,
-            });
-            props.closeEdit();
-          }}
-        >
+        <Button tooltipTitle="Confirm changes" onClick={confirmEditHandler}>
           <DoneIcon />
         </Button>
         <Button tooltipTitle="Cancel" onClick={props.closeEdit}>

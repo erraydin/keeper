@@ -15,7 +15,9 @@ export const emptyTrash = () => ({type: "EMPTY_TRASH"});
 export const addNewLabel = (label) => ({type: "ADD_NEW_LABEL", label: label});
 
 //Deletes a label completely, from all notes, all trash notes, and from labels list
-export const deleteLabel = (id) => ({type: "DELETE_LABEL", id: id});
+export const deleteLabelCompletely = (label) => ({type: "DELETE_LABEL_COMPLETELY", label: label});
+
+export const deleteLabelFromNote = (label, noteId) => ({type: "DELETE_LABEL_FROM_NOTE", label: label, noteId: noteId});
 
 export const editLabel = (oldLabel, newLabel) => ({type: "EDIT_LABEL", oldLabel: oldLabel, newLabel: newLabel});
 

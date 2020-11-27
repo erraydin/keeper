@@ -6,18 +6,17 @@ import AddIcon from "@material-ui/icons/Add";
 import Button from "./Button";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import CloseIcon from "@material-ui/icons/Close";
-import LabelOutlinedIcon from "@material-ui/icons/LabelOutlined";
+import LabelIcon from "@material-ui/icons/Label";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import Popper from "@material-ui/core/Popper";
 import AddLabels from "./AddLabels";
 
 function CreateArea(props) {
-  
   let initialChosenLabels = [];
-  if (props.filterLabel !== ""){
+  if (props.filterLabel !== "") {
     initialChosenLabels = [props.filterLabel];
   }
-  
+
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [chosenLabels, setChosenLabels] = useState(initialChosenLabels);
@@ -27,7 +26,6 @@ function CreateArea(props) {
   // useEffect(() => {
   //   console.log(chosenLabels);
   // }, [chosenLabels])
-
 
   function toggleLabelClickHandler(label, checked) {
     if (checked) {
@@ -44,11 +42,19 @@ function CreateArea(props) {
   }
 
   function addNewChosenLabelHandler(label) {
-    if (label !=="" && !chosenLabels.includes(label)) {
+    if (label !== "" && !chosenLabels.includes(label)) {
       setChosenLabels((prevChosenLabels) => {
         return [label, ...prevChosenLabels];
       });
     }
+  }
+
+  function removeLabelFromNote(label) {
+    setChosenLabels((prevChosenLabels) => {
+      return prevChosenLabels.filter(chosenLabel => {
+        return label !== chosenLabel;
+      })
+    });
   }
 
   function changeTitle(event) {
@@ -84,8 +90,6 @@ function CreateArea(props) {
       setlabelPopperLocation(null);
     }
   }
-
-  
 
   const open = Boolean(labelPopperLocation);
   const id = open ? "simple-popper" : undefined;
@@ -144,12 +148,28 @@ function CreateArea(props) {
           <div className={classes.Labels} onClick={closeLabelEditHandler}>
             {chosenLabels.map((label) => {
               return (
-                <span key={label} className={classes.Label}>
-                  {label}
-                </span>
+                <div key={label} className={classes.Label}>
+                  <div className={classes.LabelText}>{label}</div>
+                  <div className={classes.Button}>
+                    <Button
+                      tooltipTitle="Delete label"
+                      onClick={() => removeLabelFromNote(label)}
+                    >
+                      <span
+                        className="material-icons-outlined"
+                        style={{
+                          verticalAlign: "middle",
+                          display: "inline-block",
+                          fontSize: "15px",
+                        }}
+                      >
+                        close
+                      </span>
+                    </Button>
+                  </div>
+                </div>
               );
             })}
-            
           </div>
           <div className={classes.Buttons} onClick={closeLabelEditHandler}>
             <Button tooltipTitle="Add Note" onClick={addNoteHandler}>
@@ -159,7 +179,7 @@ function CreateArea(props) {
               <CloseIcon />
             </Button>
             <Button tooltipTitle="Add Labels" onClick={labelHandler}>
-              <LabelOutlinedIcon />
+              <LabelIcon />
             </Button>
           </div>
           <Popper id={id} open={open} anchorEl={labelPopperLocation}>

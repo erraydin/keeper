@@ -32,7 +32,7 @@ function TrashPage(props) {
       type="button"
       onClick={props.emptyTrash}
     >
-      Empty trash
+      Click here to empty trash
     </button>
   )
 

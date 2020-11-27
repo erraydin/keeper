@@ -49,8 +49,9 @@ function AddLabels(props) {
         placeholder="Add label..."
         value={newLabel}
         onChange={changeNewLabel}
+        maxLength="40"
       />{" "}
-      <Button tooltipTitle="Add new label" onClick={addHandler}>
+      <Button tooltipTitle="Create new label" onClick={addHandler}>
         <AddIcon />
       </Button>
       </div>
