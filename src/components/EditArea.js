@@ -89,6 +89,7 @@ function EditArea(props) {
       <input
         value={title}
         onChange={changeTitle}
+        onClick={closeLabelEditHandler}
         onKeyPress={handleKeyPressForTitle}
         name="title"
         placeholder="Title"
@@ -99,6 +100,7 @@ function EditArea(props) {
         <TextareaAutosize
           ref={textAreaRef}
           value={content}
+          onClick={closeLabelEditHandler}
           onChange={changeText}
           name="content"
           placeholder="Edit your note..."
@@ -130,7 +132,7 @@ function EditArea(props) {
           );
         })}
       </div>
-      <div className={classes.Buttons}>
+      <div className={classes.Buttons} onClick={closeLabelEditHandler}>
         <Button tooltipTitle="Confirm changes" onClick={confirmEditHandler}>
           <DoneIcon />
         </Button>
