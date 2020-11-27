@@ -9,6 +9,11 @@
     color: rgb(255, 255, 255);
     font-family: "McLaren", cursive;
     font-weight: 200;
+    display: inline;
+}
+
+.header a {
+    text-decoration: none;
 }
 
 /* #f5ba13 */

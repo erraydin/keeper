@@ -9,7 +9,7 @@ import { setFilterLabel } from "../actions/filters";
 import classes from "./NotesPage.module.css";
 import Backdrop from "./Backdrop";
 import getVisibleNotes from "../selectors/notes";
-
+import List from "./List";
 
 function NotesPage(props) {
   const [editedIndex, setEditedIndex] = useState(null);
@@ -27,9 +27,8 @@ function NotesPage(props) {
     console.log(props);
   });
 
-
   const path = props.match.path;
-  const filterLabel = (path === "/") ? "" : path.slice(7, path.length);
+  const filterLabel = path === "/" ? "" : path.slice(7, path.length);
   const filterText = props.text;
   const displayedNotes = getVisibleNotes(props.notes, filterLabel, filterText);
 
@@ -58,18 +57,16 @@ function NotesPage(props) {
 
   return (
     <React.Fragment>
-      <CreateArea filterLabel={filterLabel}/>
+      <CreateArea filterLabel={filterLabel} />
       {editing ? (
-        
         <EditArea
           note={props.notes[editedIndex]}
           editNote={props.editNote}
           editedIndex={editedIndex}
           closeEdit={closeEditHandler}
         ></EditArea>
-        
       ) : null}
-      <Backdrop show={editing} onClick={closeEditHandler} transparent={false} /> 
+      <Backdrop show={editing} onClick={closeEditHandler} transparent={false} />
       {displayedNotes.length === 0 ? noNotes : null}
       <div className={classes.Notes}>
         <Masonry>
@@ -86,6 +83,14 @@ function NotesPage(props) {
               />
             );
           })}
+          <List
+            list={{
+              title: "title",
+              unchecked: ["ali", "ata", "bak"],
+              checked: ["ayse", "topu", "tut"],
+              labels: ["work", "personal", "life", "jokes"]
+            }}
+          />
         </Masonry>
       </div>
     </React.Fragment>

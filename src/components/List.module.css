@@ -1,47 +1,38 @@
-.Note {
+.List {
   background: #fff;
   border-radius: 7px;
   border: 1px solid #ccc;
-  padding: 10px 0 5px 10px;
   width: 240px;
   margin: 16px;
   float: left;
   cursor: default;
   position: relative;
 }
-
-.Note:hover {
-  box-shadow: 0 1px 5px rgb(138, 137, 137);
-}
-
-
-.Note p {
+.List p {
   font-size: 1.1em;
   margin-bottom: 10px;
   white-space: pre-wrap;
   word-wrap: break-word;
   color: rgb(46, 46, 46);
 }
-
-.Note .Title {
+.List .Title {
   font-weight: 500;
   font-size: 1em;
-  margin-bottom: 6px;
   margin-right: 8px;
+  margin-bottom: 0;
   color: rgb(46, 46, 46);
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 5px;
 }
-
-.Note .Labels {
-  margin-top: 3px;
+.List .Labels {
+  margin-top: 7px;
   width: 100%;
   padding-right: 10px;
+  padding-left: 20px;
 }
 
-.ButtonArea {
-  display: inline-flex;
-}
-
-.Note .Label {
+.List .Label {
   font-size: 0.8em;
   display: inline-block;
   margin-right: 10px;
@@ -58,7 +49,28 @@
   text-align: center;
 }
 
-.Note button {
+hr {
+  width: 200px;
+  margin: 10px auto;
+}
+.List ul {
+  font-size: 1em;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.List li {
+  list-style: none;
+  padding: 0 20px;
+}
+.List li:hover {
+  cursor: pointer;
+  background-color: rgba(194, 194, 194, 0.308);
+}
+.ButtonArea {
+  display: inline-flex;
+}
+
+.List button {
   position: relative;
   float: right;
   margin-right: 5px;
@@ -72,17 +84,9 @@
   outline: none;
 }
 
-.Note button:hover,
-.Note button:active {
+.List button:hover,
+.List button:active {
   background-color: rgba(172, 172, 172, 0.247);
-}
-
-.Label button {
-  width: auto;
-  height: auto;
-  background-color: rgba(163, 163, 163, 0);
-  color: black;
-  margin-right: 0;
 }
 
 .Button {
@@ -91,7 +95,13 @@
   margin-top: 2px;
   right: 4px;
 }
-
+.Label button {
+  width: auto;
+  height: auto;
+  background-color: rgba(163, 163, 163, 0);
+  color: black;
+  margin-right: 0;
+}
 .Label:hover .Button {
   display: inline-block;
 }
@@ -117,4 +127,3 @@
   padding: 3px 10px;
   border-radius: 3px;
 }
-
