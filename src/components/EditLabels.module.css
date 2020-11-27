@@ -96,5 +96,6 @@
 
   .DoneButton button{
     margin-bottom: 10px;
+    border-radius: 5px;
   }
   /* #f5ba13 */

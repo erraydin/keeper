@@ -1,17 +1,38 @@
 .Input {
-    width: 70%;
-    border: none;
-    padding: 5px 10px 5px 45px;
-    outline: none;
-    font-size: 1.1em;
-    font-family: inherit;
-    resize: none;
-    margin-right: 10px;
-  }
-
-
+  width: 70%;
+  border: none;
+  padding: 5px 10px 5px 45px;
+  outline: none;
+  font-size: 1.1em;
+  font-family: inherit;
+  resize: none;
+  margin-right: 10px;
+}
 
 .InputArea {
-    display: inline-flex;
-    width: 100%;
+  display: inline-flex;
+  width: 100%;
+}
+
+.Button button {
+  bottom: 0px;
+  position: relative;
+  float: right;
+  padding-top: 5px;
+  margin: 0 10px;
+  color: #222222fb;
+  background-color: white;
+  border: none;
+  border-radius: 100%;
+  width: 45px;
+  height: 30px;
+  cursor: pointer;
+  outline: none;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.Button button:hover,
+.Button button:active {
+  background-color: rgba(172, 172, 172, 0.247);
 }
