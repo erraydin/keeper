@@ -4,8 +4,8 @@ const initialState = {
       type: "list",
       id: "asdfadsf32424sdffd",
       title: "this is a list",
-      checked: ["these", "are", "checked"],
-      unchecked: ["unchecked", "items", "here"],
+      checked: [{item:"these", id: "asd234"}, {item:"are", id: "847ljhsfjd"} , {item: "checked", id: " lksdfiow8294"} ],
+      unchecked: [{item:"these", id: "asd23asddfs4"}, {item:"are", id: "847ljhsdfsgfdsfjd"} , {item: "unchecked", id: " lksdfi34534w8294"}],
       labels: [],
     }
   ],
@@ -18,7 +18,7 @@ const notesReducer = (state = initialState, action) => {
     case "ADD":
       return {
         ...state,
-        notes: [...state.notes, action.note],
+        notes: [action.note, ...state.notes],
       };
     case "EDIT":
       const editedNotes = [...state.notes];
@@ -162,7 +162,7 @@ const notesReducer = (state = initialState, action) => {
         });
         let listNote = state.notes[ListNoteIndex];
         let newCheckedList = listNote.checked.filter((listItem) => {
-          return listItem !== action.listItem;
+          return listItem.id !== action.listItem.id;
         });
         let newUncheckedList = [action.listItem, ...listNote.unchecked];
         let newNotes = [...state.notes];
@@ -182,7 +182,7 @@ const notesReducer = (state = initialState, action) => {
         let listNote = state.notes[ListNoteIndex];
         let newCheckedList = [action.listItem, ...listNote.checked];
         let newUncheckedList = listNote.unchecked.filter((listItem) => {
-          return listItem !== action.listItem;
+          return listItem.id !== action.listItem.id;
         });
         let newNotes = [...state.notes];
         newNotes[ListNoteIndex] = {

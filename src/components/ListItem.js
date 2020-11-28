@@ -17,7 +17,7 @@ function ListItem(props) {
         )}
       </div>
       <div style={{ display: "inline-block", marginLeft: "21px", width: "85%", marginBottom: "5px" }}>
-        {props.item}
+        {props.item.item}
       </div>
     </li>
   );

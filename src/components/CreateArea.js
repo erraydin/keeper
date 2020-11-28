@@ -10,7 +10,8 @@ import LabelIcon from "@material-ui/icons/Label";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import Popper from "@material-ui/core/Popper";
 import AddLabels from "./AddLabels";
-
+import { v4 as uuidv4 } from "uuid";
+// import ListCreateArea from "./ListCreateArea";
 
 function CreateArea(props) {
   let initialChosenLabels = [];
@@ -23,7 +24,7 @@ function CreateArea(props) {
   const [uncheckedList, setUncheckedList] = useState([]);
   const [chosenLabels, setChosenLabels] = useState(initialChosenLabels);
   const [isNewNote, setNewNote] = useState(false);
-  const [isNewList, setNewList] = useState(false);
+  const [isNewList, setNewList] = useState(true);
   const [labelPopperLocation, setlabelPopperLocation] = useState(null);
 
   const open = Boolean(labelPopperLocation);
@@ -132,6 +133,15 @@ function CreateArea(props) {
     }
   }
 
+  function handleKeyPressForListItem(event) {
+    if (event.key === "Enter") {
+      setUncheckedList((prevUncheckedList) => {
+        return [...prevUncheckedList, { item: content, id: uuidv4() }];
+      });
+      setContent("");
+    }
+  }
+
   function onClickAwayHandler() {
     if (isNewNote) {
       if (title === "" && content === "") {
@@ -233,7 +243,80 @@ function CreateArea(props) {
   );
 
   if (isNewList) {
-    create = <div>Create new list</div>;
+    create = (
+      <div className={classes.Form}>
+        <input
+          onKeyPress={handleKeyPressForTitle}
+          onClick={closeLabelEditHandler}
+          autoComplete="off"
+          value={title}
+          onChange={changeTitle}
+          name="title"
+          placeholder="Title"
+        />
+        {uncheckedList.map((item) => {
+          return (
+            <div style={{ position: "relative" }}>
+              <div className={classes.Checkbox}>
+                {props.checked ? (
+                  <i className="far fa-check-square"></i>
+                ) : (
+                  <i className="far fa-square"></i>
+                )}
+              </div>
+              <input
+                className={classes.Input}
+                onClick={() => {
+                  expand();
+                  closeLabelEditHandler();
+                }}
+                key={item.id}
+                value={item.item}
+                onChange={changeText}
+                name="content"
+                placeholder="Add list item..."
+                rows="1"
+              />
+              <div className={classes.Button2}>
+                <Button
+                  tooltipTitle="Delete List Item"
+                  onClick={openLabelEditHandler}
+                >
+                  <CloseIcon fontSize="small"/>
+                </Button>
+              </div>
+            </div>
+          );
+        })}
+        <div style={{ position: "relative" }}>
+          <div className={classes.Checkbox1}>
+            {props.checked ? (
+              <i className="far fa-check-square"></i>
+            ) : (
+              <i className="far fa-square"></i>
+            )}
+          </div>
+          <input
+            className={classes.Input1}
+            ref={textAreaRef}
+            onKeyPress={handleKeyPressForListItem}
+            onClick={() => {
+              expand();
+              closeLabelEditHandler();
+            }}
+            value={content}
+            onChange={changeText}
+            name="content"
+            placeholder="Add list item..."
+          />
+          <div className={classes.Button1}>
+            <Button tooltipTitle="Add list item" onClick={openLabelEditHandler}>
+              <AddIcon />
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

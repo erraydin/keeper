@@ -12,13 +12,13 @@ function List(props) {
       <p className={classes.Title}>{props.list.title}</p>
       <ul>
         {props.list.unchecked.map((item) => {
-          return <ListItem key={item} item={item} checked={false} listId={props.list.id}/>;
+          return <ListItem key={item.id} item={item} checked={false} listId={props.list.id}/>;
         })}
       </ul>
       <hr />
       <ul>
         {props.list.checked.map((item) => {
-          return <ListItem key={item} item={item} checked={true} listId={props.list.id}/>;
+          return <ListItem key={item.id} item={item} checked={true} listId={props.list.id}/>;
         })}
       </ul>
       <div className={classes.Labels}>
