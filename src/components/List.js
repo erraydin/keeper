@@ -4,7 +4,7 @@ import classes from "./List.module.css";
 import Button from "./Button";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import { Edit } from "@material-ui/icons";
+
 
 function List(props) {
   return (

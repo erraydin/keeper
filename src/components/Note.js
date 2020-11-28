@@ -15,8 +15,8 @@ function Note(props) {
 
   return (
     <div
-      className={classes.Note}
-      onClick={props.showEditButton ? () => props.onClick(props.index) : null}
+      className={classes.Note+ " " + (props.editing && props.editedId === props.note.id ? classes.Hide : "")}
+      onClick={props.showEditButton ? () => props.onClick(props.note.id) : null}
     >
       <p className={classes.Title}>{props.note.title}</p>
       <p>{props.note.content}</p>

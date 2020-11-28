@@ -7,21 +7,20 @@ import Masonry from "react-masonry-component";
 import { addNote, deleteNote, editNote } from "../actions/actions";
 import { setFilterLabel } from "../actions/filters";
 import classes from "./NotesPage.module.css";
-import Backdrop from "./Backdrop";
 import getVisibleNotes from "../selectors/notes";
 import List from "./List";
 
 function NotesPage(props) {
-  const [editedIndex, setEditedIndex] = useState(null);
+  const [editedId, setEditedId] = useState(null);
   const [editing, setEditing] = useState(false);
-  function editHandler(index) {
-    setEditedIndex(index);
+  function editHandler(id) {
+    setEditedId(id);
     setEditing(true);
   }
 
   function closeEditHandler() {
     setEditing(false);
-    setEditedIndex(null);
+    setEditedId(null);
   }
   useEffect(() => {
     console.log(props);
@@ -54,7 +53,10 @@ function NotesPage(props) {
         <p className={classes.Note}>No notes with this label yet</p>
       </div>
     );
-
+  const editedIndex = props.notes.findIndex(note => {
+    return note.id === editedId
+  })
+  
   return (
     <React.Fragment>
       <CreateArea filterLabel={filterLabel} />
@@ -62,20 +64,21 @@ function NotesPage(props) {
         <EditArea
           note={props.notes[editedIndex]}
           editNote={props.editNote}
-          editedIndex={editedIndex}
+          // editedId={editedId}
           closeEdit={closeEditHandler}
         ></EditArea>
       ) : null}
-      <Backdrop show={editing} onClick={closeEditHandler} transparent={false} />
       {displayedNotes.length === 0 ? noNotes : null}
       <div className={classes.Notes}>
         <Masonry>
           {displayedNotes.map((note, index) => {
             return (
               <Note
+                editedId={editedId}
+                editing={editing}
                 key={note.id}
                 note={note}
-                index={index}
+                // index={index}
                 deleteNote={props.deleteNote}
                 deleteTooltip="Delete Note"
                 showEditButton={true}

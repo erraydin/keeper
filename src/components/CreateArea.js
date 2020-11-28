@@ -115,6 +115,14 @@ function CreateArea(props) {
     }
   }
 
+  function onClickAwayHandler() {
+    if (title === "" && content === "") {
+      cancelExpand();
+    } else {
+      addNoteHandler();
+    }
+  }
+
   const textAreaRef = useRef(null);
   const create = (
     <div className={classes.Form}>
@@ -197,7 +205,7 @@ function CreateArea(props) {
   );
 
   return (
-    <ClickAwayListener onClickAway={cancelExpand}>{create}</ClickAwayListener>
+    <ClickAwayListener onClickAway={onClickAwayHandler}>{create}</ClickAwayListener>
   );
 }
 const mapStateToProps = (state) => {

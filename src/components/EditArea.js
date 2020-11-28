@@ -7,6 +7,7 @@ import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import LabelIcon from "@material-ui/icons/Label";
 import Popper from "@material-ui/core/Popper";
 import AddLabels from "./AddLabels";
+import Backdrop from "./Backdrop";
 
 function EditArea(props) {
   const [title, setTitle] = useState(props.note.title);
@@ -85,6 +86,7 @@ function EditArea(props) {
   }
 
   const create = (
+    <React.Fragment>
     <div className={classes.Form}>
       <input
         value={title}
@@ -158,6 +160,8 @@ function EditArea(props) {
         </Popper>
       </div>
     </div>
+    <Backdrop show={true} onClick={confirmEditHandler} transparent={false} />
+    </React.Fragment>
   );
 
   return <div>{create}</div>;
