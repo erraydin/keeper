@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import CreateArea from "./CreateArea";
 import EditArea from "./EditArea";
 import { connect } from "react-redux";
@@ -22,9 +22,9 @@ function NotesPage(props) {
     setEditing(false);
     setEditedId(null);
   }
-  useEffect(() => {
-    console.log(props);
-  });
+  // useEffect(() => {
+  //   console.log(props);
+  // });
 
   const path = props.match.path;
   const filterLabel = path === "/" ? "" : path.slice(7, path.length);
@@ -53,10 +53,10 @@ function NotesPage(props) {
         <p className={classes.Note}>No notes with this label yet</p>
       </div>
     );
-  const editedIndex = props.notes.findIndex(note => {
-    return note.id === editedId
-  })
-  
+  const editedIndex = props.notes.findIndex((note) => {
+    return note.id === editedId;
+  });
+
   return (
     <React.Fragment>
       <CreateArea filterLabel={filterLabel} />
@@ -72,7 +72,7 @@ function NotesPage(props) {
       <div className={classes.Notes}>
         <Masonry>
           {displayedNotes.map((note, index) => {
-            return (
+            return note.type === "note" ? (
               <Note
                 editedId={editedId}
                 editing={editing}
@@ -84,16 +84,10 @@ function NotesPage(props) {
                 showEditButton={true}
                 onClick={editHandler}
               />
+            ) : (
+              <List list={note} key={note.id}/>
             );
           })}
-          <List
-            list={{
-              title: "title",
-              unchecked: ["ali", "ata", "bak"],
-              checked: ["ayse", "topu", "tut"],
-              labels: ["work", "personal", "life", "jokes"]
-            }}
-          />
         </Masonry>
       </div>
     </React.Fragment>

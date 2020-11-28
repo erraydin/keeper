@@ -61,6 +61,7 @@ hr {
 .List li {
   list-style: none;
   padding: 0 20px;
+  position: relative;
 }
 .List li:hover {
   cursor: pointer;

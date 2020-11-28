@@ -1,5 +1,14 @@
 const initialState = {
-  notes: [],
+  notes: [
+    {
+      type: "list",
+      id: "asdfadsf32424sdffd",
+      title: "this is a list",
+      checked: ["these", "are", "checked"],
+      unchecked: ["unchecked", "items", "here"],
+      labels: [],
+    }
+  ],
   labels: [],
   trash: [],
 };
@@ -61,7 +70,7 @@ const notesReducer = (state = initialState, action) => {
       };
     case "ADD_NEW_LABEL":
       const newLabels =
-        state.labels.includes(action.label) || action.label === "" 
+        state.labels.includes(action.label) || action.label === ""
           ? [...state.labels]
           : [action.label, ...state.labels];
       return {
@@ -72,9 +81,9 @@ const notesReducer = (state = initialState, action) => {
       if (!action.newLabel) {
         return state;
       }
-      const editLabelIndex = state.labels.indexOf(action.oldLabel)
+      const editLabelIndex = state.labels.indexOf(action.oldLabel);
       const editedLabels = [...state.labels];
-      editedLabels[editLabelIndex] = action.newLabel
+      editedLabels[editLabelIndex] = action.newLabel;
 
       const editedLabelNotes = state.notes.map((note) => {
         const newLabelsOfNote = note.labels.map((label) => {
@@ -104,42 +113,87 @@ const notesReducer = (state = initialState, action) => {
         trash: editedLabelTrash,
       };
     case "DELETE_LABEL_COMPLETELY":
-      const deletedLabels = state.labels.filter(label => {
+      const deletedLabels = state.labels.filter((label) => {
         return label !== action.label;
       });
-      
-      const deletedLabelNotes = state.notes.map(note => {
-        const deletedLabelsOfNote = note.labels.filter(label => {
-          return label !== action.label;
-        });
-        return {...note, labels: deletedLabelsOfNote}
-      })
 
-      const deletedLabelTrash = state.trash.map(note => {
-        const deletedLabelsOfTrash = note.labels.filter(label => {
+      const deletedLabelNotes = state.notes.map((note) => {
+        const deletedLabelsOfNote = note.labels.filter((label) => {
           return label !== action.label;
         });
-        return {...note, labels: deletedLabelsOfTrash}
-      })
+        return { ...note, labels: deletedLabelsOfNote };
+      });
+
+      const deletedLabelTrash = state.trash.map((note) => {
+        const deletedLabelsOfTrash = note.labels.filter((label) => {
+          return label !== action.label;
+        });
+        return { ...note, labels: deletedLabelsOfTrash };
+      });
       return {
         labels: deletedLabels,
         notes: deletedLabelNotes,
         trash: deletedLabelTrash,
-      }
+      };
     case "DELETE_LABEL_FROM_NOTE":
-      const indexOfNote = state.notes.findIndex(note => {
+      const indexOfNote = state.notes.findIndex((note) => {
         return note.id === action.noteId;
       });
-      const newLabelsOfLabelRemovedNote = state.notes[indexOfNote].labels.filter(label => {
+      const newLabelsOfLabelRemovedNote = state.notes[
+        indexOfNote
+      ].labels.filter((label) => {
         return label !== action.label;
-      })
+      });
 
       const labelRemovedNotesArray = [...state.notes];
-      labelRemovedNotesArray[indexOfNote] = {...state.notes[indexOfNote], labels: newLabelsOfLabelRemovedNote};
+      labelRemovedNotesArray[indexOfNote] = {
+        ...state.notes[indexOfNote],
+        labels: newLabelsOfLabelRemovedNote,
+      };
 
       return {
         ...state,
         notes: labelRemovedNotesArray,
+      };
+    case "LIST_ITEM_CHECKED_TOGGLE":
+      if (action.checked) {
+        let ListNoteIndex = state.notes.findIndex((note) => {
+          return action.noteId === note.id;
+        });
+        let listNote = state.notes[ListNoteIndex];
+        let newCheckedList = listNote.checked.filter((listItem) => {
+          return listItem !== action.listItem;
+        });
+        let newUncheckedList = [action.listItem, ...listNote.unchecked];
+        let newNotes = [...state.notes];
+        newNotes[ListNoteIndex] = {
+          ...listNote,
+          checked: newCheckedList,
+          unchecked: newUncheckedList,
+        };
+        return {
+          ...state,
+          notes: newNotes,
+        };
+      } else {
+        let ListNoteIndex = state.notes.findIndex((note) => {
+          return action.noteId === note.id;
+        });
+        let listNote = state.notes[ListNoteIndex];
+        let newCheckedList = [action.listItem, ...listNote.checked];
+        let newUncheckedList = listNote.unchecked.filter((listItem) => {
+          return listItem !== action.listItem;
+        });
+        let newNotes = [...state.notes];
+        newNotes[ListNoteIndex] = {
+          ...listNote,
+          checked: newCheckedList,
+          unchecked: newUncheckedList,
+        };
+        return {
+          ...state,
+          notes: newNotes,
+        };
       }
     default:
       return state;

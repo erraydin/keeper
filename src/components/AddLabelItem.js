@@ -23,7 +23,7 @@ function AddLabelItem(props) {
           <i className="far fa-square"></i>
         )}
       </div>
-      <div style={{ display: "inline-block", marginLeft: "10px" }}>
+      <div style={{ display: "inline-block", marginLeft: "25px", width: "85%", marginBottom: "6px", fontSize: "0.9em" }}>
         {props.label}
       </div>
     </li>

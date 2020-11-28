@@ -37,7 +37,9 @@
 
 .List li {
   list-style: none;
+  width: 250px;
   padding: 0 20px;
+  position: relative;
 }
 
 .List li:hover {

@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-export const addNote = (note) => ({type: "ADD", note: {...note, id: uuidv4()}});
+export const addNote = (note) => ({type: "ADD", note: {...note, id: uuidv4(), type: "note"}});
 
 export const deleteNote = (id) => ({type: "DELETE", id: id});
 
@@ -21,3 +21,4 @@ export const deleteLabelFromNote = (label, noteId) => ({type: "DELETE_LABEL_FROM
 
 export const editLabel = (oldLabel, newLabel) => ({type: "EDIT_LABEL", oldLabel: oldLabel, newLabel: newLabel});
 
+export const listItemCheckedToggle = (noteId, listItem, checked) => ({type: "LIST_ITEM_CHECKED_TOGGLE", noteId: noteId, listItem: listItem, checked: checked});

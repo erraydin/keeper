@@ -25,6 +25,7 @@ function EditArea(props) {
       content: content,
       id: props.note.id,
       labels: chosenLabels,
+      type: "note",
     });
     props.closeEdit();
   }
