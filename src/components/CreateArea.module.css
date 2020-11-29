@@ -36,7 +36,9 @@
     width: 60%;
   }
 }
-
+.Hidden {
+ visibility: hidden;
+}
 .Form input,
 .Form textarea {
   width: 100%;
@@ -62,6 +64,8 @@
   padding-left: 35px;
   width: 90%;
 }
+
+
 
 
 

@@ -1,14 +1,5 @@
 const initialState = {
-  notes: [
-    {
-      type: "list",
-      id: "asdfadsf32424sdffd",
-      title: "this is a list",
-      checked: [{item:"these", id: "asd234"}, {item:"are", id: "847ljhsfjd"} , {item: "checked", id: " lksdfiow8294"} ],
-      unchecked: [{item:"these", id: "asd23asddfs4"}, {item:"are", id: "847ljhsdfsgfdsfjd"} , {item: "unchecked", id: " lksdfi34534w8294"}],
-      labels: [],
-    }
-  ],
+  notes: [],
   labels: [],
   trash: [],
 };
@@ -154,6 +145,11 @@ const notesReducer = (state = initialState, action) => {
       return {
         ...state,
         notes: labelRemovedNotesArray,
+      };
+    case "ADD_LIST":
+      return {
+        ...state,
+        notes: [action.list, ...state.notes],
       };
     case "LIST_ITEM_CHECKED_TOGGLE":
       if (action.checked) {

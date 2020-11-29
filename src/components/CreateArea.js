@@ -1,12 +1,15 @@
 import React, { useState, useRef } from "react";
 import { connect } from "react-redux";
-import { addNewLabel, addNote } from "../actions/actions";
+import { addNewLabel, addNote, addList } from "../actions/actions";
 import classes from "./CreateArea.module.css";
 import AddIcon from "@material-ui/icons/Add";
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Button from "./Button";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import CloseIcon from "@material-ui/icons/Close";
+import CancelIcon from '@material-ui/icons/Cancel';
 import LabelIcon from "@material-ui/icons/Label";
+import CheckBoxOutlinedIcon from '@material-ui/icons/CheckBoxOutlined';
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import Popper from "@material-ui/core/Popper";
 import AddLabels from "./AddLabels";
@@ -24,7 +27,7 @@ function CreateArea(props) {
   const [uncheckedList, setUncheckedList] = useState([]);
   const [chosenLabels, setChosenLabels] = useState(initialChosenLabels);
   const [isNewNote, setNewNote] = useState(false);
-  const [isNewList, setNewList] = useState(true);
+  const [isNewList, setNewList] = useState(false);
   const [labelPopperLocation, setlabelPopperLocation] = useState(null);
 
   const open = Boolean(labelPopperLocation);
@@ -42,6 +45,31 @@ function CreateArea(props) {
     } else {
       setChosenLabels((prevChosenLabels) => {
         return [label, ...prevChosenLabels];
+      });
+    }
+  }
+
+  function createListToggleHandler(item) {
+    const index = uncheckedList.findIndex((listItem) => {
+      return item.id === listItem.id;
+    });
+    if (index > -1) {
+      setUncheckedList((prevUncheckedList) => {
+        return prevUncheckedList.filter((listItem) => {
+          return listItem.id !== item.id;
+        });
+      });
+      setCheckedList((prevCheckedList) => {
+        return [item, ...prevCheckedList];
+      });
+    } else {
+      setCheckedList((prevCheckedList) => {
+        return prevCheckedList.filter((listItem) => {
+          return listItem.id !== item.id;
+        });
+      });
+      setUncheckedList((prevUncheckedList) => {
+        return [item, ...prevUncheckedList];
       });
     }
   }
@@ -73,7 +101,13 @@ function CreateArea(props) {
   function expand() {
     if (!isNewNote) {
       setNewNote(true);
+      setNewList(false);
     }
+  }
+
+  function newListHandler () {
+      setNewNote(false);
+      setNewList(true);
   }
 
   function cancelExpand() {
@@ -84,7 +118,7 @@ function CreateArea(props) {
     setlabelPopperLocation(null);
     setChosenLabels(initialChosenLabels);
   }
-  //The name was labelHandler
+
   function openLabelEditHandler(event) {
     setlabelPopperLocation((oldLabelPopperLocation) => {
       return oldLabelPopperLocation ? null : event.currentTarget;
@@ -105,9 +139,16 @@ function CreateArea(props) {
         content: content,
         labels: chosenLabels,
       });
-    } else {
+    } else if (isNewList) {
+      console.log(title);
+      props.addList({
+        type: "list",
+        title: title,
+        checked: checkedList,
+        unchecked: uncheckedList,
+        labels: chosenLabels,
+      });
     }
-
     setTitle("");
     setContent("");
     setCheckedList([]);
@@ -134,11 +175,49 @@ function CreateArea(props) {
   }
 
   function handleKeyPressForListItem(event) {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && content !== "") {
       setUncheckedList((prevUncheckedList) => {
         return [...prevUncheckedList, { item: content, id: uuidv4() }];
       });
       setContent("");
+    }
+    textAreaRef.current.focus();
+  }
+
+  function addNewListItem() {
+    if (content !== "") {
+      setUncheckedList((prevUncheckedList) => {
+        return [...prevUncheckedList, { item: content, id: uuidv4() }];
+      });
+      setContent("");
+    }
+    textAreaRef.current.focus();
+  }
+
+  function addCheckedListItem() {
+    if (content !== "") {
+      setCheckedList((prevCheckedList) => {
+        return [...prevCheckedList, { item: content, id: uuidv4() }];
+      });
+      setContent("");
+      textAreaRef.current.focus();
+    }
+    textAreaRef.current.focus();
+  }
+
+  function deleteListItem(item) {
+    if (checkedList.includes(item)) {
+      setCheckedList((prevCheckedList) => {
+        return prevCheckedList.filter((listItem) => {
+          return listItem.id !== item.id;
+        });
+      });
+    } else {
+      setUncheckedList((prevUncheckedList) => {
+        return prevUncheckedList.filter((listItem) => {
+          return listItem.id !== item.id;
+        });
+      });
     }
   }
 
@@ -175,7 +254,7 @@ function CreateArea(props) {
           placeholder="Title"
         />
       ) : null}
-      <div style={{ display: "flex" }}>
+      <div style={{width: "100%", display: "inline-block", position: "relative" }} >
         <TextareaAutosize
           ref={textAreaRef}
           onClick={() => {
@@ -188,6 +267,11 @@ function CreateArea(props) {
           placeholder="Take a note..."
           rows="1"
         />
+        <div style={{display: "inline-block", position: "absolute", top: "10px", right: "5px"}} className={isNewNote ? classes.Hidden : null}>
+        <Button tooltipTitle="New List" onClick={newListHandler}>
+          <CheckBoxOutlinedIcon />
+        </Button>
+        </div>
       </div>
       {isNewNote ? (
         <React.Fragment>
@@ -219,10 +303,10 @@ function CreateArea(props) {
           </div>
           <div className={classes.Buttons} onClick={closeLabelEditHandler}>
             <Button tooltipTitle="Add Note" onClick={addNoteHandler}>
-              <AddIcon />
+              <AddCircleIcon />
             </Button>
             <Button tooltipTitle="Cancel" onClick={cancelNoteHandler}>
-              <CloseIcon />
+              <CancelIcon />
             </Button>
             <Button tooltipTitle="Add Labels" onClick={openLabelEditHandler}>
               <LabelIcon />
@@ -241,7 +325,7 @@ function CreateArea(props) {
       ) : null}
     </div>
   );
-
+  //Create List Area
   if (isNewList) {
     create = (
       <div className={classes.Form}>
@@ -257,32 +341,64 @@ function CreateArea(props) {
         {uncheckedList.map((item) => {
           return (
             <div style={{ position: "relative" }}>
-              <div className={classes.Checkbox}>
-                {props.checked ? (
-                  <i className="far fa-check-square"></i>
-                ) : (
-                  <i className="far fa-square"></i>
-                )}
+              <div
+                className={classes.Checkbox}
+                onClick={() => createListToggleHandler(item)}
+              >
+                <i className="far fa-square"></i>
               </div>
               <input
+                autoComplete="off"
                 className={classes.Input}
-                onClick={() => {
-                  expand();
-                  closeLabelEditHandler();
-                }}
+                onClick={closeLabelEditHandler}
                 key={item.id}
                 value={item.item}
                 onChange={changeText}
                 name="content"
-                placeholder="Add list item..."
+                placeholder="Empty list item..."
                 rows="1"
               />
               <div className={classes.Button2}>
                 <Button
                   tooltipTitle="Delete List Item"
-                  onClick={openLabelEditHandler}
+                  onClick={() => deleteListItem(item)}
                 >
-                  <CloseIcon fontSize="small"/>
+                  <CloseIcon fontSize="small" />
+                </Button>
+              </div>
+            </div>
+          );
+        })}
+        <hr />
+        {checkedList.map((item) => {
+          return (
+            <div style={{ position: "relative" }}>
+              <div
+                className={classes.Checkbox}
+                onClick={() => createListToggleHandler(item)}
+              >
+                <i className="far fa-check-square"></i>
+              </div>
+              <input
+                autoComplete="off"
+                style={
+                  item.item === "" ? null : { textDecoration: "line-through" }
+                }
+                className={classes.Input}
+                onClick={closeLabelEditHandler}
+                key={item.id}
+                value={item.item}
+                onChange={changeText}
+                name="content"
+                placeholder="Empty list item..."
+                rows="1"
+              />
+              <div className={classes.Button2}>
+                <Button
+                  tooltipTitle="Delete List Item"
+                  onClick={() => deleteListItem(item)}
+                >
+                  <CloseIcon fontSize="small" />
                 </Button>
               </div>
             </div>
@@ -290,31 +406,73 @@ function CreateArea(props) {
         })}
         <div style={{ position: "relative" }}>
           <div className={classes.Checkbox1}>
-            {props.checked ? (
-              <i className="far fa-check-square"></i>
-            ) : (
-              <i className="far fa-square"></i>
-            )}
+            <i className="far fa-square" onClick={addCheckedListItem}></i>
           </div>
           <input
+            autoComplete="off"
             className={classes.Input1}
             ref={textAreaRef}
             onKeyPress={handleKeyPressForListItem}
-            onClick={() => {
-              expand();
-              closeLabelEditHandler();
-            }}
+            onClick={closeLabelEditHandler}
             value={content}
             onChange={changeText}
             name="content"
             placeholder="Add list item..."
           />
           <div className={classes.Button1}>
-            <Button tooltipTitle="Add list item" onClick={openLabelEditHandler}>
+            <Button tooltipTitle="Add list item" onClick={addNewListItem}>
               <AddIcon />
             </Button>
           </div>
         </div>
+        <React.Fragment>
+          <div className={classes.Labels} onClick={closeLabelEditHandler}>
+            {chosenLabels.map((label) => {
+              return (
+                <div key={label} className={classes.Label}>
+                  <div className={classes.LabelText}>{label}</div>
+                  <div className={classes.Button}>
+                    <Button
+                      tooltipTitle="Delete label"
+                      onClick={() => removeLabelFromNote(label)}
+                    >
+                      <span
+                        className="material-icons-outlined"
+                        style={{
+                          verticalAlign: "middle",
+                          display: "inline-block",
+                          fontSize: "15px",
+                        }}
+                      >
+                        close
+                      </span>
+                    </Button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className={classes.Buttons} onClick={closeLabelEditHandler}>
+            <Button tooltipTitle="Add Note" onClick={addNoteHandler}>
+              <AddCircleIcon />
+            </Button>
+            <Button tooltipTitle="Cancel" onClick={cancelNoteHandler}>
+              <CancelIcon />
+            </Button>
+            <Button tooltipTitle="Add Labels" onClick={openLabelEditHandler}>
+              <LabelIcon />
+            </Button>
+          </div>
+          <Popper id={id} open={open} anchorEl={labelPopperLocation}>
+            <AddLabels
+              chosenLabels={chosenLabels}
+              addNewChosenLabelHandler={addNewChosenLabelHandler}
+              clickHandler={toggleLabelClickHandler}
+              confirmHandler={closeLabelEditHandler}
+              filterLabel={props.filterLabel}
+            />
+          </Popper>
+        </React.Fragment>
       </div>
     );
   }
@@ -336,6 +494,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addNote: (note) => dispatch(addNote(note)),
     addNewLabel: (label) => dispatch(addNewLabel(label)),
+    addList: (list) => dispatch(addList(list)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CreateArea);
