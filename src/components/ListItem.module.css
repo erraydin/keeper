@@ -2,4 +2,14 @@
     display: inline-block;
     color: rgb(126, 126, 126);
     position: absolute;
-  }
+}
+
+.NotEditable.Checkbox:hover {
+  cursor: not-allowed;
+}
+
+.Editable:hover {
+  cursor: pointer;
+  background-color: rgba(194, 194, 194, 0.308);
+}
+

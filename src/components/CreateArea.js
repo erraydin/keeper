@@ -82,7 +82,7 @@ function CreateArea(props) {
         });
       });
       setUncheckedList((prevUncheckedList) => {
-        return [item, ...prevUncheckedList];
+        return [...prevUncheckedList, item];
       });
     }
   }
@@ -109,6 +109,22 @@ function CreateArea(props) {
 
   function changeText(event) {
     setContent(event.target.value);
+  }
+
+  function changeListItem(event, index, checked) {
+    if (checked) {
+      setCheckedList(prevCheckedList => {
+        const newCheckedList = [...prevCheckedList];
+        newCheckedList[index] = {item: event.target.value, id: prevCheckedList[index].id};
+        return newCheckedList;
+      })
+    } else {
+      setUncheckedList(prevUncheckedList => {
+        const newUncheckedList = [...prevUncheckedList];
+        newUncheckedList[index] = {item: event.target.value, id: prevUncheckedList[index].id};
+        return newUncheckedList;
+      })
+    }
   }
 
   function expand() {
@@ -269,6 +285,12 @@ function CreateArea(props) {
       }
     }
   }
+  function enterHandlerForListItems (event) {
+    if (event.key === "Enter") {
+      newListItemRef.current.focus();
+    }
+  }
+
   //Create Note Area
   let create = (
     <div className={classes.Form}>
@@ -380,7 +402,7 @@ function CreateArea(props) {
         name="title"
         placeholder="Title"
       />
-      {uncheckedList.map((item) => {
+      {uncheckedList.map((item, index) => {
         return (
           <div key={item.id} style={{ position: "relative" }}>
             <div
@@ -390,11 +412,12 @@ function CreateArea(props) {
               <i className="far fa-square"></i>
             </div>
             <input
+              onKeyPress={enterHandlerForListItems}
               autoComplete="off"
               className={classes.Input}
               onClick={closeLabelEditHandler}
               value={item.item}
-              onChange={changeText}
+              onChange={(event) => changeListItem(event, index, false)}
               name="content"
               placeholder="Empty list item..."
               rows="1"
@@ -411,7 +434,7 @@ function CreateArea(props) {
         );
       })}
       {checkedList.length > 0 ? <hr /> : null}
-      {checkedList.map((item) => {
+      {checkedList.map((item, index) => {
         return (
           <div key={item.id} style={{ position: "relative" }}>
             <div
@@ -421,6 +444,7 @@ function CreateArea(props) {
               <i className="far fa-check-square"></i>
             </div>
             <input
+              onKeyPress={enterHandlerForListItems}
               autoComplete="off"
               style={
                 item.item === "" ? null : { textDecoration: "line-through" }
@@ -428,7 +452,7 @@ function CreateArea(props) {
               className={classes.Input}
               onClick={closeLabelEditHandler}
               value={item.item}
-              onChange={changeText}
+              onChange={(event) => changeListItem(event, index, true)}
               name="content"
               placeholder="Empty list item..."
               rows="1"
@@ -541,209 +565,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CreateArea);
 
-// function CreateArea(props) {
-//   let initialChosenLabels = [];
-//   if (props.filterLabel !== "") {
-//     initialChosenLabels = [props.filterLabel];
-//   }
 
-//   const [title, setTitle] = useState("");
-//   const [content, setContent] = useState("");
-//   const [chosenLabels, setChosenLabels] = useState(initialChosenLabels);
-//   const [isExpanded, setExpanded] = useState(false);
-//   const [labelPopperLocation, setlabelPopperLocation] = useState(null);
-
-//   function toggleLabelClickHandler(label, checked) {
-//     if (checked) {
-//       setChosenLabels((prevChosenLabels) => {
-//         return prevChosenLabels.filter((chosenLabel) => {
-//           return label !== chosenLabel;
-//         });
-//       });
-//     } else {
-//       setChosenLabels((prevChosenLabels) => {
-//         return [label, ...prevChosenLabels];
-//       });
-//     }
-//   }
-
-//   function addNewChosenLabelHandler(label) {
-//     if (label !== "" && !chosenLabels.includes(label)) {
-//       setChosenLabels((prevChosenLabels) => {
-//         return [label, ...prevChosenLabels];
-//       });
-//     }
-//   }
-
-//   function removeLabelFromNote(label) {
-//     setChosenLabels((prevChosenLabels) => {
-//       return prevChosenLabels.filter(chosenLabel => {
-//         return label !== chosenLabel;
-//       })
-//     });
-//   }
-
-//   function changeTitle(event) {
-//     setTitle(event.target.value);
-//   }
-
-//   function changeText(event) {
-//     setContent(event.target.value);
-//   }
-
-//   function expand() {
-//     if (!isExpanded) {
-//       setExpanded(true);
-//     }
-//   }
-
-//   function cancelExpand() {
-//     setExpanded(false);
-//     setTitle("");
-//     setContent("");
-//     setlabelPopperLocation(null);
-//     setChosenLabels(initialChosenLabels);
-//   }
-//   //open label edit, bad naming
-//   function labelHandler(event) {
-//     setlabelPopperLocation((oldLabelPopperLocation) => {
-//       return oldLabelPopperLocation ? null : event.currentTarget;
-//     });
-//   }
-
-//   function closeLabelEditHandler() {
-//     if (open) {
-//       setlabelPopperLocation(null);
-//     }
-//   }
-
-//   const open = Boolean(labelPopperLocation);
-//   const id = open ? "simple-popper" : undefined;
-
-//   function addNoteHandler() {
-//     props.addNote({ title: title, content: content, labels: chosenLabels });
-//     setTitle("");
-//     setContent("");
-//     setExpanded(false);
-//     setChosenLabels(initialChosenLabels);
-//   }
-
-//   function cancelNoteHandler() {
-//     setExpanded(false);
-//     setTitle("");
-//     setContent("");
-//     setChosenLabels(initialChosenLabels);
-//   }
-
-//   function handleKeyPressForTitle(event) {
-//     if (event.key === "Enter") {
-//       textAreaRef.current.focus();
-//     }
-//   }
-
-//   function onClickAwayHandler() {
-//     if (title === "" && content === "") {
-//       cancelExpand();
-//     } else {
-//       addNoteHandler();
-//     }
-//   }
-
-//   const textAreaRef = useRef(null);
-//   const create = (
-//     <div className={classes.Form}>
-//       {isExpanded ? (
-//         <input
-//           onKeyPress={handleKeyPressForTitle}
-//           onClick={closeLabelEditHandler}
-//           autoComplete="off"
-//           value={title}
-//           onChange={changeTitle}
-//           name="title"
-//           placeholder="Title"
-//         />
-//       ) : null}
-//       <div style={{ display: "flex" }}>
-//         <TextareaAutosize
-//           ref={textAreaRef}
-//           onClick={() => {
-//             expand();
-//             closeLabelEditHandler();
-//           }}
-//           value={content}
-//           onChange={changeText}
-//           name="content"
-//           placeholder="Take a note..."
-//           rows="1"
-//         />
-//       </div>
-//       {isExpanded ? (
-//         <React.Fragment>
-//           <div className={classes.Labels} onClick={closeLabelEditHandler}>
-//             {chosenLabels.map((label) => {
-//               return (
-//                 <div key={label} className={classes.Label}>
-//                   <div className={classes.LabelText}>{label}</div>
-//                   <div className={classes.Button}>
-//                     <Button
-//                       tooltipTitle="Delete label"
-//                       onClick={() => removeLabelFromNote(label)}
-//                     >
-//                       <span
-//                         className="material-icons-outlined"
-//                         style={{
-//                           verticalAlign: "middle",
-//                           display: "inline-block",
-//                           fontSize: "15px",
-//                         }}
-//                       >
-//                         close
-//                       </span>
-//                     </Button>
-//                   </div>
-//                 </div>
-//               );
-//             })}
-//           </div>
-//           <div className={classes.Buttons} onClick={closeLabelEditHandler}>
-//             <Button tooltipTitle="Add Note" onClick={addNoteHandler}>
-//               <AddIcon />
-//             </Button>
-//             <Button tooltipTitle="Cancel" onClick={cancelNoteHandler}>
-//               <CloseIcon />
-//             </Button>
-//             <Button tooltipTitle="Add Labels" onClick={labelHandler}>
-//               <LabelIcon />
-//             </Button>
-//           </div>
-//           <Popper id={id} open={open} anchorEl={labelPopperLocation}>
-//             <AddLabels
-//               chosenLabels={chosenLabels}
-//               addNewChosenLabelHandler={addNewChosenLabelHandler}
-//               clickHandler={toggleLabelClickHandler}
-//               confirmHandler={closeLabelEditHandler}
-//               filterLabel={props.filterLabel}
-//             />
-//           </Popper>
-//         </React.Fragment>
-//       ) : null}
-//     </div>
-//   );
-
-//   return (
-//     <ClickAwayListener onClickAway={onClickAwayHandler}>{create}</ClickAwayListener>
-//   );
-// }
-// const mapStateToProps = (state) => {
-//   return {
-//     labels: state.main.labels,
-//     notes: state.main.notes,
-//   };
-// };
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     addNote: (note) => dispatch(addNote(note)),
-//     addNewLabel: (label) => dispatch(addNewLabel(label)),
-//   };
-// };
-// export default connect(mapStateToProps, mapDispatchToProps)(CreateArea);

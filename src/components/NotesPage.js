@@ -8,7 +8,7 @@ import { addNote, deleteNote, editNote } from "../actions/actions";
 import { setFilterLabel } from "../actions/filters";
 import classes from "./NotesPage.module.css";
 import getVisibleNotes from "../selectors/notes";
-import List from "./List";
+
 
 function NotesPage(props) {
   useEffect(() => {
@@ -74,9 +74,11 @@ function NotesPage(props) {
       {displayedNotes.length === 0 ? noNotes : null}
       <div className={classes.Notes}>
         <Masonry>
-          {displayedNotes.map((note, index) => {
-            return note.type === "note" ? (
+          {displayedNotes.map((note) => {
+            return (
               <Note
+                editable={true}
+                type={note.type}
                 editedId={editedId}
                 editing={editing}
                 key={note.id}
@@ -87,8 +89,6 @@ function NotesPage(props) {
                 showEditButton={true}
                 onClick={editHandler}
               />
-            ) : (
-              <List list={note} key={note.id}/>
             );
           })}
         </Masonry>

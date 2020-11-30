@@ -179,3 +179,9 @@
   top: 5px;
 }
 
+.Form hr {
+  margin: auto;
+  margin-top: 10px;
+  width: 80%;
+  
+}

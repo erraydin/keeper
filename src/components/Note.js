@@ -6,6 +6,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import Button from "./Button";
 import RestoreFromTrashIcon from "@material-ui/icons/RestoreFromTrash";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import ListItem from "./ListItem";
 import { deleteLabelFromNote } from "../actions/actions";
 
 function Note(props) {
@@ -14,15 +15,57 @@ function Note(props) {
   }
 
   return (
+    //outermost div is for hiding original note when editing
     <div
-      className={classes.Note+ " " + (props.editing && props.editedId === props.note.id ? classes.Hide : "")}
+      className={
+        classes.Note +
+        " " +
+        (props.editing && props.editedId === props.note.id ? classes.Hide : "")
+      }
       onClick={props.showEditButton ? () => props.onClick(props.note.id) : null}
     >
       <p className={classes.Title}>{props.note.title}</p>
-      <p>{props.note.content}</p>
-      {props.note.title === "" && props.note.content === "" ? (
-        <p style={{ color: "gray" }}>Empty note</p>
-      ) : null}
+      {props.note.type === "note" ? (
+        <div>
+          <p>{props.note.content}</p>
+          {props.note.title === "" && props.note.content === "" ? (
+            <p style={{ color: "gray" }}>Empty note</p>
+          ) : null}
+        </div>
+      ) : (
+        <div>
+          <ul>
+            {props.note.unchecked.map((item) => {
+              return (
+                <ListItem
+                  editable = {props.editable}
+                  key={item.id}
+                  item={item}
+                  checked={false}
+                  listId={props.note.id}
+                />
+              );
+            })}
+          </ul>
+          {(props.note.checked.length > 0 && props.note.unchecked.length) >
+          0 ? (
+            <hr />
+          ) : null}
+          <ul>
+            {props.note.checked.map((item) => {
+              return (
+                <ListItem
+                  editable = {props.editable}
+                  key={item.id}
+                  item={item}
+                  checked={true}
+                  listId={props.note.id}
+                />
+              );
+            })}
+          </ul>
+        </div>
+      )}
 
       <div className={classes.Labels}>
         {props.note.labels.slice(0, 3).map((label) => {
@@ -55,12 +98,14 @@ function Note(props) {
         })}
         {props.note.labels.length > 3 ? (
           <div className={classes.RemainingLabels}>
-            <span style={{ fontSize: "15px" }}>{"+" + (props.note.labels.length - 3)}</span>
+            <span style={{ fontSize: "15px" }}>
+              {"+" + (props.note.labels.length - 3)}
+            </span>
           </div>
         ) : null}
       </div>
       <div className={classes.ButtonArea}>
-        <div style={{ width: "150px" }}></div>
+        <div style={{ width: "145px" }}></div>
         <Button
           tooltipTitle={props.deleteTooltip}
           onClick={(event) => {

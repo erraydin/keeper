@@ -4,12 +4,13 @@ import { connect } from "react-redux";
 import { listItemCheckedToggle } from "../actions/actions";
 
 function ListItem(props) {
-  function toggleHandler () {
-    props.listItemCheckedToggle(props.listId, props.item, props.checked)
+  function toggleHandler (event) {
+    props.listItemCheckedToggle(props.listId, props.item, props.checked);
+    event.stopPropagation();
   }
   return (
-    <li onClick={toggleHandler}>
-      <div className={classes.Checkbox}>
+    <li onClick={props.editable ? toggleHandler : null} className={props.editable ? classes.Editable : null}>
+      <div className={props.editable ? classes.Checkbox : classes.NotEditable + " " + classes.Checkbox}>
         {props.checked ? (
           <i className="far fa-check-square"></i>
         ) : (
