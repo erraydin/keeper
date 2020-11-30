@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import Note from "./Note";
 import Masonry from "react-masonry-component";
@@ -8,7 +8,8 @@ import {
   emptyTrash,
 } from "../actions/actions";
 import classes from "./TrashPage.module.css";
-
+import Header from "./Header";
+import SideBar from "./SideBar";
 
 const noTrash = (
   <div className={classes.Empty}>
@@ -25,24 +26,24 @@ const noTrash = (
 function TrashPage(props) {
   useEffect(() => {
     console.log(props);
-  })
+  });
   const yesTrash = (
     <button
+      style={{ marginTop: "110px" }}
       className={classes.Button}
       type="button"
       onClick={props.emptyTrash}
     >
       Click here to empty trash
     </button>
-  )
-
+  );
 
   return (
-    <React.Fragment>
+    <div className={classes.NotePage}>
+      <Header />
+      <SideBar openEditLabels={props.openEditLabels} />
       <div className={classes.Notes}>
-        {props.trash.length === 0 ? (
-          noTrash
-        ) : yesTrash}
+        {props.trash.length === 0 ? noTrash : yesTrash}
         <Masonry>
           {props.trash.map((note, index) => {
             return (
@@ -61,7 +62,7 @@ function TrashPage(props) {
           })}
         </Masonry>
       </div>
-    </React.Fragment>
+    </div>
   );
 }
 const mapStateToProps = (state) => {

@@ -6,6 +6,7 @@
   padding: 1px 1px 1px 1px;
   border-radius: 7px;
   box-shadow: 0 1px 5px rgb(138, 137, 137);
+  top: 100px;
 }
 
 @media (max-width: 1000px) {
@@ -81,7 +82,7 @@
   border: none;
   border-radius: 100%;
   width: 35px;
-  height: 30px;
+  height: 35px;
   cursor: pointer;
   outline: none;
 }

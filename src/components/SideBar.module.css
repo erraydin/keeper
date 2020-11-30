@@ -10,6 +10,7 @@
     padding: 16px 0;
     box-sizing: border-box;
     box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.3);
+    z-index: 2;
 }
 
 @media (max-width: 780px) {

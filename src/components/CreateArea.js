@@ -178,12 +178,16 @@ function CreateArea(props) {
         labels: chosenLabels,
       });
     } else if (isNewList) {
-      console.log(title);
+      const newUncheckedList = [...uncheckedList];
+      if (content !== "") {
+        newUncheckedList.push({item: content, id: uuidv4()});
+      }
+      
       props.addList({
         type: "list",
         title: title,
         checked: checkedList,
-        unchecked: uncheckedList,
+        unchecked: newUncheckedList,
         labels: chosenLabels,
       });
     }
@@ -309,6 +313,7 @@ function CreateArea(props) {
         style={{ width: "100%", display: "inline-block", position: "relative" }}
       >
         <TextareaAutosize
+          rowsMax={16}
           ref={textAreaRef}
           onClick={() => {
             expand();

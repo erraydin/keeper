@@ -42,6 +42,9 @@ function EditLabel(props) {
   }
 
   function deleteHandler() {
+    if ("/label/" + props.label === location.pathname) {
+      history.push("/");
+    }
     props.deleteLabelCompletely(props.label);
   }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import CreateArea from "./CreateArea";
 import EditArea from "./EditArea";
 import { connect } from "react-redux";
@@ -8,14 +8,25 @@ import { addNote, deleteNote, editNote } from "../actions/actions";
 import { setFilterLabel } from "../actions/filters";
 import classes from "./NotesPage.module.css";
 import getVisibleNotes from "../selectors/notes";
-
+import Header from "./Header";
+import SideBar from "./SideBar";
+import Backdrop from "./Backdrop";
 
 function NotesPage(props) {
-  useEffect(() => {
-    console.log(props.notes);
-  }, [props.notes]);
+  
+
   const [editedId, setEditedId] = useState(null);
   const [editing, setEditing] = useState(false);
+
+  const editArea = useRef(null);
+  const editedIndex = props.notes.findIndex((note) => {
+    return note.id === editedId;
+  });
+
+  useEffect(() => {
+    console.log(editArea.current);
+  }, [editing]);
+
   function editHandler(id) {
     setEditedId(id);
     setEditing(true);
@@ -56,21 +67,31 @@ function NotesPage(props) {
         <p className={classes.Note}>No notes with this label yet</p>
       </div>
     );
-  const editedIndex = props.notes.findIndex((note) => {
-    return note.id === editedId;
-  });
+  
+  function backdropClickHandler() {
+    editArea.current();
+    closeEditHandler();
+  }
 
   return (
-    <React.Fragment>
+    <div className={classes.NotesPage}>
+      <Header />
+      <SideBar openEditLabels={props.openEditLabels} />
       <CreateArea filterLabel={filterLabel} />
       {editing ? (
         <EditArea
+          ref={editArea}
           note={props.notes[editedIndex]}
           editNote={props.editNote}
           // editedId={editedId}
           closeEdit={closeEditHandler}
         ></EditArea>
       ) : null}
+      <Backdrop
+        show={editing}
+        onClick={backdropClickHandler}
+        transparent={false}
+      />
       {displayedNotes.length === 0 ? noNotes : null}
       <div className={classes.Notes}>
         <Masonry>
@@ -93,7 +114,7 @@ function NotesPage(props) {
           })}
         </Masonry>
       </div>
-    </React.Fragment>
+    </div>
   );
 }
 const mapStateToProps = (state) => {
