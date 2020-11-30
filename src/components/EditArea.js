@@ -8,9 +8,8 @@ import Popper from "@material-ui/core/Popper";
 import AddLabels from "./AddLabels";
 import AddIcon from "@material-ui/icons/Add";
 import CancelIcon from "@material-ui/icons/Cancel";
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import { v4 as uuidv4 } from "uuid";
-
 
 function EditArea(props, ref) {
   const [title, setTitle] = useState(props.note.title);
@@ -43,8 +42,8 @@ function EditArea(props, ref) {
       });
     } else {
       const newUncheckedList = [...uncheckedList];
-      if (content !== ""){
-        newUncheckedList.push({item: content, id: uuidv4()})
+      if (content !== "") {
+        newUncheckedList.push({ item: content, id: uuidv4() });
       }
       props.editNote(props.note.id, {
         title: title,
@@ -73,6 +72,7 @@ function EditArea(props, ref) {
   function openLabelEditHandler(event) {
     setlabelPopperLocation((oldLabelPopperLocation) => {
       return oldLabelPopperLocation ? null : event.currentTarget;
+      // event.currentTarget
     });
   }
 
@@ -216,8 +216,9 @@ function EditArea(props, ref) {
       });
     }
   }
-
+  const popperRef = useRef(null);
   const create = (
+    <div className={classes.Form1} ref={popperRef}>
     <div className={classes.Form}>
       <input
         value={title}
@@ -278,11 +279,20 @@ function EditArea(props, ref) {
             <LabelIcon />
           </Button>
         </div>
-        <Popper
+        
+      </React.Fragment>
+    </div>
+    <Popper
+          style={{zIndex: "500"}}
           id={id}
           open={open}
           anchorEl={labelPopperLocation}
           disablePortal
+          modifiers={{
+          preventOverflow: {
+            escapeWithReference: true,
+          },
+        }}
         >
           <AddLabels
             chosenLabels={chosenLabels}
@@ -292,162 +302,173 @@ function EditArea(props, ref) {
             filterLabel={props.filterLabel}
           />
         </Popper>
-      </React.Fragment>
     </div>
   );
 
   const createList = (
-    <div className={classes.Form}>
-      <input
-        onKeyPress={handleKeyPressForTitle}
-        onClick={closeLabelEditHandler}
-        autoComplete="off"
-        value={title}
-        onChange={changeTitle}
-        name="title"
-        placeholder="Title"
-      />
-      {uncheckedList.map((item, index) => {
-        return (
-          <div key={item.id} style={{ position: "relative" }}>
-            <div
-              className={classes.Checkbox}
-              onClick={() => createListToggleHandler(item)}
-            >
-              <i className="far fa-square"></i>
-            </div>
-            <input
-              onKeyPress={enterHandlerForListItems}
-              autoComplete="off"
-              className={classes.Input}
-              onClick={closeLabelEditHandler}
-              value={item.item}
-              onChange={(event) => changeListItem(event, index, false)}
-              name="content"
-              placeholder="Empty list item..."
-              rows="1"
-            />
-            <div className={classes.Button2}>
-              <Button
-                tooltipTitle="Delete List Item"
-                onClick={() => deleteListItem(item)}
-              >
-                <CloseIcon fontSize="small" />
-              </Button>
-            </div>
-          </div>
-        );
-      })}
-      {checkedList.length > 0 ? <hr /> : null}
-      {checkedList.map((item, index) => {
-        return (
-          <div key={item.id} style={{ position: "relative" }}>
-            <div
-              className={classes.Checkbox}
-              onClick={() => createListToggleHandler(item)}
-            >
-              <i className="far fa-check-square"></i>
-            </div>
-            <input
-              onKeyPress={enterHandlerForListItems}
-              autoComplete="off"
-              style={
-                item.item === "" ? null : { textDecoration: "line-through" }
-              }
-              className={classes.Input}
-              onClick={closeLabelEditHandler}
-              value={item.item}
-              onChange={(event) => changeListItem(event, index, true)}
-              name="content"
-              placeholder="Empty list item..."
-              rows="1"
-            />
-            <div className={classes.Button2}>
-              <Button
-                tooltipTitle="Delete List Item"
-                onClick={() => deleteListItem(item)}
-              >
-                <CloseIcon fontSize="small" />
-              </Button>
-            </div>
-          </div>
-        );
-      })}
-      <div style={{ position: "relative" }}>
-        <div className={classes.Checkbox1}>
-          <i className="far fa-square" onClick={addCheckedListItem}></i>
-        </div>
+    
+      <div className={classes.Form} >
         <input
-          autoComplete="off"
-          className={classes.Input1}
-          ref={newListItemRef}
-          onKeyPress={handleKeyPressForListItem}
+          onKeyPress={handleKeyPressForTitle}
           onClick={closeLabelEditHandler}
-          value={content}
-          onChange={changeText}
-          name="content"
-          placeholder="Add list item..."
+          autoComplete="off"
+          value={title}
+          onChange={changeTitle}
+          name="title"
+          placeholder="Title"
         />
-        <div className={classes.Button1}>
-          <Button tooltipTitle="Add list item" onClick={addNewListItem}>
-            <AddIcon />
-          </Button>
-        </div>
-      </div>
-      <React.Fragment>
-        <div className={classes.Labels} onClick={closeLabelEditHandler}>
-          {chosenLabels.map((label) => {
-            return (
-              <div key={label} className={classes.Label}>
-                <div className={classes.LabelText}>{label}</div>
-                <div className={classes.Button}>
-                  <Button
-                    tooltipTitle="Delete label"
-                    onClick={() => removeLabelFromNote(label)}
-                  >
-                    <span
-                      className="material-icons-outlined"
-                      style={{
-                        verticalAlign: "middle",
-                        display: "inline-block",
-                        fontSize: "15px",
-                      }}
-                    >
-                      close
-                    </span>
-                  </Button>
-                </div>
+        <div style={{overflowY: "auto", maxHeight: "315px", display: "inline-block", width: "100%"}}>
+        {uncheckedList.map((item, index) => {
+          return (
+            <div key={item.id} >
+              <div
+                className={classes.Checkbox}
+                onClick={() => createListToggleHandler(item)}
+              >
+                <i className="far fa-square"></i>
               </div>
-            );
-          })}
+              <input
+                onKeyPress={enterHandlerForListItems}
+                autoComplete="off"
+                className={classes.Input}
+                onClick={closeLabelEditHandler}
+                value={item.item}
+                onChange={(event) => changeListItem(event, index, false)}
+                name="content"
+                placeholder="Empty list item..."
+                rows="1"
+              />
+              <div className={classes.Button2}>
+                <Button
+                  tooltipTitle="Delete List Item"
+                  onClick={() => deleteListItem(item)}
+                >
+                  <CloseIcon fontSize="small" />
+                </Button>
+              </div>
+            </div>
+          );
+        })}
+        {checkedList.length > 0 ? <hr /> : null}
+        {checkedList.map((item, index) => {
+          return (
+            <div key={item.id} >
+              <div
+                className={classes.Checkbox}
+                onClick={() => createListToggleHandler(item)}
+              >
+                <i className="far fa-check-square"></i>
+              </div>
+              <input
+                onKeyPress={enterHandlerForListItems}
+                autoComplete="off"
+                style={
+                  item.item === "" ? null : { textDecoration: "line-through" }
+                }
+                className={classes.Input}
+                onClick={closeLabelEditHandler}
+                value={item.item}
+                onChange={(event) => changeListItem(event, index, true)}
+                name="content"
+                placeholder="Empty list item..."
+                rows="1"
+              />
+              <div className={classes.Button2}>
+                <Button
+                  tooltipTitle="Delete List Item"
+                  onClick={() => deleteListItem(item)}
+                >
+                  <CloseIcon fontSize="small" />
+                </Button>
+              </div>
+            </div>
+          );
+        })}
         </div>
-        <div className={classes.Buttons} onClick={closeLabelEditHandler}>
-          <Button tooltipTitle="Confirm Edit" onClick={confirmEditHandler}>
-            <CheckCircleIcon />
-          </Button>
-          <Button tooltipTitle="Cancel" onClick={props.closeEdit}>
-            <CancelIcon />
-          </Button>
-          <Button tooltipTitle="Add Labels" onClick={openLabelEditHandler}>
-            <LabelIcon />
-          </Button>
-        </div>
-        <Popper
-          id={id}
-          open={open}
-          anchorEl={labelPopperLocation}
-          disablePortal
-        >
-          <AddLabels
-            chosenLabels={chosenLabels}
-            addNewChosenLabelHandler={addNewChosenLabelHandler}
-            clickHandler={toggleLabelClickHandler}
-            confirmHandler={closeLabelEditHandler}
-            filterLabel={props.filterLabel}
+        <div style={{ position: "relative" }}>
+          <div className={classes.Checkbox1}>
+            <i className="far fa-square" onClick={addCheckedListItem}></i>
+          </div>
+          <input
+            autoComplete="off"
+            className={classes.Input1}
+            ref={newListItemRef}
+            onKeyPress={handleKeyPressForListItem}
+            onClick={closeLabelEditHandler}
+            value={content}
+            onChange={changeText}
+            name="content"
+            placeholder="Add list item..."
           />
-        </Popper>
-      </React.Fragment>
-    </div>
+          <div className={classes.Button1}>
+            <Button tooltipTitle="Add list item" onClick={addNewListItem}>
+              <AddIcon />
+            </Button>
+          </div>
+        </div>
+        <React.Fragment>
+          <div className={classes.Labels} onClick={closeLabelEditHandler}>
+            {chosenLabels.map((label) => {
+              return (
+                <div key={label} className={classes.Label}>
+                  <div className={classes.LabelText}>{label}</div>
+                  <div className={classes.Button}>
+                    <Button
+                      tooltipTitle="Delete label"
+                      onClick={() => removeLabelFromNote(label)}
+                    >
+                      <span
+                        className="material-icons-outlined"
+                        style={{
+                          verticalAlign: "middle",
+                          display: "inline-block",
+                          fontSize: "15px",
+                        }}
+                      >
+                        close
+                      </span>
+                    </Button>
+                  </div>
+                </div> 
+              );
+            })}
+          </div>
+          <div  className={classes.Buttons} onClick={closeLabelEditHandler}>
+            <Button tooltipTitle="Confirm Edit" onClick={confirmEditHandler}>
+              <CheckCircleIcon />
+            </Button>
+            <Button tooltipTitle="Cancel" onClick={props.closeEdit}>
+              <CancelIcon />
+            </Button>
+            <Button tooltipTitle="Add Labels" onClick={openLabelEditHandler}>
+              <LabelIcon />
+            </Button>
+          </div>
+        </React.Fragment>
+        <Popper
+        
+        style={{ zIndex: "500" }}
+        id={id}
+        open={open}
+        anchorEl={labelPopperLocation}
+        modifiers={{
+          preventOverflow: {
+            escapeWithReference: false,
+          },
+        }}
+        disablePortal
+      >
+        <AddLabels
+          chosenLabels={chosenLabels}
+          addNewChosenLabelHandler={addNewChosenLabelHandler}
+          clickHandler={toggleLabelClickHandler}
+          confirmHandler={closeLabelEditHandler}
+          filterLabel={props.filterLabel}
+        />
+      </Popper>
+      </div>
+      
+    
   );
 
   return <div>{props.note.type === "note" ? create : createList}</div>;

@@ -1,15 +1,30 @@
 .Form {
   z-index: 500;
   position: fixed;
-  top: 30%;
+  top: 25%;
+  left: 35%;
   width: 480px;
   margin: auto;
-  left: 35%;
   background: #fff;
   border-radius: 7px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.35);
-  max-height: 412px;
-  overflow-y:auto;
+  max-height: 500px;
+  
+}
+
+.Form1 {
+  z-index: 500;
+  position: fixed;
+  top: 20%;
+  left: 35%;
+  width: 480px;
+  margin: auto;
+  height: auto;
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.35);
+  max-height: 500px;
+  
 }
 
 @media (max-width: 800px) {
@@ -32,16 +47,17 @@
 .Form .Input {
   padding-bottom: 2px;
   padding-top: 5px;
-  padding-left: 35px;
+  padding-left: 10px;
   overflow: hidden;
   white-space:nowrap;
   text-overflow: ellipsis;
   font-size: 17px;
-  width: 90%;
+  width: 85%;
+  margin: auto;
 }
 
 .Form .Input1 {
-  padding-left: 35px;
+  padding-left: 40px;
   width: 90%;
 }
 
@@ -55,6 +71,7 @@
   font-size: 1.2em;
   font-family: inherit;
   resize: none;
+  display: inline-block;
 }
 .Form input {
   padding-top: 10px;
@@ -142,8 +159,7 @@
 .Checkbox {
   display: inline-block;
   color: rgb(126, 126, 126);
-  position: absolute;
-  left: 10px;
+  margin-left: 15px;
   top: 6px;
   cursor: pointer;
   
@@ -153,7 +169,7 @@
   display: inline-block;
   color: rgb(126, 126, 126);
   position: absolute;
-  left: 10px;
+  left: 15px;
   top: 13px;
   cursor: pointer;
 }
@@ -165,14 +181,15 @@
 }
 
 .Form .Button2 {
-  display: inline-block;
-  position:absolute;
-  top: 5px;
+  display: inline-flex;
+  width: 35px;
+  height: 30px;
+  /* position:relative; */
 }
 
 .Form hr {
   margin: auto;
-  margin-top: 10px;
+  margin-top: 7px;
   width: 80%;
   
 }

@@ -281,7 +281,8 @@ function CreateArea(props) {
       if (
         title === "" &&
         checkedList.length === 0 &&
-        uncheckedList.length === 0
+        uncheckedList.length === 0 &&
+        content === ""
       ) {
         cancelExpand();
       } else {
