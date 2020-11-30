@@ -15,7 +15,7 @@ function List(props) {
           return <ListItem key={item.id} item={item} checked={false} listId={props.list.id}/>;
         })}
       </ul>
-      <hr />
+      {(props.list.checked.length > 0 && props.list.unchecked.length) > 0 ? <hr /> : null}
       <ul>
         {props.list.checked.map((item) => {
           return <ListItem key={item.id} item={item} checked={true} listId={props.list.id}/>;

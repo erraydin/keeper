@@ -60,8 +60,10 @@ hr {
 }
 .List li {
   list-style: none;
-  padding: 0 20px;
+  margin: 0 20px;
   position: relative;
+  border-radius: 10px;
+  padding: 0 5px;
 }
 .List li:hover {
   cursor: pointer;

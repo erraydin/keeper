@@ -23,4 +23,4 @@ export const editLabel = (oldLabel, newLabel) => ({type: "EDIT_LABEL", oldLabel:
 
 export const listItemCheckedToggle = (noteId, listItem, checked) => ({type: "LIST_ITEM_CHECKED_TOGGLE", noteId: noteId, listItem: listItem, checked: checked});
 
-export const addList = (list) => ({type: "ADD_LIST", list: {...list, id: uuidv4}});
+export const addList = (list) => ({type: "ADD_LIST", list: {...list, id: uuidv4()}});

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CreateArea from "./CreateArea";
 import EditArea from "./EditArea";
 import { connect } from "react-redux";
@@ -11,6 +11,9 @@ import getVisibleNotes from "../selectors/notes";
 import List from "./List";
 
 function NotesPage(props) {
+  useEffect(() => {
+    console.log(props.notes);
+  }, [props.notes]);
   const [editedId, setEditedId] = useState(null);
   const [editing, setEditing] = useState(false);
   function editHandler(id) {
