@@ -17,6 +17,10 @@
 .Note:hover {
   box-shadow: 0 1px 5px rgb(138, 137, 137);
 }
+.Note ul {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
 .Note li {
   list-style: none;
   margin-right: 15px;
@@ -110,6 +114,23 @@
 }
 .Label:hover {
   text-align: left;
+}
+.PinButton {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+}
+
+.PinButton button:active {
+  color: black;
+}
+
+.PinActive {
+  color: black;
+}
+
+.PinInactive {
+  color: #adadadcb;
 }
 
 .LabelText {

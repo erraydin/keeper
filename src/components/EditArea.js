@@ -17,6 +17,7 @@ function EditArea(props, ref) {
   const [content, setContent] = useState(
     props.note.content ? props.note.content : ""
   );
+  const [isPinned, setPinned] = useState(props.note.pinned);
   const [checkedList, setCheckedList] = useState(
     props.note.checked ? props.note.checked : []
   );
@@ -40,6 +41,7 @@ function EditArea(props, ref) {
         id: props.note.id,
         labels: chosenLabels,
         type: "note",
+        pinned: isPinned,
       });
     } else {
       const newUncheckedList = [...uncheckedList];
@@ -53,6 +55,7 @@ function EditArea(props, ref) {
         id: props.note.id,
         labels: chosenLabels,
         type: "list",
+        pinned: isPinned,
       });
     }
 
@@ -217,19 +220,39 @@ function EditArea(props, ref) {
       });
     }
   }
+  function togglePinnedHandler() {
+    setPinned((prevPinned) => {
+      return !prevPinned;
+    });
+  }
   const popperRef = useRef(null);
   const create = (
     <div className={classes.Form1} ref={popperRef}>
       <div className={classes.Form}>
-        <input
-          value={title}
-          onChange={changeTitle}
-          onClick={closeLabelEditHandler}
-          onKeyPress={handleKeyPressForTitle}
-          name="title"
-          placeholder="Title"
-          autoComplete="Off"
-        />
+        <div style={{ position: "relative" }}>
+          <input
+            style={{ width: "90%" }}
+            value={title}
+            onChange={changeTitle}
+            onClick={closeLabelEditHandler}
+            onKeyPress={handleKeyPressForTitle}
+            name="title"
+            placeholder="Title"
+            autoComplete="Off"
+          />
+          <div className={classes.PinButton}>
+            <Button tooltipTitle="Pin note" onClick={togglePinnedHandler}>
+              <i
+                className={
+                  "fas fa-thumbtack" +
+                  (isPinned
+                    ? " " + classes.PinActive
+                    : " " + classes.PinInactive)
+                }
+              ></i>
+            </Button>
+          </div>
+        </div>
 
         <div style={{ display: "inline-block", width: "100%", height: "100%" }}>
           <TextareaAutosize
@@ -309,15 +332,28 @@ function EditArea(props, ref) {
 
   const createList = (
     <div className={classes.Form}>
-      <input
-        onKeyPress={handleKeyPressForTitle}
-        onClick={closeLabelEditHandler}
-        autoComplete="off"
-        value={title}
-        onChange={changeTitle}
-        name="title"
-        placeholder="Title"
-      />
+      <div style={{ position: "relative" }}>
+        <input
+          style={{ width: "90%" }}
+          onKeyPress={handleKeyPressForTitle}
+          onClick={closeLabelEditHandler}
+          autoComplete="off"
+          value={title}
+          onChange={changeTitle}
+          name="title"
+          placeholder="Title"
+        />
+        <div className={classes.PinButton}>
+          <Button tooltipTitle="Pin note" onClick={togglePinnedHandler}>
+            <i
+              className={
+                "fas fa-thumbtack" +
+                (isPinned ? " " + classes.PinActive : " " + classes.PinInactive)
+              }
+            ></i>
+          </Button>
+        </div>
+      </div>
       <div
         style={{
           overflowY: "auto",

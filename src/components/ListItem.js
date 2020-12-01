@@ -28,7 +28,7 @@ function ListItem(props) {
         style={{
           display: "inline-block",
           marginLeft: "21px",
-          width: "85%",
+          width: "82%",
           marginBottom: "5px",
         }}
       >

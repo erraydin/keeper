@@ -26,6 +26,7 @@ function CreateArea(props) {
   }
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [isPinned, setPinned] = useState(false);
   const [checkedList, setCheckedList] = useState([]);
   const [uncheckedList, setUncheckedList] = useState([]);
   const [chosenLabels, setChosenLabels] = useState(initialChosenLabels);
@@ -48,6 +49,12 @@ function CreateArea(props) {
       newListItemRef.current.focus();
     }
   }, [isNewList, isExpanded]);
+
+  function togglePinnedHandler() {
+    setPinned((prevPinned) => {
+      return !prevPinned;
+    });
+  }
 
   function toggleLabelClickHandler(label, checked) {
     if (checked) {
@@ -160,6 +167,7 @@ function CreateArea(props) {
     setNewList(false);
     setTitle("");
     setContent("");
+    setPinned(false);
     setlabelPopperLocation(null);
     setChosenLabels(initialChosenLabels);
   }
@@ -183,6 +191,7 @@ function CreateArea(props) {
         title: title,
         content: content,
         labels: chosenLabels,
+        pinned: isPinned,
       });
     } else if (isNewList) {
       const newUncheckedList = [...uncheckedList];
@@ -196,10 +205,12 @@ function CreateArea(props) {
         checked: checkedList,
         unchecked: newUncheckedList,
         labels: chosenLabels,
+        pinned: isPinned,
       });
     }
     setTitle("");
     setContent("");
+    setPinned(false);
     setCheckedList([]);
     setUncheckedList([]);
     setExpanded(false);
@@ -210,6 +221,7 @@ function CreateArea(props) {
 
   function cancelNoteHandler() {
     setTitle("");
+    setPinned(false);
     setContent("");
     setCheckedList([]);
     setUncheckedList([]);
@@ -306,15 +318,27 @@ function CreateArea(props) {
   let create = (
     <div className={classes.Form}>
       {isNewNote || isNewList ? (
-        <input
-          onKeyPress={handleKeyPressForTitle}
-          onClick={closeLabelEditHandler}
-          autoComplete="off"
-          value={title}
-          onChange={changeTitle}
-          name="title"
-          placeholder="Title"
-        />
+        <div style={{ position: "relative" }}>
+          <input
+            style={{ width: "90%" }}
+            onKeyPress={handleKeyPressForTitle}
+            onClick={closeLabelEditHandler}
+            autoComplete="off"
+            value={title}
+            onChange={changeTitle}
+            name="title"
+            placeholder="Title"
+          />
+          <div className={classes.PinButton}>
+            <Button tooltipTitle="Pin note" onClick={togglePinnedHandler}>
+              <i
+                className={
+                  "fas fa-thumbtack" + (isPinned ? " " + classes.PinActive : " " + classes.PinInactive)
+                }
+              ></i>
+            </Button>
+          </div>
+        </div>
       ) : null}
       <div
         style={{ width: "100%", display: "inline-block", position: "relative" }}
@@ -407,15 +431,27 @@ function CreateArea(props) {
 
   const createList = (
     <div className={classes.Form}>
-      <input
-        onKeyPress={handleKeyPressForTitle}
-        onClick={closeLabelEditHandler}
-        autoComplete="off"
-        value={title}
-        onChange={changeTitle}
-        name="title"
-        placeholder="Title"
-      />
+      <div style={{ position: "relative" }}>
+        <input
+          style={{ width: "90%" }}
+          onKeyPress={handleKeyPressForTitle}
+          onClick={closeLabelEditHandler}
+          autoComplete="off"
+          value={title}
+          onChange={changeTitle}
+          name="title"
+          placeholder="Title"
+        />
+        <div className={classes.PinButton}>
+          <Button tooltipTitle="Pin note" onClick={togglePinnedHandler}>
+            <i
+              className={
+                "fas fa-thumbtack" + (isPinned ? " " + classes.PinActive : " " + classes.PinInactive)
+              }
+            ></i>
+          </Button>
+        </div>
+      </div>
       {uncheckedList.map((item, index) => {
         return (
           <div key={item.id} style={{ position: "relative" }}>

@@ -25,55 +25,85 @@ function Note(props) {
       }
       onClick={props.showEditButton ? () => props.onClick(props.note.id) : null}
     >
-      <p className={classes.Title}>{props.note.title}</p>
-      {props.note.type === "note" ? (
-        <div>
-          <p>{props.note.content}</p>
-          {props.note.title === "" && props.note.content === "" ? (
-            <p style={{ color: "gray" }}>Empty note</p>
-          ) : null}
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          display: "inline-block",
+          wordWrap: "break-word",
+        }}
+      >
+        <div style={{ display: "inline-block", wordWrap: "break-word", width: "100%" }}>
+          <p
+            className={classes.Title}
+            // style={{ maxWidth: "80%", marginRight: "0", display: "inline-block" }}
+            style={{maxWidth: "85%"}}
+          >
+            {props.note.title}
+          </p>
+
+          {props.note.type === "note" ? (
+            <div style={{ width: "85%" }}>
+              <p>{props.note.content}</p>
+              {props.note.title === "" && props.note.content === "" ? (
+                <p style={{ color: "gray" }}>Empty note</p>
+              ) : null}
+            </div>
+          ) : (
+            <div>
+              <ul>
+                {props.note.unchecked.map((item) => {
+                  return (
+                    <ListItem
+                      editable={props.editable}
+                      key={item.id}
+                      item={item}
+                      checked={false}
+                      listId={props.note.id}
+                    />
+                  );
+                })}
+              </ul>
+              {(props.note.checked.length > 0 && props.note.unchecked.length) >
+              0 ? (
+                <hr />
+              ) : null}
+              <ul>
+                {props.note.checked.map((item) => {
+                  return (
+                    <ListItem
+                      editable={props.editable}
+                      key={item.id}
+                      item={item}
+                      checked={true}
+                      listId={props.note.id}
+                    />
+                  );
+                })}
+              </ul>
+            </div>
+          )}
         </div>
-      ) : (
-        <div>
-          <ul>
-            {props.note.unchecked.map((item) => {
-              return (
-                <ListItem
-                  editable = {props.editable}
-                  key={item.id}
-                  item={item}
-                  checked={false}
-                  listId={props.note.id}
-                />
-              );
-            })}
-          </ul>
-          {(props.note.checked.length > 0 && props.note.unchecked.length) >
-          0 ? (
-            <hr />
-          ) : null}
-          <ul>
-            {props.note.checked.map((item) => {
-              return (
-                <ListItem
-                  editable = {props.editable}
-                  key={item.id}
-                  item={item}
-                  checked={true}
-                  listId={props.note.id}
-                />
-              );
-            })}
-          </ul>
+        <div className={classes.PinButton}>
+          <Button tooltipTitle="Pin note">
+            <i
+              className={
+                "fas fa-thumbtack" +
+                (props.note.pinned
+                  ? " " + classes.PinActive
+                  : " " + classes.PinInactive)
+              }
+            ></i>
+          </Button>
         </div>
-      )}
+      </div>
 
       <div className={classes.Labels}>
         {props.note.labels.slice(0, 3).map((label) => {
           return (
             <div key={label} className={classes.Label}>
               <Link to={"/label/" + label}>
-              <span className={classes.LabelText}>{label}</span>
+                <span className={classes.LabelText}>{label}</span>
               </Link>
 
               <div className={classes.Button}>

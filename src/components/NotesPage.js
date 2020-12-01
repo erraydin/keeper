@@ -13,8 +13,6 @@ import SideBar from "./SideBar";
 import Backdrop from "./Backdrop";
 
 function NotesPage(props) {
-  
-
   const [editedId, setEditedId] = useState(null);
   const [editing, setEditing] = useState(false);
 
@@ -44,6 +42,12 @@ function NotesPage(props) {
   const filterLabel = path === "/" ? "" : path.slice(7, path.length);
   const filterText = props.text;
   const displayedNotes = getVisibleNotes(props.notes, filterLabel, filterText);
+  const pinnedNotes = displayedNotes.filter((note) => {
+    return note.pinned;
+  });
+  const unpinnedNotes = displayedNotes.filter((note) => {
+    return !note.pinned;
+  });
 
   const noNotes =
     path === "/" ? (
@@ -67,7 +71,7 @@ function NotesPage(props) {
         <p className={classes.Note}>No notes with this label yet</p>
       </div>
     );
-  
+
   function backdropClickHandler() {
     editArea.current();
     closeEditHandler();
@@ -93,9 +97,34 @@ function NotesPage(props) {
         transparent={false}
       />
       {displayedNotes.length === 0 ? noNotes : null}
+
+      {pinnedNotes.length > 0 ? (
+        <div className={classes.Notes}>
+          <Masonry>
+            {pinnedNotes.map((note) => {
+              return (
+                <Note
+                  editable={true}
+                  type={note.type}
+                  editedId={editedId}
+                  editing={editing}
+                  key={note.id}
+                  note={note}
+                  // index={index}
+                  deleteNote={props.deleteNote}
+                  deleteTooltip="Delete Note"
+                  showEditButton={true}
+                  onClick={editHandler}
+                />
+              );
+            })}
+          </Masonry>
+        </div>
+      ) : null}
+
       <div className={classes.Notes}>
         <Masonry>
-          {displayedNotes.map((note) => {
+          {unpinnedNotes.map((note) => {
             return (
               <Note
                 editable={true}
