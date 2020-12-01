@@ -11,6 +11,43 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
+import PaletteIcon from "@material-ui/icons/Palette";
+import ColorPopper from "./ColorPopper";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+
+function colorToClass(color) {
+  switch (color) {
+    case "white":
+      return classes.white;
+
+    case "orange":
+      return classes.orange;
+
+    case "yellow":
+      return classes.yellow;
+
+    case "green":
+      return classes.green;
+
+    case "turquoise":
+      return classes.turquoise;
+
+    case "blue":
+      return classes.blue;
+
+    case "darkblue":
+      return classes.darkblue;
+
+    case "purple":
+      return classes.purple;
+
+    case "pink":
+      return classes.pink;
+
+    default:
+      return;
+  }
+}
 
 function EditArea(props, ref) {
   const [title, setTitle] = useState(props.note.title);
@@ -26,12 +63,36 @@ function EditArea(props, ref) {
   );
   const [labelPopperLocation, setlabelPopperLocation] = useState(null);
   const [chosenLabels, setChosenLabels] = useState(props.note.labels);
+  const [color, setColor] = useState(props.note.color);
+  const [colorPopperLocation, setColorPopperLocation] = useState(null);
+
+  let colorOpen = Boolean(colorPopperLocation);
+  let colorId = colorOpen ? "simple-popper" : undefined;
 
   const open = Boolean(labelPopperLocation);
-  const id = open ? "simple-popper" : undefined;
+  const id = open ? "simple-popper1" : undefined;
 
   const textAreaRef = useRef(null);
   const newListItemRef = useRef(null);
+
+  function changeColorHandler(newColor) {
+    if (newColor !== color) {
+      setColor(newColor);
+    }
+    closeColorEditHandler();
+  }
+
+  function openColorEditHandler(event) {
+    event.stopPropagation();
+    setColorPopperLocation((oldColorPopperLocation) => {
+      return oldColorPopperLocation ? null : event.currentTarget;
+    });
+    setlabelPopperLocation(null);
+  }
+
+  function closeColorEditHandler() {
+    setColorPopperLocation(null);
+  }
 
   function confirmEditHandler() {
     if (props.note.type === "note") {
@@ -42,6 +103,7 @@ function EditArea(props, ref) {
         labels: chosenLabels,
         type: "note",
         pinned: isPinned,
+        color: color,
       });
     } else {
       const newUncheckedList = [...uncheckedList];
@@ -56,6 +118,7 @@ function EditArea(props, ref) {
         labels: chosenLabels,
         type: "list",
         pinned: isPinned,
+        color: color,
       });
     }
 
@@ -68,16 +131,13 @@ function EditArea(props, ref) {
     }
   }
 
-  function labelHandler(event) {
-    setlabelPopperLocation((oldLabelPopperLocation) => {
-      return oldLabelPopperLocation ? null : event.currentTarget;
-    });
-  }
   function openLabelEditHandler(event) {
+    event.stopPropagation();
     setlabelPopperLocation((oldLabelPopperLocation) => {
       return oldLabelPopperLocation ? null : event.currentTarget;
       // event.currentTarget
     });
+    setColorPopperLocation(null);
   }
 
   function closeLabelEditHandler() {
@@ -228,14 +288,13 @@ function EditArea(props, ref) {
   const popperRef = useRef(null);
   const create = (
     <div className={classes.Form1} ref={popperRef}>
-      <div className={classes.Form}>
+      <div className={classes.Form + " " + colorToClass(color)}>
         <div style={{ position: "relative" }}>
           <input
             type="text"
             style={{ width: "90%" }}
             value={title}
             onChange={changeTitle}
-            onClick={closeLabelEditHandler}
             onKeyPress={handleKeyPressForTitle}
             name="title"
             placeholder="Title"
@@ -260,14 +319,13 @@ function EditArea(props, ref) {
             rowsMax={8}
             ref={textAreaRef}
             value={content}
-            onClick={closeLabelEditHandler}
             onChange={changeText}
             name="content"
             placeholder="Edit your note..."
           />
         </div>
         <React.Fragment>
-          <div className={classes.Labels} onClick={closeLabelEditHandler}>
+          <div className={classes.Labels}>
             {chosenLabels.map((label) => {
               return (
                 <div key={label} className={classes.Label}>
@@ -295,50 +353,63 @@ function EditArea(props, ref) {
               );
             })}
           </div>
-          <div className={classes.Buttons} onClick={closeLabelEditHandler}>
+          <div className={classes.Buttons}>
             <Button tooltipTitle="Confirm changes" onClick={confirmEditHandler}>
               <CheckCircleIcon />
             </Button>
             <Button tooltipTitle="Cancel" onClick={props.closeEdit}>
               <CancelIcon />
             </Button>
-            <Button tooltipTitle="Edit Labels" onClick={labelHandler}>
+            <Button tooltipTitle="Edit Labels" onClick={openLabelEditHandler}>
               <LabelIcon />
+            </Button>
+            <Button tooltipTitle="Change Color" onClick={openColorEditHandler}>
+              <PaletteIcon />
             </Button>
           </div>
         </React.Fragment>
       </div>
-      <Popper
-        style={{ zIndex: "500" }}
-        id={id}
-        open={open}
-        anchorEl={labelPopperLocation}
-        disablePortal
-        modifiers={{
-          preventOverflow: {
-            escapeWithReference: true,
-          },
-        }}
-      >
-        <AddLabels
-          chosenLabels={chosenLabels}
-          addNewChosenLabelHandler={addNewChosenLabelHandler}
-          clickHandler={toggleLabelClickHandler}
-          confirmHandler={closeLabelEditHandler}
-          filterLabel={props.filterLabel}
-        />
-      </Popper>
+      <ClickAwayListener onClickAway={closeLabelEditHandler}>
+        <Popper
+          style={{ zIndex: "500" }}
+          id={id}
+          open={open}
+          anchorEl={labelPopperLocation}
+          modifiers={{
+            preventOverflow: {
+              escapeWithReference: false,
+            },
+          }}
+          disablePortal
+        >
+          <AddLabels
+            chosenLabels={chosenLabels}
+            addNewChosenLabelHandler={addNewChosenLabelHandler}
+            clickHandler={toggleLabelClickHandler}
+            filterLabel={props.filterLabel}
+          />
+        </Popper>
+      </ClickAwayListener>
+      <ClickAwayListener onClickAway={closeColorEditHandler}>
+        <Popper
+          id={colorId}
+          open={colorOpen}
+          anchorEl={colorPopperLocation}
+          disablePortal
+        >
+          <ColorPopper changeColorHandler={changeColorHandler} />
+        </Popper>
+      </ClickAwayListener>
     </div>
   );
 
   const createList = (
-    <div className={classes.Form}>
+    <div className={classes.Form + " " + colorToClass(color)}>
       <div style={{ position: "relative" }}>
         <input
           type="text"
           style={{ width: "90%" }}
           onKeyPress={handleKeyPressForTitle}
-          onClick={closeLabelEditHandler}
           autoComplete="off"
           value={title}
           onChange={changeTitle}
@@ -378,7 +449,6 @@ function EditArea(props, ref) {
                 onKeyPress={enterHandlerForListItems}
                 autoComplete="off"
                 className={classes.Input}
-                onClick={closeLabelEditHandler}
                 value={item.item}
                 onChange={(event) => changeListItem(event, index, false)}
                 name="content"
@@ -414,7 +484,6 @@ function EditArea(props, ref) {
                   item.item === "" ? null : { textDecoration: "line-through" }
                 }
                 className={classes.Input}
-                onClick={closeLabelEditHandler}
                 value={item.item}
                 onChange={(event) => changeListItem(event, index, true)}
                 name="content"
@@ -443,7 +512,6 @@ function EditArea(props, ref) {
           className={classes.Input1}
           ref={newListItemRef}
           onKeyPress={handleKeyPressForListItem}
-          onClick={closeLabelEditHandler}
           value={content}
           onChange={changeText}
           name="content"
@@ -456,7 +524,7 @@ function EditArea(props, ref) {
         </div>
       </div>
       <React.Fragment>
-        <div className={classes.Labels} onClick={closeLabelEditHandler}>
+        <div className={classes.Labels}>
           {chosenLabels.map((label) => {
             return (
               <div key={label} className={classes.Label}>
@@ -484,7 +552,7 @@ function EditArea(props, ref) {
             );
           })}
         </div>
-        <div className={classes.Buttons} onClick={closeLabelEditHandler}>
+        <div className={classes.Buttons}>
           <Button tooltipTitle="Confirm Edit" onClick={confirmEditHandler}>
             <CheckCircleIcon />
           </Button>
@@ -494,28 +562,42 @@ function EditArea(props, ref) {
           <Button tooltipTitle="Add Labels" onClick={openLabelEditHandler}>
             <LabelIcon />
           </Button>
+          <Button tooltipTitle="Change Color" onClick={openColorEditHandler}>
+            <PaletteIcon />
+          </Button>
         </div>
       </React.Fragment>
-      <Popper
-        style={{ zIndex: "500" }}
-        id={id}
-        open={open}
-        anchorEl={labelPopperLocation}
-        modifiers={{
-          preventOverflow: {
-            escapeWithReference: false,
-          },
-        }}
-        disablePortal
-      >
-        <AddLabels
-          chosenLabels={chosenLabels}
-          addNewChosenLabelHandler={addNewChosenLabelHandler}
-          clickHandler={toggleLabelClickHandler}
-          confirmHandler={closeLabelEditHandler}
-          filterLabel={props.filterLabel}
-        />
-      </Popper>
+      <ClickAwayListener onClickAway={closeLabelEditHandler}>
+        <Popper
+          style={{ zIndex: "500" }}
+          id={id}
+          open={open}
+          anchorEl={labelPopperLocation}
+          modifiers={{
+            preventOverflow: {
+              escapeWithReference: false,
+            },
+          }}
+          disablePortal
+        >
+          <AddLabels
+            chosenLabels={chosenLabels}
+            addNewChosenLabelHandler={addNewChosenLabelHandler}
+            clickHandler={toggleLabelClickHandler}
+            filterLabel={props.filterLabel}
+          />
+        </Popper>
+      </ClickAwayListener>
+      <ClickAwayListener onClickAway={closeColorEditHandler}>
+        <Popper
+          id={colorId}
+          open={colorOpen}
+          anchorEl={colorPopperLocation}
+          disablePortal
+        >
+          <ColorPopper changeColorHandler={changeColorHandler} />
+        </Popper>
+      </ClickAwayListener>
     </div>
   );
 

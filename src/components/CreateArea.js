@@ -21,7 +21,6 @@ import PaletteIcon from "@material-ui/icons/Palette";
 import ColorPopper from "./ColorPopper";
 // import ListCreateArea from "./ListCreateArea";
 
-
 function colorToClass(color) {
   switch (color) {
     case "white":
@@ -56,7 +55,6 @@ function colorToClass(color) {
   }
 }
 
-
 function CreateArea(props) {
   let initialChosenLabels = [];
   if (props.filterLabel !== "") {
@@ -72,11 +70,14 @@ function CreateArea(props) {
   const [isExpanded, setExpanded] = useState(false);
   const [isNewNote, setNewNote] = useState(false);
   const [isNewList, setNewList] = useState(false);
-  const [labelPopperLocation, setlabelPopperLocation] = useState(null);
   const [colorPopperLocation, setColorPopperLocation] = useState(null);
+  const [popperLocation, setPopperLocation] = useState(null);
 
-  const colorOpen = Boolean(colorPopperLocation);
-  const colorId = colorOpen ? "simple-popper" : undefined;
+  let colorOpen = Boolean(colorPopperLocation);
+  let colorId = colorOpen ? "simple-popper" : undefined;
+
+  let popperOpen = Boolean(popperLocation);
+  let popperId = popperOpen ? "simple-popperrr" : undefined;
 
   function changeColorHandler(newColor) {
     if (newColor !== color) {
@@ -85,19 +86,33 @@ function CreateArea(props) {
     closeColorEditHandler();
   }
 
+  function openPopperHandler(event) {
+    event.stopPropagation();
+    setPopperLocation((oldPopperLocation) => {
+      return oldPopperLocation ? null : event.currentTarget;
+    });
+    setColorPopperLocation(null);
+  }
+
+  function closePopperHandler() {
+    setPopperLocation(null);
+    popperOpen = false;
+  }
+
   function openColorEditHandler(event) {
     event.stopPropagation();
     setColorPopperLocation((oldColorPopperLocation) => {
       return oldColorPopperLocation ? null : event.currentTarget;
     });
+    setPopperLocation(null);
   }
 
   function closeColorEditHandler() {
-      setColorPopperLocation(null);
+    setColorPopperLocation(null);
+    colorOpen = false;
   }
 
-  const open = Boolean(labelPopperLocation);
-  const id = open ? "simple-popper" : undefined;
+  
 
   const textAreaRef = useRef(null);
   const newListItemRef = useRef(null);
@@ -230,22 +245,13 @@ function CreateArea(props) {
     setContent("");
     setColor("white");
     setPinned(false);
-    setlabelPopperLocation(null);
     setChosenLabels(initialChosenLabels);
-    closeColorEditHandler()
+    closeColorEditHandler();
   }
 
-  function openLabelEditHandler(event) {
-    setlabelPopperLocation((oldLabelPopperLocation) => {
-      return oldLabelPopperLocation ? null : event.currentTarget;
-    });
-  }
+  
 
-  function closeLabelEditHandler() {
-    if (open) {
-      setlabelPopperLocation(null);
-    }
-  }
+  
 
   function addNoteHandler() {
     if (isNewNote) {
@@ -283,7 +289,7 @@ function CreateArea(props) {
     setNewNote(false);
     setNewList(false);
     setChosenLabels(initialChosenLabels);
-    closeColorEditHandler()
+    closeColorEditHandler();
   }
 
   function cancelNoteHandler() {
@@ -296,7 +302,7 @@ function CreateArea(props) {
     setNewNote(false);
     setNewList(false);
     setChosenLabels(initialChosenLabels);
-    closeColorEditHandler()
+    closeColorEditHandler();
   }
 
   function handleKeyPressForTitle(event) {
@@ -384,13 +390,12 @@ function CreateArea(props) {
 
   //Create Note Area
   let create = (
-    <div className={classes.Form + " " + colorToClass(color) }>
+    <div className={classes.Form + " " + colorToClass(color)}>
       {isNewNote || isNewList ? (
         <div style={{ position: "relative" }}>
           <input
             style={{ width: "90%" }}
             onKeyPress={handleKeyPressForTitle}
-            onClick={closeLabelEditHandler}
             autoComplete="off"
             value={title}
             onChange={changeTitle}
@@ -419,7 +424,6 @@ function CreateArea(props) {
           ref={textAreaRef}
           onClick={() => {
             expand();
-            closeLabelEditHandler();
           }}
           value={content}
           onChange={changeText}
@@ -443,7 +447,7 @@ function CreateArea(props) {
       </div>
       {isNewNote ? (
         <React.Fragment>
-          <div className={classes.Labels} onClick={closeLabelEditHandler}>
+          <div className={classes.Labels}>
             {chosenLabels.map((label) => {
               return (
                 <div key={label} className={classes.Label}>
@@ -471,14 +475,14 @@ function CreateArea(props) {
               );
             })}
           </div>
-          <div className={classes.Buttons} onClick={closeLabelEditHandler}>
+          <div className={classes.Buttons}>
             <Button tooltipTitle="Add Note" onClick={addNoteHandler}>
               <AddCircleIcon />
             </Button>
             <Button tooltipTitle="Cancel" onClick={cancelNoteHandler}>
               <CancelIcon />
             </Button>
-            <Button tooltipTitle="Add Labels" onClick={openLabelEditHandler}>
+            <Button tooltipTitle="Add Labels" onClick={openPopperHandler}>
               <LabelIcon />
             </Button>
             <Button tooltipTitle="Show checkboxes" onClick={newListHandler}>
@@ -488,15 +492,6 @@ function CreateArea(props) {
               <PaletteIcon />
             </Button>
           </div>
-          <Popper id={id} open={open} anchorEl={labelPopperLocation}>
-            <AddLabels
-              chosenLabels={chosenLabels}
-              addNewChosenLabelHandler={addNewChosenLabelHandler}
-              clickHandler={toggleLabelClickHandler}
-              confirmHandler={closeLabelEditHandler}
-              filterLabel={props.filterLabel}
-            />
-          </Popper>
           <ClickAwayListener onClickAway={closeColorEditHandler}>
             <Popper
               id={colorId}
@@ -504,7 +499,19 @@ function CreateArea(props) {
               anchorEl={colorPopperLocation}
               // disablePortal
             >
-              <ColorPopper  changeColorHandler={changeColorHandler}/>
+              <ColorPopper changeColorHandler={changeColorHandler} />
+            </Popper>
+          </ClickAwayListener>
+          <ClickAwayListener onClickAway={closePopperHandler}>
+            <Popper id={popperId} open={popperOpen} anchorEl={popperLocation}>
+              <AddLabels
+                chosenLabels={chosenLabels}
+                addNewChosenLabelHandler={addNewChosenLabelHandler}
+                clickHandler={toggleLabelClickHandler}
+                
+                filterLabel={props.filterLabel}
+              />
+              {/* <ColorPopper changeColorHandler={changeColorHandler} /> */}
             </Popper>
           </ClickAwayListener>
         </React.Fragment>
@@ -520,7 +527,6 @@ function CreateArea(props) {
           type="text"
           style={{ width: "90%" }}
           onKeyPress={handleKeyPressForTitle}
-          onClick={closeLabelEditHandler}
           autoComplete="off"
           value={title}
           onChange={changeTitle}
@@ -551,7 +557,6 @@ function CreateArea(props) {
               onKeyPress={enterHandlerForListItems}
               autoComplete="off"
               className={classes.Input}
-              onClick={closeLabelEditHandler}
               value={item.item}
               onChange={(event) => changeListItem(event, index, false)}
               name="content"
@@ -586,7 +591,6 @@ function CreateArea(props) {
                 item.item === "" ? null : { textDecoration: "line-through" }
               }
               className={classes.Input}
-              onClick={closeLabelEditHandler}
               value={item.item}
               onChange={(event) => changeListItem(event, index, true)}
               name="content"
@@ -613,7 +617,6 @@ function CreateArea(props) {
           className={classes.Input1}
           ref={newListItemRef}
           onKeyPress={handleKeyPressForListItem}
-          onClick={closeLabelEditHandler}
           value={content}
           onChange={changeText}
           name="content"
@@ -626,7 +629,7 @@ function CreateArea(props) {
         </div>
       </div>
       <React.Fragment>
-        <div className={classes.Labels} onClick={closeLabelEditHandler}>
+        <div className={classes.Labels}>
           {chosenLabels.map((label) => {
             return (
               <div key={label} className={classes.Label}>
@@ -654,14 +657,14 @@ function CreateArea(props) {
             );
           })}
         </div>
-        <div className={classes.Buttons} onClick={closeLabelEditHandler}>
+        <div className={classes.Buttons}>
           <Button tooltipTitle="Add Note" onClick={addNoteHandler}>
             <AddCircleIcon />
           </Button>
           <Button tooltipTitle="Cancel" onClick={cancelNoteHandler}>
             <CancelIcon />
           </Button>
-          <Button tooltipTitle="Add Labels" onClick={openLabelEditHandler}>
+          <Button tooltipTitle="Add Labels" onClick={openPopperHandler}>
             <LabelIcon />
           </Button>
           <Button tooltipTitle="Hide checkboxes" onClick={hideCheckboxes}>
@@ -671,25 +674,29 @@ function CreateArea(props) {
             <PaletteIcon />
           </Button>
         </div>
-        <Popper id={id} open={open} anchorEl={labelPopperLocation}>
-          <AddLabels
-            chosenLabels={chosenLabels}
-            addNewChosenLabelHandler={addNewChosenLabelHandler}
-            clickHandler={toggleLabelClickHandler}
-            confirmHandler={closeLabelEditHandler}
-            filterLabel={props.filterLabel}
-          />
-        </Popper>
+
         <ClickAwayListener onClickAway={closeColorEditHandler}>
-            <Popper
-              id={colorId}
-              open={colorOpen}
-              anchorEl={colorPopperLocation}
-              // disablePortal
-            >
-              <ColorPopper  changeColorHandler={changeColorHandler}/>
-            </Popper>
-          </ClickAwayListener>
+          <Popper
+            id={colorId}
+            open={colorOpen}
+            anchorEl={colorPopperLocation}
+            // disablePortal
+          >
+            <ColorPopper changeColorHandler={changeColorHandler} />
+          </Popper>
+        </ClickAwayListener>
+        <ClickAwayListener onClickAway={closePopperHandler}>
+          <Popper id={popperId} open={popperOpen} anchorEl={popperLocation}>
+            <AddLabels
+              chosenLabels={chosenLabels}
+              addNewChosenLabelHandler={addNewChosenLabelHandler}
+              clickHandler={toggleLabelClickHandler}
+              
+              filterLabel={props.filterLabel}
+            />
+            {/* <ColorPopper changeColorHandler={changeColorHandler} /> */}
+          </Popper>
+        </ClickAwayListener>
       </React.Fragment>
     </div>
   );
