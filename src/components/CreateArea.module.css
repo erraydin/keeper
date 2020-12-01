@@ -208,3 +208,39 @@
 .Form a {
   color: black;
 }
+
+.white {
+  background:#ffffff;
+}
+.red {
+  background:#ffcfcf;
+}
+
+.orange {
+  background: #ffe3be;
+}
+
+.yellow {
+  background: #fffccb;
+}
+
+.green {
+  background:#edffcd;
+}
+.turquoise {
+  background: #d3fff8;
+}
+
+.blue {
+  background:#d5f2ff;
+}
+.darkblue {
+  background:#d7ddfd;
+}
+.purple {
+  background:#e8dbff;
+}
+
+.pink {
+  background:#fdd8f4;
+}

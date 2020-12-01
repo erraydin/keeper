@@ -81,6 +81,7 @@ function Note(props) {
       const newNote = { ...props.note, color: color };
       props.editNote(props.note.id, newNote);
     }
+    closeColorEditHandler();
   }
 
   function pinHandler(event) {

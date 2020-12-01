@@ -17,7 +17,45 @@ import Popper from "@material-ui/core/Popper";
 import AddLabels from "./AddLabels";
 import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import PaletteIcon from "@material-ui/icons/Palette";
+import ColorPopper from "./ColorPopper";
 // import ListCreateArea from "./ListCreateArea";
+
+
+function colorToClass(color) {
+  switch (color) {
+    case "white":
+      return classes.white;
+
+    case "orange":
+      return classes.orange;
+
+    case "yellow":
+      return classes.yellow;
+
+    case "green":
+      return classes.green;
+
+    case "turquoise":
+      return classes.turquoise;
+
+    case "blue":
+      return classes.blue;
+
+    case "darkblue":
+      return classes.darkblue;
+
+    case "purple":
+      return classes.purple;
+
+    case "pink":
+      return classes.pink;
+
+    default:
+      return;
+  }
+}
+
 
 function CreateArea(props) {
   let initialChosenLabels = [];
@@ -27,6 +65,7 @@ function CreateArea(props) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isPinned, setPinned] = useState(false);
+  const [color, setColor] = useState("white");
   const [checkedList, setCheckedList] = useState([]);
   const [uncheckedList, setUncheckedList] = useState([]);
   const [chosenLabels, setChosenLabels] = useState(initialChosenLabels);
@@ -34,6 +73,28 @@ function CreateArea(props) {
   const [isNewNote, setNewNote] = useState(false);
   const [isNewList, setNewList] = useState(false);
   const [labelPopperLocation, setlabelPopperLocation] = useState(null);
+  const [colorPopperLocation, setColorPopperLocation] = useState(null);
+
+  const colorOpen = Boolean(colorPopperLocation);
+  const colorId = colorOpen ? "simple-popper" : undefined;
+
+  function changeColorHandler(newColor) {
+    if (newColor !== color) {
+      setColor(newColor);
+    }
+    closeColorEditHandler();
+  }
+
+  function openColorEditHandler(event) {
+    event.stopPropagation();
+    setColorPopperLocation((oldColorPopperLocation) => {
+      return oldColorPopperLocation ? null : event.currentTarget;
+    });
+  }
+
+  function closeColorEditHandler() {
+      setColorPopperLocation(null);
+  }
 
   const open = Boolean(labelPopperLocation);
   const id = open ? "simple-popper" : undefined;
@@ -167,9 +228,11 @@ function CreateArea(props) {
     setNewList(false);
     setTitle("");
     setContent("");
+    setColor("white");
     setPinned(false);
     setlabelPopperLocation(null);
     setChosenLabels(initialChosenLabels);
+    closeColorEditHandler()
   }
 
   function openLabelEditHandler(event) {
@@ -192,6 +255,7 @@ function CreateArea(props) {
         content: content,
         labels: chosenLabels,
         pinned: isPinned,
+        color: color,
       });
     } else if (isNewList) {
       const newUncheckedList = [...uncheckedList];
@@ -206,10 +270,12 @@ function CreateArea(props) {
         unchecked: newUncheckedList,
         labels: chosenLabels,
         pinned: isPinned,
+        color: color,
       });
     }
     setTitle("");
     setContent("");
+    setColor("white");
     setPinned(false);
     setCheckedList([]);
     setUncheckedList([]);
@@ -217,6 +283,7 @@ function CreateArea(props) {
     setNewNote(false);
     setNewList(false);
     setChosenLabels(initialChosenLabels);
+    closeColorEditHandler()
   }
 
   function cancelNoteHandler() {
@@ -229,6 +296,7 @@ function CreateArea(props) {
     setNewNote(false);
     setNewList(false);
     setChosenLabels(initialChosenLabels);
+    closeColorEditHandler()
   }
 
   function handleKeyPressForTitle(event) {
@@ -316,7 +384,7 @@ function CreateArea(props) {
 
   //Create Note Area
   let create = (
-    <div className={classes.Form}>
+    <div className={classes.Form + " " + colorToClass(color) }>
       {isNewNote || isNewList ? (
         <div style={{ position: "relative" }}>
           <input
@@ -333,7 +401,10 @@ function CreateArea(props) {
             <Button tooltipTitle="Pin note" onClick={togglePinnedHandler}>
               <i
                 className={
-                  "fas fa-thumbtack" + (isPinned ? " " + classes.PinActive : " " + classes.PinInactive)
+                  "fas fa-thumbtack" +
+                  (isPinned
+                    ? " " + classes.PinActive
+                    : " " + classes.PinInactive)
                 }
               ></i>
             </Button>
@@ -413,6 +484,9 @@ function CreateArea(props) {
             <Button tooltipTitle="Show checkboxes" onClick={newListHandler}>
               <CheckBoxIcon />
             </Button>
+            <Button tooltipTitle="Change Color" onClick={openColorEditHandler}>
+              <PaletteIcon />
+            </Button>
           </div>
           <Popper id={id} open={open} anchorEl={labelPopperLocation}>
             <AddLabels
@@ -423,6 +497,16 @@ function CreateArea(props) {
               filterLabel={props.filterLabel}
             />
           </Popper>
+          <ClickAwayListener onClickAway={closeColorEditHandler}>
+            <Popper
+              id={colorId}
+              open={colorOpen}
+              anchorEl={colorPopperLocation}
+              // disablePortal
+            >
+              <ColorPopper  changeColorHandler={changeColorHandler}/>
+            </Popper>
+          </ClickAwayListener>
         </React.Fragment>
       ) : null}
     </div>
@@ -430,7 +514,7 @@ function CreateArea(props) {
   //Create List Area
 
   const createList = (
-    <div className={classes.Form}>
+    <div className={classes.Form + " " + colorToClass(color)}>
       <div style={{ position: "relative" }}>
         <input
           type="text"
@@ -447,7 +531,8 @@ function CreateArea(props) {
           <Button tooltipTitle="Pin note" onClick={togglePinnedHandler}>
             <i
               className={
-                "fas fa-thumbtack" + (isPinned ? " " + classes.PinActive : " " + classes.PinInactive)
+                "fas fa-thumbtack" +
+                (isPinned ? " " + classes.PinActive : " " + classes.PinInactive)
               }
             ></i>
           </Button>
@@ -582,6 +667,9 @@ function CreateArea(props) {
           <Button tooltipTitle="Hide checkboxes" onClick={hideCheckboxes}>
             <NoteIcon />
           </Button>
+          <Button tooltipTitle="Change Color" onClick={openColorEditHandler}>
+            <PaletteIcon />
+          </Button>
         </div>
         <Popper id={id} open={open} anchorEl={labelPopperLocation}>
           <AddLabels
@@ -592,6 +680,16 @@ function CreateArea(props) {
             filterLabel={props.filterLabel}
           />
         </Popper>
+        <ClickAwayListener onClickAway={closeColorEditHandler}>
+            <Popper
+              id={colorId}
+              open={colorOpen}
+              anchorEl={colorPopperLocation}
+              // disablePortal
+            >
+              <ColorPopper  changeColorHandler={changeColorHandler}/>
+            </Popper>
+          </ClickAwayListener>
       </React.Fragment>
     </div>
   );
