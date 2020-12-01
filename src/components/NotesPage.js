@@ -100,6 +100,7 @@ function NotesPage(props) {
 
       {pinnedNotes.length > 0 ? (
         <div className={classes.Notes}>
+          <h5>PINNED</h5>
           <Masonry>
             {pinnedNotes.map((note) => {
               return (
@@ -122,7 +123,8 @@ function NotesPage(props) {
         </div>
       ) : null}
 
-      <div className={classes.Notes}>
+      <div className={classes.Notes + (pinnedNotes.length > 0 ? " " +classes.NotesWhenPinned : "")}>
+        {pinnedNotes.length > 0 && unpinnedNotes.length > 0 ? <h5>OTHERS</h5> : null}
         <Masonry>
           {unpinnedNotes.map((note) => {
             return (
