@@ -8,11 +8,18 @@ import { Link } from "react-router-dom";
 import RestoreFromTrashIcon from "@material-ui/icons/RestoreFromTrash";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import ListItem from "./ListItem";
+import { editNote } from "../actions/actions";
 import { deleteLabelFromNote } from "../actions/actions";
 
 function Note(props) {
   function removeLabelFromNote(label) {
     props.deleteLabelFromNote(label, props.note.id);
+  }
+
+  function pinHandler (event) {
+    event.stopPropagation();
+    const newNote = {...props.note, pinned: !props.note.pinned}
+    props.editNote(props.note.id, newNote);
   }
 
   return (
@@ -84,8 +91,8 @@ function Note(props) {
             </div>
           )}
         </div>
-        <div className={classes.PinButton}>
-          <Button tooltipTitle="Pin note">
+        <div className={classes.PinButton + (props.editable ? "" : " " + classes.Hide)}>
+          <Button tooltipTitle="Pin note" onClick={pinHandler} disabled={props.editable ? false : true}>
             <i
               className={
                 "fas fa-thumbtack" +
@@ -171,8 +178,8 @@ function Note(props) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteLabelFromNote: (label, noteId) =>
-      dispatch(deleteLabelFromNote(label, noteId)),
+    deleteLabelFromNote: (label, noteId) => dispatch(deleteLabelFromNote(label, noteId)),
+    editNote : (id, note) => dispatch(editNote(id, note)),
   };
 };
 

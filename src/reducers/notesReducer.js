@@ -26,10 +26,12 @@ const notesReducer = (state = initialState, action) => {
       const deletedNotes = state.notes.filter((_, index) => {
         return index !== deleteIndex;
       });
+
+      const pinRemovedNote = {...state.notes[deleteIndex], pinned: false}
       return {
         ...state,
         notes: deletedNotes,
-        trash: [...state.trash, state.notes[deleteIndex]],
+        trash: [pinRemovedNote, ...state.trash ],
       };
     case "RESTORE":
       const restoreIndex = state.trash.findIndex(
