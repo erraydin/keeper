@@ -1,5 +1,13 @@
 const initialState = {
-  notes: [],
+  notes: [{
+    type: "note",
+    id:"asda12sd2",
+    title: "ali",
+    content: "veli",
+    labels: [],
+    pinned: false,
+    color: "orange"
+  }],
   labels: [],
   trash: [],
 };

@@ -433,6 +433,7 @@ function CreateArea(props) {
     <div className={classes.Form}>
       <div style={{ position: "relative" }}>
         <input
+          type="text"
           style={{ width: "90%" }}
           onKeyPress={handleKeyPressForTitle}
           onClick={closeLabelEditHandler}

@@ -231,6 +231,7 @@ function EditArea(props, ref) {
       <div className={classes.Form}>
         <div style={{ position: "relative" }}>
           <input
+            type="text"
             style={{ width: "90%" }}
             value={title}
             onChange={changeTitle}
@@ -334,6 +335,7 @@ function EditArea(props, ref) {
     <div className={classes.Form}>
       <div style={{ position: "relative" }}>
         <input
+          type="text"
           style={{ width: "90%" }}
           onKeyPress={handleKeyPressForTitle}
           onClick={closeLabelEditHandler}
@@ -372,6 +374,7 @@ function EditArea(props, ref) {
                 <i className="far fa-square"></i>
               </div>
               <input
+                type="text"
                 onKeyPress={enterHandlerForListItems}
                 autoComplete="off"
                 className={classes.Input}
@@ -404,6 +407,7 @@ function EditArea(props, ref) {
                 <i className="far fa-check-square"></i>
               </div>
               <input
+                type="text"
                 onKeyPress={enterHandlerForListItems}
                 autoComplete="off"
                 style={
@@ -434,6 +438,7 @@ function EditArea(props, ref) {
           <i className="far fa-square" onClick={addCheckedListItem}></i>
         </div>
         <input
+          type="text"
           autoComplete="off"
           className={classes.Input1}
           ref={newListItemRef}

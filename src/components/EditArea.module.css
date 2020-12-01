@@ -5,7 +5,7 @@
   left: 35%;
   width: 480px;
   margin: auto;
-  background: #fff;
+  background: rgb(255, 255, 255);
   border-radius: 7px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.35);
   max-height: 500px;
@@ -71,6 +71,7 @@
   font-size: 17px;
   width: 85%;
   margin: auto;
+  background: inherit;
 }
 
 .Form .Input1 {
@@ -90,6 +91,7 @@
   font-family: inherit;
   resize: none;
   display: inline-block;
+  background: inherit;
 }
 .Form input {
   padding-top: 10px;
@@ -102,7 +104,7 @@
   position: relative;
   float: right;
   margin-right: 10px;
-  background: white;
+  background: inherit;
   color: #646464cb;
   border: none;
   border-radius: 100%;
@@ -210,4 +212,8 @@
   margin-top: 7px;
   width: 80%;
   
+}
+
+.Form a {
+  color: black;
 }

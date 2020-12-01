@@ -1,5 +1,5 @@
 .Note {
-  background: rgb(255, 255, 255);
+  background: #ffffff;
   border-radius: 7px;
   border: 1px solid #ccc;
   padding: 10px 0 5px 15px;
@@ -9,6 +9,42 @@
   cursor: default;
   position: relative;
 }
+.white {
+  background:#ffffff;
+}
+.red {
+  background:#ffcfcf;
+}
+
+.orange {
+  background: #ffedbe;
+}
+
+.yellow {
+  background: #fffccb;
+}
+
+.green {
+  background:#edffcd;
+}
+.turquoise {
+  background: #d3fff8;
+}
+
+.blue {
+  background:#d5f2ff;
+}
+.darkblue {
+  background:#d7ddfd;
+}
+.purple {
+  background:#e8dbff;
+}
+
+.pink {
+  background:#fdd8f4;
+}
+
 
 .Hide {
   visibility: hidden;
@@ -76,7 +112,7 @@
   float: right;
   margin-right: 5px;
   color: #646464cb;
-  background-color: white;
+  background-color: inherit;
   border: none;
   border-radius: 100%;
   width: 30px;
@@ -152,4 +188,8 @@
   margin-right: 10px;
   margin-bottom: 10px;
   margin-top: 8px;
+}
+
+.Note a {
+  color: black;
 }

@@ -2,7 +2,7 @@
   position: relative;
   width: 480px;
   margin: 30px auto 20px auto;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.993);
   padding: 1px 1px 1px 1px;
   border-radius: 7px;
   box-shadow: 0 1px 5px rgb(138, 137, 137);
@@ -49,6 +49,7 @@
   font-size: 1.2em;
   font-family: inherit;
   resize: none;
+  background: inherit;
 }
 .Form .Input {
   padding-bottom: 2px;
@@ -94,7 +95,7 @@
   position: relative;
   float: right;
   margin-right: 10px;
-  background: white;
+  background: inherit;
   color: #646464cb;
   border: none;
   border-radius: 100%;
@@ -202,4 +203,8 @@
   margin-top: 10px;
   width: 80%;
   
+}
+
+.Form a {
+  color: black;
 }
