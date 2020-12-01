@@ -4,6 +4,7 @@ import classes from "./Note.module.css";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import Button from "./Button";
+import { Link } from "react-router-dom";
 import RestoreFromTrashIcon from "@material-ui/icons/RestoreFromTrash";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import ListItem from "./ListItem";
@@ -71,7 +72,9 @@ function Note(props) {
         {props.note.labels.slice(0, 3).map((label) => {
           return (
             <div key={label} className={classes.Label}>
+              <Link to={"/label/" + label}>
               <span className={classes.LabelText}>{label}</span>
+              </Link>
 
               <div className={classes.Button}>
                 <Button

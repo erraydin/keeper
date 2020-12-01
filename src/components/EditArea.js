@@ -10,6 +10,7 @@ import AddIcon from "@material-ui/icons/Add";
 import CancelIcon from "@material-ui/icons/Cancel";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import { v4 as uuidv4 } from "uuid";
+import { Link } from "react-router-dom";
 
 function EditArea(props, ref) {
   const [title, setTitle] = useState(props.note.title);
@@ -219,108 +220,115 @@ function EditArea(props, ref) {
   const popperRef = useRef(null);
   const create = (
     <div className={classes.Form1} ref={popperRef}>
-    <div className={classes.Form}>
-      <input
-        value={title}
-        onChange={changeTitle}
-        onClick={closeLabelEditHandler}
-        onKeyPress={handleKeyPressForTitle}
-        name="title"
-        placeholder="Title"
-        autoComplete="Off"
-      />
-
-      <div style={{ display: "inline-block", width: "100%", height: "100%" }}>
-        <TextareaAutosize
-          rowsMax={8}
-          ref={textAreaRef}
-          value={content}
+      <div className={classes.Form}>
+        <input
+          value={title}
+          onChange={changeTitle}
           onClick={closeLabelEditHandler}
-          onChange={changeText}
-          name="content"
-          placeholder="Edit your note..."
+          onKeyPress={handleKeyPressForTitle}
+          name="title"
+          placeholder="Title"
+          autoComplete="Off"
         />
-      </div>
-      <React.Fragment>
-        <div className={classes.Labels} onClick={closeLabelEditHandler}>
-          {chosenLabels.map((label) => {
-            return (
-              <div key={label} className={classes.Label}>
-                <div className={classes.LabelText}>{label}</div>
-                <div className={classes.Button}>
-                  <Button
-                    tooltipTitle="Delete label"
-                    onClick={() => removeLabelFromNote(label)}
-                  >
-                    <span
-                      className="material-icons-outlined"
-                      style={{
-                        verticalAlign: "middle",
-                        display: "inline-block",
-                        fontSize: "15px",
-                      }}
+
+        <div style={{ display: "inline-block", width: "100%", height: "100%" }}>
+          <TextareaAutosize
+            rowsMax={8}
+            ref={textAreaRef}
+            value={content}
+            onClick={closeLabelEditHandler}
+            onChange={changeText}
+            name="content"
+            placeholder="Edit your note..."
+          />
+        </div>
+        <React.Fragment>
+          <div className={classes.Labels} onClick={closeLabelEditHandler}>
+            {chosenLabels.map((label) => {
+              return (
+                <div key={label} className={classes.Label}>
+                  <Link to={"/label/" + label}>
+                    <div className={classes.LabelText}>{label}</div>
+                  </Link>
+                  <div className={classes.Button}>
+                    <Button
+                      tooltipTitle="Delete label"
+                      onClick={() => removeLabelFromNote(label)}
                     >
-                      close
-                    </span>
-                  </Button>
+                      <span
+                        className="material-icons-outlined"
+                        style={{
+                          verticalAlign: "middle",
+                          display: "inline-block",
+                          fontSize: "15px",
+                        }}
+                      >
+                        close
+                      </span>
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-        <div className={classes.Buttons} onClick={closeLabelEditHandler}>
-          <Button tooltipTitle="Confirm changes" onClick={confirmEditHandler}>
-            <CheckCircleIcon />
-          </Button>
-          <Button tooltipTitle="Cancel" onClick={props.closeEdit}>
-            <CancelIcon />
-          </Button>
-          <Button tooltipTitle="Edit Labels" onClick={labelHandler}>
-            <LabelIcon />
-          </Button>
-        </div>
-        
-      </React.Fragment>
-    </div>
-    <Popper
-          style={{zIndex: "500"}}
-          id={id}
-          open={open}
-          anchorEl={labelPopperLocation}
-          disablePortal
-          modifiers={{
+              );
+            })}
+          </div>
+          <div className={classes.Buttons} onClick={closeLabelEditHandler}>
+            <Button tooltipTitle="Confirm changes" onClick={confirmEditHandler}>
+              <CheckCircleIcon />
+            </Button>
+            <Button tooltipTitle="Cancel" onClick={props.closeEdit}>
+              <CancelIcon />
+            </Button>
+            <Button tooltipTitle="Edit Labels" onClick={labelHandler}>
+              <LabelIcon />
+            </Button>
+          </div>
+        </React.Fragment>
+      </div>
+      <Popper
+        style={{ zIndex: "500" }}
+        id={id}
+        open={open}
+        anchorEl={labelPopperLocation}
+        disablePortal
+        modifiers={{
           preventOverflow: {
             escapeWithReference: true,
           },
         }}
-        >
-          <AddLabels
-            chosenLabels={chosenLabels}
-            addNewChosenLabelHandler={addNewChosenLabelHandler}
-            clickHandler={toggleLabelClickHandler}
-            confirmHandler={closeLabelEditHandler}
-            filterLabel={props.filterLabel}
-          />
-        </Popper>
+      >
+        <AddLabels
+          chosenLabels={chosenLabels}
+          addNewChosenLabelHandler={addNewChosenLabelHandler}
+          clickHandler={toggleLabelClickHandler}
+          confirmHandler={closeLabelEditHandler}
+          filterLabel={props.filterLabel}
+        />
+      </Popper>
     </div>
   );
 
   const createList = (
-    
-      <div className={classes.Form} >
-        <input
-          onKeyPress={handleKeyPressForTitle}
-          onClick={closeLabelEditHandler}
-          autoComplete="off"
-          value={title}
-          onChange={changeTitle}
-          name="title"
-          placeholder="Title"
-        />
-        <div style={{overflowY: "auto", maxHeight: "315px", display: "inline-block", width: "100%"}}>
+    <div className={classes.Form}>
+      <input
+        onKeyPress={handleKeyPressForTitle}
+        onClick={closeLabelEditHandler}
+        autoComplete="off"
+        value={title}
+        onChange={changeTitle}
+        name="title"
+        placeholder="Title"
+      />
+      <div
+        style={{
+          overflowY: "auto",
+          maxHeight: "315px",
+          display: "inline-block",
+          width: "100%",
+        }}
+      >
         {uncheckedList.map((item, index) => {
           return (
-            <div key={item.id} >
+            <div key={item.id}>
               <div
                 className={classes.Checkbox}
                 onClick={() => createListToggleHandler(item)}
@@ -352,7 +360,7 @@ function EditArea(props, ref) {
         {checkedList.length > 0 ? <hr /> : null}
         {checkedList.map((item, index) => {
           return (
-            <div key={item.id} >
+            <div key={item.id}>
               <div
                 className={classes.Checkbox}
                 onClick={() => createListToggleHandler(item)}
@@ -384,69 +392,70 @@ function EditArea(props, ref) {
             </div>
           );
         })}
+      </div>
+      <div style={{ position: "relative" }}>
+        <div className={classes.Checkbox1}>
+          <i className="far fa-square" onClick={addCheckedListItem}></i>
         </div>
-        <div style={{ position: "relative" }}>
-          <div className={classes.Checkbox1}>
-            <i className="far fa-square" onClick={addCheckedListItem}></i>
-          </div>
-          <input
-            autoComplete="off"
-            className={classes.Input1}
-            ref={newListItemRef}
-            onKeyPress={handleKeyPressForListItem}
-            onClick={closeLabelEditHandler}
-            value={content}
-            onChange={changeText}
-            name="content"
-            placeholder="Add list item..."
-          />
-          <div className={classes.Button1}>
-            <Button tooltipTitle="Add list item" onClick={addNewListItem}>
-              <AddIcon />
-            </Button>
-          </div>
+        <input
+          autoComplete="off"
+          className={classes.Input1}
+          ref={newListItemRef}
+          onKeyPress={handleKeyPressForListItem}
+          onClick={closeLabelEditHandler}
+          value={content}
+          onChange={changeText}
+          name="content"
+          placeholder="Add list item..."
+        />
+        <div className={classes.Button1}>
+          <Button tooltipTitle="Add list item" onClick={addNewListItem}>
+            <AddIcon />
+          </Button>
         </div>
-        <React.Fragment>
-          <div className={classes.Labels} onClick={closeLabelEditHandler}>
-            {chosenLabels.map((label) => {
-              return (
-                <div key={label} className={classes.Label}>
+      </div>
+      <React.Fragment>
+        <div className={classes.Labels} onClick={closeLabelEditHandler}>
+          {chosenLabels.map((label) => {
+            return (
+              <div key={label} className={classes.Label}>
+                <Link to={"/label/" + label}>
                   <div className={classes.LabelText}>{label}</div>
-                  <div className={classes.Button}>
-                    <Button
-                      tooltipTitle="Delete label"
-                      onClick={() => removeLabelFromNote(label)}
+                </Link>
+                <div className={classes.Button}>
+                  <Button
+                    tooltipTitle="Delete label"
+                    onClick={() => removeLabelFromNote(label)}
+                  >
+                    <span
+                      className="material-icons-outlined"
+                      style={{
+                        verticalAlign: "middle",
+                        display: "inline-block",
+                        fontSize: "15px",
+                      }}
                     >
-                      <span
-                        className="material-icons-outlined"
-                        style={{
-                          verticalAlign: "middle",
-                          display: "inline-block",
-                          fontSize: "15px",
-                        }}
-                      >
-                        close
-                      </span>
-                    </Button>
-                  </div>
-                </div> 
-              );
-            })}
-          </div>
-          <div  className={classes.Buttons} onClick={closeLabelEditHandler}>
-            <Button tooltipTitle="Confirm Edit" onClick={confirmEditHandler}>
-              <CheckCircleIcon />
-            </Button>
-            <Button tooltipTitle="Cancel" onClick={props.closeEdit}>
-              <CancelIcon />
-            </Button>
-            <Button tooltipTitle="Add Labels" onClick={openLabelEditHandler}>
-              <LabelIcon />
-            </Button>
-          </div>
-        </React.Fragment>
-        <Popper
-        
+                      close
+                    </span>
+                  </Button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div className={classes.Buttons} onClick={closeLabelEditHandler}>
+          <Button tooltipTitle="Confirm Edit" onClick={confirmEditHandler}>
+            <CheckCircleIcon />
+          </Button>
+          <Button tooltipTitle="Cancel" onClick={props.closeEdit}>
+            <CancelIcon />
+          </Button>
+          <Button tooltipTitle="Add Labels" onClick={openLabelEditHandler}>
+            <LabelIcon />
+          </Button>
+        </div>
+      </React.Fragment>
+      <Popper
         style={{ zIndex: "500" }}
         id={id}
         open={open}
@@ -466,9 +475,7 @@ function EditArea(props, ref) {
           filterLabel={props.filterLabel}
         />
       </Popper>
-      </div>
-      
-    
+    </div>
   );
 
   return <div>{props.note.type === "note" ? create : createList}</div>;

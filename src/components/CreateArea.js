@@ -15,6 +15,7 @@ import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import Popper from "@material-ui/core/Popper";
 import AddLabels from "./AddLabels";
+import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 // import ListCreateArea from "./ListCreateArea";
 
@@ -113,17 +114,23 @@ function CreateArea(props) {
 
   function changeListItem(event, index, checked) {
     if (checked) {
-      setCheckedList(prevCheckedList => {
+      setCheckedList((prevCheckedList) => {
         const newCheckedList = [...prevCheckedList];
-        newCheckedList[index] = {item: event.target.value, id: prevCheckedList[index].id};
+        newCheckedList[index] = {
+          item: event.target.value,
+          id: prevCheckedList[index].id,
+        };
         return newCheckedList;
-      })
+      });
     } else {
-      setUncheckedList(prevUncheckedList => {
+      setUncheckedList((prevUncheckedList) => {
         const newUncheckedList = [...prevUncheckedList];
-        newUncheckedList[index] = {item: event.target.value, id: prevUncheckedList[index].id};
+        newUncheckedList[index] = {
+          item: event.target.value,
+          id: prevUncheckedList[index].id,
+        };
         return newUncheckedList;
-      })
+      });
     }
   }
 
@@ -180,9 +187,9 @@ function CreateArea(props) {
     } else if (isNewList) {
       const newUncheckedList = [...uncheckedList];
       if (content !== "") {
-        newUncheckedList.push({item: content, id: uuidv4()});
+        newUncheckedList.push({ item: content, id: uuidv4() });
       }
-      
+
       props.addList({
         type: "list",
         title: title,
@@ -219,7 +226,6 @@ function CreateArea(props) {
       } else if (newListItemRef.current) {
         newListItemRef.current.focus();
       }
-      
     }
   }
 
@@ -290,7 +296,7 @@ function CreateArea(props) {
       }
     }
   }
-  function enterHandlerForListItems (event) {
+  function enterHandlerForListItems(event) {
     if (event.key === "Enter") {
       newListItemRef.current.focus();
     }
@@ -346,7 +352,9 @@ function CreateArea(props) {
             {chosenLabels.map((label) => {
               return (
                 <div key={label} className={classes.Label}>
-                  <div className={classes.LabelText}>{label}</div>
+                  <Link to={"/label/" + label}>
+                    <div className={classes.LabelText}>{label}</div>
+                  </Link>
                   <div className={classes.Button}>
                     <Button
                       tooltipTitle="Delete label"
@@ -500,7 +508,9 @@ function CreateArea(props) {
           {chosenLabels.map((label) => {
             return (
               <div key={label} className={classes.Label}>
-                <div className={classes.LabelText}>{label}</div>
+                <Link to={"/label/" + label}>
+                  <div className={classes.LabelText}>{label}</div>
+                </Link>
                 <div className={classes.Button}>
                   <Button
                     tooltipTitle="Delete label"
@@ -570,5 +580,3 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(CreateArea);
-
-
