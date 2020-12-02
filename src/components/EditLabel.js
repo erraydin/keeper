@@ -62,10 +62,10 @@ function EditLabel(props) {
     }
   }
 
-  useEffect(() => {
-    const index = props.labels.indexOf(props.label);
-    setLabelName(props.labels[index]);
-  }, [props.labels, props.label]);
+  // useEffect(() => {
+  //   const index = props.labels.indexOf(props.label);
+  //   setLabelName(props.labels[index]);
+  // }, [props.labels, props.label]);
 
   return (
     <div className={classes.InputArea}>
@@ -83,7 +83,7 @@ function EditLabel(props) {
         name="label name"
         placeholder="Edit label name..."
       />
-      <Button tooltipTitle="Confirm edit" onClick={editHandler}>
+      <Button tooltipTitle="Edit" onClick={editHandler}>
         <EditIcon />
       </Button>
       <Dialog

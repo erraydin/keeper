@@ -164,10 +164,22 @@ const notesReducer = (state = initialState, action) => {
         return { ...note, labels: newLabelsOfTrashNote };
       });
 
+      const editedLabelArchive = state.archive.map((note) => {
+        const newLabelsOfArchiveNote = note.labels.map((label) => {
+          if (label === action.oldLabel) {
+            return action.newLabel;
+          } else {
+            return label;
+          }
+        });
+        return {...note, labels: newLabelsOfArchiveNote}
+      })
+
       return {
         labels: editedLabels,
         notes: editedLabelNotes,
         trash: editedLabelTrash,
+        archive: editedLabelArchive,
       };
     case "DELETE_LABEL_COMPLETELY":
       const deletedLabels = state.labels.filter((label) => {
@@ -187,10 +199,18 @@ const notesReducer = (state = initialState, action) => {
         });
         return { ...note, labels: deletedLabelsOfTrash };
       });
+
+      const deletedLabelArchive = state.archive.map((note) => {
+        const deletedLabelsOfArchive = note.labels.filter((label) => {
+          return label !== action.label;
+        });
+        return { ...note, labels: deletedLabelsOfArchive };
+      })
       return {
         labels: deletedLabels,
         notes: deletedLabelNotes,
         trash: deletedLabelTrash,
+        archive: deletedLabelArchive,
       };
     
     case "ADD_LIST":
