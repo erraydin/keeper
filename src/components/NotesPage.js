@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import CreateArea from "./CreateArea";
 import EditArea from "./EditArea";
 import { connect } from "react-redux";
@@ -15,24 +15,40 @@ import Backdrop from "./Backdrop";
 function NotesPage(props) {
   const [editedId, setEditedId] = useState(null);
   const [editing, setEditing] = useState(false);
+  const [editedNote, setEditedNote] = useState(null);
+
 
   const editArea = useRef(null);
-  const editedIndex = props.notes.findIndex((note) => {
-    return note.id === editedId;
-  });
+  // let editedIndex = props.notes.findIndex((note) => {
+  //   return note.id === editedId;
+  // });
 
-  useEffect(() => {
-    console.log(editArea.current);
-  }, [editing]);
+  
+
+  // useEffect(() => {
+  //   console.log(editArea.current);
+  // }, [editing]);
 
   function editHandler(id) {
     setEditedId(id);
     setEditing(true);
+    let editedIndex = props.notes.findIndex((note) => {
+      return note.id === id;
+    });
+    if (editedIndex > -1) {
+      setEditedNote(props.notes[editedIndex])
+    } else {
+      editedIndex = props.archive.findIndex((note) => {
+        return note.id === id;
+      });
+      setEditedNote(props.archive[editedIndex])
+    }
   }
 
   function closeEditHandler() {
     setEditing(false);
     setEditedId(null);
+    setEditedNote(null);
   }
   // useEffect(() => {
   //   console.log(props);
@@ -48,6 +64,10 @@ function NotesPage(props) {
   const unpinnedNotes = displayedNotes.filter((note) => {
     return !note.pinned;
   });
+  let archivedNotes = [];
+  if (filterLabel !== "") {
+    archivedNotes = getVisibleNotes(props.archive, filterLabel, filterText);
+  }
 
   const noNotes =
     path === "/" ? (
@@ -85,7 +105,7 @@ function NotesPage(props) {
       {editing ? (
         <EditArea
           ref={editArea}
-          note={props.notes[editedIndex]}
+          note={editedNote}
           editNote={props.editNote}
           // editedId={editedId}
           closeEdit={closeEditHandler}
@@ -96,7 +116,9 @@ function NotesPage(props) {
         onClick={backdropClickHandler}
         transparent={false}
       />
-      {displayedNotes.length === 0 ? noNotes : null}
+      {displayedNotes.length === 0 && archivedNotes.length === 0
+        ? noNotes
+        : null}
 
       {pinnedNotes.length > 0 ? (
         <div className={classes.Notes}>
@@ -105,6 +127,7 @@ function NotesPage(props) {
             {pinnedNotes.map((note) => {
               return (
                 <Note
+                  archived={false}
                   editable={true}
                   type={note.type}
                   editedId={editedId}
@@ -123,12 +146,49 @@ function NotesPage(props) {
         </div>
       ) : null}
 
-      <div className={classes.Notes + (pinnedNotes.length > 0 ? " " +classes.NotesWhenPinned : "")}>
-        {pinnedNotes.length > 0 && unpinnedNotes.length > 0 ? <h5>OTHERS</h5> : null}
+      <div
+        className={
+          classes.Notes +
+          (pinnedNotes.length > 0 ? " " + classes.NotesWhenPinned : "")
+        }
+      >
+        {pinnedNotes.length > 0 && unpinnedNotes.length > 0 ? (
+          <h5>OTHERS</h5>
+        ) : null}
         <Masonry>
           {unpinnedNotes.map((note) => {
             return (
               <Note
+                archived={false}
+                editable={true}
+                type={note.type}
+                editedId={editedId}
+                editing={editing}
+                key={note.id}
+                note={note}
+                // index={index}
+                deleteNote={props.deleteNote}
+                deleteTooltip="Delete Note"
+                showEditButton={true}
+                onClick={editHandler}
+              />
+            );
+          })}
+        </Masonry>
+      </div>
+
+      <div
+        className={
+          classes.Notes +
+          (archivedNotes.length > 0 ? " " + classes.NotesWhenPinned : "")
+        }
+      >
+        {archivedNotes.length > 0 ? <h5>ARCHIVE</h5> : null}
+        <Masonry>
+          {archivedNotes.map((note) => {
+            return (
+              <Note
+                archived={true}
                 editable={true}
                 type={note.type}
                 editedId={editedId}
@@ -151,6 +211,7 @@ function NotesPage(props) {
 const mapStateToProps = (state) => {
   return {
     notes: state.main.notes,
+    archive: state.main.archive,
     text: state.filters.filterText,
     labels: state.main.labels,
     filterLabel: state.filters.filterLabel,

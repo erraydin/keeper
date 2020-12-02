@@ -48,6 +48,7 @@ function TrashPage(props) {
           {props.trash.map((note, index) => {
             return (
               <Note
+                archived={false}
                 editable={false}
                 type={note.type}
                 key={note.id}

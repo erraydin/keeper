@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 // import SideBar from "./components/SideBar";
 import NotesPage from "./components/NotesPage";
 import TrashPage from "./components/TrashPage";
+import ArchivePage from "./components/ArchivePage";
 import NotFoundPage from "./components/NotFoundPage";
 import { connect } from "react-redux";
 import EditLabels from "./components/EditLabels";
@@ -31,6 +32,13 @@ function App(props) {
         )}
       />
       <Route
+        path="/archive"
+        exact
+        render={(props) => (
+          <ArchivePage {...props} openEditLabels={openEditLabels} />
+        )}
+      />
+      <Route
         path="/trash"
         exact
         render={(props) => (
@@ -44,7 +52,9 @@ function App(props) {
             key={label}
             path={"/label/" + label}
             exact
-            component={NotesPage}
+            render={(props) => (
+              <NotesPage {...props} openEditLabels={openEditLabels} />
+            )}
           />
         );
       })}

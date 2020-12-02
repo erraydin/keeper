@@ -2,6 +2,7 @@ const initialState = {
   notes: [],
   labels: [],
   trash: [],
+  archive: [],
 };
 
 const notesReducer = (state = initialState, action) => {
@@ -13,25 +14,67 @@ const notesReducer = (state = initialState, action) => {
       };
     case "EDIT":
       const editedNotes = [...state.notes];
-      const editIndex = state.notes.findIndex((note) => note.id === action.id);
-      editedNotes[editIndex] = action.note;
+      const editedArchive = [...state.archive];
+      let editIndex = state.notes.findIndex((note) => note.id === action.id);
+      if (editIndex > -1) {
+        editedNotes[editIndex] = action.note;
+      } else {
+        editIndex = state.archive.findIndex((note) => note.id === action.id);
+        if (action.note.pinned) {
+          editedArchive.splice(editIndex, 1);
+          editedNotes.unshift(action.note);
+        } else {
+          editedArchive[editIndex] = action.note;
+        }
+      }
+
       return {
         ...state,
         notes: editedNotes,
+        archive: editedArchive,
       };
+  
+    case "ARCHIVE":
+      const archiveIndex = state.notes.findIndex(
+        (note) => note.id === action.note.id
+      );
+      const archivedNotes = state.notes.filter((note) => {
+        return note.id !== action.note.id;
+      });
+      const pinRemovedNoteArchive = {
+        ...state.notes[archiveIndex],
+        pinned: false,
+      };
+      return {
+        ...state,
+        notes: archivedNotes,
+        archive: [pinRemovedNoteArchive, ...state.archive],
+      };
+    case "UNARCHIVE":
+      const unarchiveIndex = state.archive.findIndex(
+        (note) => note.id === action.note.id
+      );
+      const unarchivedArchive = state.archive.filter((note) => {
+        return note.id !== action.note.id;
+      });
+      return {
+        ...state,
+        archive: unarchivedArchive,
+        notes: [state.archive[unarchiveIndex], ...state.notes]
+      }
     case "DELETE":
       const deleteIndex = state.notes.findIndex(
         (note) => note.id === action.id
       );
-      const deletedNotes = state.notes.filter((_, index) => {
-        return index !== deleteIndex;
+      const deletedNotes = state.notes.filter((note) => {
+        return note.id !== action.id;
       });
+      const pinRemovedNote = { ...state.notes[deleteIndex], pinned: false };
 
-      const pinRemovedNote = {...state.notes[deleteIndex], pinned: false}
       return {
         ...state,
         notes: deletedNotes,
-        trash: [pinRemovedNote, ...state.trash ],
+        trash: [pinRemovedNote, ...state.trash],
       };
     case "RESTORE":
       const restoreIndex = state.trash.findIndex(
@@ -128,26 +171,7 @@ const notesReducer = (state = initialState, action) => {
         notes: deletedLabelNotes,
         trash: deletedLabelTrash,
       };
-    case "DELETE_LABEL_FROM_NOTE":
-      const indexOfNote = state.notes.findIndex((note) => {
-        return note.id === action.noteId;
-      });
-      const newLabelsOfLabelRemovedNote = state.notes[
-        indexOfNote
-      ].labels.filter((label) => {
-        return label !== action.label;
-      });
-
-      const labelRemovedNotesArray = [...state.notes];
-      labelRemovedNotesArray[indexOfNote] = {
-        ...state.notes[indexOfNote],
-        labels: newLabelsOfLabelRemovedNote,
-      };
-
-      return {
-        ...state,
-        notes: labelRemovedNotesArray,
-      };
+    
     case "ADD_LIST":
       return {
         ...state,

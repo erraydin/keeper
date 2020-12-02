@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import classes from "./Note.module.css";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -10,11 +10,12 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import PaletteIcon from "@material-ui/icons/Palette";
 import ListItem from "./ListItem";
 import ColorPopper from "./ColorPopper";
-import { editNote } from "../actions/actions";
+import { editNote, archiveNote, unarchiveNote } from "../actions/actions";
 import Tooltip from "@material-ui/core/Tooltip";
-import { deleteLabelFromNote } from "../actions/actions";
 import Popper from "@material-ui/core/Popper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import ArchiveIcon from "@material-ui/icons/Archive";
+import UnarchiveIcon from '@material-ui/icons/Unarchive';
 
 function color(color) {
   switch (color) {
@@ -55,14 +56,12 @@ function Note(props) {
   const open = Boolean(colorPopperLocation);
   const id = open ? "simple-popper" : undefined;
 
-
   function openColorEditHandler(event) {
     event.stopPropagation();
     setColorPopperLocation((oldColorPopperLocation) => {
       return oldColorPopperLocation ? null : event.currentTarget;
     });
   }
-
 
   function closeColorEditHandler() {
     if (open) {
@@ -73,7 +72,10 @@ function Note(props) {
   const colorClass = color(props.note.color);
 
   function removeLabelFromNote(label) {
-    props.deleteLabelFromNote(label, props.note.id);
+    const newLabels = props.note.labels.filter(noteLabel => {
+      return noteLabel !== label;
+    })
+    props.editNote(props.note.id, {...props.note, labels: newLabels});
   }
 
   function changeColorHandler(color) {
@@ -89,9 +91,38 @@ function Note(props) {
     const newNote = { ...props.note, pinned: !props.note.pinned };
     props.editNote(props.note.id, newNote);
   }
+  let archiveButton = null;
+  if (props.editable && !props.archived) {
+    archiveButton = (
+      <Tooltip title="Archive">
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            return props.archiveNote(props.note);
+          }}
+        >
+          <ArchiveIcon />
+        </button>
+      </Tooltip>
+    );
+  } else if (props.editable && props.archived) {
+    archiveButton = (
+      <Tooltip title="Unarchive">
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            return props.unarchiveNote(props.note);
+          }}
+        >
+          <UnarchiveIcon />
+        </button>
+      </Tooltip>
+    )} 
 
   return (
-    <div >
+    <div>
       <div
         className={
           classes.Note +
@@ -233,18 +264,15 @@ function Note(props) {
           ) : null}
         </div>
         <div className={classes.ButtonArea}>
-        
-          <div style={{ width: props.editable ? "115px" : "145px" }}></div>
+          <div style={{ width: props.editable ? "85px" : "145px" }}></div>
           {props.editable ? (
             <Tooltip title="Change color">
-              <button
-                type="button"
-                onClick={openColorEditHandler}
-              >
+              <button type="button" onClick={openColorEditHandler}>
                 <PaletteIcon />
               </button>
             </Tooltip>
           ) : null}
+          {archiveButton}
           <Button
             tooltipTitle={props.deleteTooltip}
             onClick={(event) => {
@@ -288,9 +316,9 @@ function Note(props) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteLabelFromNote: (label, noteId) =>
-      dispatch(deleteLabelFromNote(label, noteId)),
     editNote: (id, note) => dispatch(editNote(id, note)),
+    archiveNote: (note) => dispatch(archiveNote(note)),
+    unarchiveNote: (note) => dispatch(unarchiveNote(note)),
   };
 };
 

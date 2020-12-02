@@ -23,6 +23,7 @@ function SideBar(props) {
               );
             })}
             <EditLabelsNavItem openEditLabels={props.openEditLabels} />
+            <NavigationItem path="/archive" iconName="archive" title="Archive" />
             <NavigationItem path="/trash" iconName="delete" title="Trash" />
           </ul>
         </nav>
