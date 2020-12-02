@@ -10,6 +10,8 @@ export const editNote = (id, note) => ({type: "EDIT", note: note, id: id});
 
 export const archiveNote = (note) => ({type: "ARCHIVE", note: note})
 
+export const archiveDirectly = (note) => ({type: "ARCHIVE_DIRECTLY", note: {...note, id: uuidv4()}});
+
 export const unarchiveNote = (note) => ({type: "UNARCHIVE", note: note});
 
 export const restoreNote = (id) => ({type: "RESTORE", id: id});
@@ -25,6 +27,6 @@ export const deleteLabelCompletely = (label) => ({type: "DELETE_LABEL_COMPLETELY
 
 export const editLabel = (oldLabel, newLabel) => ({type: "EDIT_LABEL", oldLabel: oldLabel, newLabel: newLabel});
 
-export const listItemCheckedToggle = (noteId, listItem, checked) => ({type: "LIST_ITEM_CHECKED_TOGGLE", noteId: noteId, listItem: listItem, checked: checked});
+// export const listItemCheckedToggle = (noteId, listItem, checked) => ({type: "LIST_ITEM_CHECKED_TOGGLE", noteId: noteId, listItem: listItem, checked: checked});
 
 export const addList = (list) => ({type: "ADD_LIST", list: {...list, id: uuidv4()}});

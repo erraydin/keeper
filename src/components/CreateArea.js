@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
-import { addNewLabel, addNote, addList } from "../actions/actions";
+import { addNewLabel, addNote, addList, archiveDirectly } from "../actions/actions";
 import classes from "./CreateArea.module.css";
 import AddIcon from "@material-ui/icons/Add";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import PaletteIcon from "@material-ui/icons/Palette";
 import ColorPopper from "./ColorPopper";
+import ArchiveIcon from "@material-ui/icons/Archive";
 // import ListCreateArea from "./ListCreateArea";
 
 function colorToClass(color) {
@@ -292,6 +293,45 @@ function CreateArea(props) {
     closeColorEditHandler();
   }
 
+  function archiveDirectly () {
+    if (isNewNote) {
+      props.archiveDirectly({
+        type: "note",
+        title: title,
+        content: content,
+        labels: chosenLabels,
+        pinned: isPinned,
+        color: color,
+      });
+    } else if (isNewList) {
+      const newUncheckedList = [...uncheckedList];
+      if (content !== "") {
+        newUncheckedList.push({ item: content, id: uuidv4() });
+      }
+
+      props.archiveDirectly({
+        type: "list",
+        title: title,
+        checked: checkedList,
+        unchecked: newUncheckedList,
+        labels: chosenLabels,
+        pinned: isPinned,
+        color: color,
+      });
+    }
+    setTitle("");
+    setContent("");
+    setColor("white");
+    setPinned(false);
+    setCheckedList([]);
+    setUncheckedList([]);
+    setExpanded(false);
+    setNewNote(false);
+    setNewList(false);
+    setChosenLabels(initialChosenLabels);
+    closeColorEditHandler();
+  }
+
   function cancelNoteHandler() {
     setTitle("");
     setPinned(false);
@@ -482,6 +522,9 @@ function CreateArea(props) {
             <Button tooltipTitle="Cancel" onClick={cancelNoteHandler}>
               <CancelIcon />
             </Button>
+            <Button tooltipTitle="Archive" onClick={archiveDirectly}>
+              <ArchiveIcon />
+            </Button>
             <Button tooltipTitle="Add Labels" onClick={openPopperHandler}>
               <LabelIcon />
             </Button>
@@ -664,6 +707,9 @@ function CreateArea(props) {
           <Button tooltipTitle="Cancel" onClick={cancelNoteHandler}>
             <CancelIcon />
           </Button>
+          <Button tooltipTitle="Archive" onClick={archiveDirectly}>
+              <ArchiveIcon />
+          </Button>
           <Button tooltipTitle="Add Labels" onClick={openPopperHandler}>
             <LabelIcon />
           </Button>
@@ -717,6 +763,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addNote: (note) => dispatch(addNote(note)),
+    archiveDirectly: (note) => dispatch(archiveDirectly(note)),
     addNewLabel: (label) => dispatch(addNewLabel(label)),
     addList: (list) => dispatch(addList(list)),
   };

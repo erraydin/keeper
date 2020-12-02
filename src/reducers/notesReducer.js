@@ -12,6 +12,12 @@ const notesReducer = (state = initialState, action) => {
         ...state,
         notes: [action.note, ...state.notes],
       };
+    case "ARCHIVE_DIRECTLY":
+      const unpinnedNote1 = {...action.note, pinned: false};
+      return {
+        ...state,
+        archive: [unpinnedNote1, ...state.archive],
+      };
     case "EDIT":
       const editedNotes = [...state.notes];
       const editedArchive = [...state.archive];
@@ -66,15 +72,30 @@ const notesReducer = (state = initialState, action) => {
       const deleteIndex = state.notes.findIndex(
         (note) => note.id === action.id
       );
-      const deletedNotes = state.notes.filter((note) => {
-        return note.id !== action.id;
-      });
-      const pinRemovedNote = { ...state.notes[deleteIndex], pinned: false };
-
+      let deletedNotes = [...state.notes];
+      let deletedTrash = [...state.trash];
+      let deletedArchive = [...state.archive];
+      if (deleteIndex > -1) {
+        deletedNotes = state.notes.filter((note) => {
+          return note.id !== action.id;
+        });
+        const pinRemovedNote = { ...state.notes[deleteIndex], pinned: false };
+        deletedTrash = [pinRemovedNote, ...state.trash];
+      } else {
+        const deleteIndexArchive = state.archive.findIndex(
+          (note) => note.id === action.id
+        );
+        deletedArchive = state.archive.filter((note) => {
+          return note.id !== action.id;
+        });
+        deletedTrash = [state.archive[deleteIndexArchive], ...state.trash];
+      }
+      
       return {
         ...state,
         notes: deletedNotes,
-        trash: [pinRemovedNote, ...state.trash],
+        trash: deletedTrash,
+        archive: deletedArchive,
       };
     case "RESTORE":
       const restoreIndex = state.trash.findIndex(
@@ -177,46 +198,46 @@ const notesReducer = (state = initialState, action) => {
         ...state,
         notes: [action.list, ...state.notes],
       };
-    case "LIST_ITEM_CHECKED_TOGGLE":
-      if (action.checked) {
-        let ListNoteIndex = state.notes.findIndex((note) => {
-          return action.noteId === note.id;
-        });
-        let listNote = state.notes[ListNoteIndex];
-        let newCheckedList = listNote.checked.filter((listItem) => {
-          return listItem.id !== action.listItem.id;
-        });
-        let newUncheckedList = [action.listItem, ...listNote.unchecked];
-        let newNotes = [...state.notes];
-        newNotes[ListNoteIndex] = {
-          ...listNote,
-          checked: newCheckedList,
-          unchecked: newUncheckedList,
-        };
-        return {
-          ...state,
-          notes: newNotes,
-        };
-      } else {
-        let ListNoteIndex = state.notes.findIndex((note) => {
-          return action.noteId === note.id;
-        });
-        let listNote = state.notes[ListNoteIndex];
-        let newCheckedList = [action.listItem, ...listNote.checked];
-        let newUncheckedList = listNote.unchecked.filter((listItem) => {
-          return listItem.id !== action.listItem.id;
-        });
-        let newNotes = [...state.notes];
-        newNotes[ListNoteIndex] = {
-          ...listNote,
-          checked: newCheckedList,
-          unchecked: newUncheckedList,
-        };
-        return {
-          ...state,
-          notes: newNotes,
-        };
-      }
+    // case "LIST_ITEM_CHECKED_TOGGLE":
+    //   if (action.checked) {
+    //     let ListNoteIndex = state.notes.findIndex((note) => {
+    //       return action.noteId === note.id;
+    //     });
+    //     let listNote = state.notes[ListNoteIndex];
+    //     let newCheckedList = listNote.checked.filter((listItem) => {
+    //       return listItem.id !== action.listItem.id;
+    //     });
+    //     let newUncheckedList = [action.listItem, ...listNote.unchecked];
+    //     let newNotes = [...state.notes];
+    //     newNotes[ListNoteIndex] = {
+    //       ...listNote,
+    //       checked: newCheckedList,
+    //       unchecked: newUncheckedList,
+    //     };
+    //     return {
+    //       ...state,
+    //       notes: newNotes,
+    //     };
+    //   } else {
+    //     let ListNoteIndex = state.notes.findIndex((note) => {
+    //       return action.noteId === note.id;
+    //     });
+    //     let listNote = state.notes[ListNoteIndex];
+    //     let newCheckedList = [action.listItem, ...listNote.checked];
+    //     let newUncheckedList = listNote.unchecked.filter((listItem) => {
+    //       return listItem.id !== action.listItem.id;
+    //     });
+    //     let newNotes = [...state.notes];
+    //     newNotes[ListNoteIndex] = {
+    //       ...listNote,
+    //       checked: newCheckedList,
+    //       unchecked: newUncheckedList,
+    //     };
+    //     return {
+    //       ...state,
+    //       notes: newNotes,
+    //     };
+    //   }
     default:
       return state;
   }

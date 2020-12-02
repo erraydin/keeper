@@ -1,19 +1,42 @@
 import React from "react";
 import classes from "./ListItem.module.css";
 import { connect } from "react-redux";
-import { listItemCheckedToggle } from "../actions/actions";
+import { editNote } from "../actions/actions";
 
 function ListItem(props) {
+  // function toggleHandler(event) {
+  //   props.listItemCheckedToggle(props.listId, props.item, props.checked);
+  //   event.stopPropagation();
+  // }
+
   function toggleHandler(event) {
-    props.listItemCheckedToggle(props.listId, props.item, props.checked);
     event.stopPropagation();
+    let checked = [...props.list.checked];
+    let unchecked = [...props.list.unchecked];
+    if (props.checked) {
+      checked = checked.filter((item) => {
+        return item.id !== props.item.id;
+      });
+      unchecked = [...unchecked, { ...props.item }];
+    } else {
+      unchecked = unchecked.filter((item) => {
+        return item.id !== props.item.id;
+      });
+      checked = [{ ...props.item }, ...checked];
+    }
+    const newNote = {
+      ...props.list,
+      checked: checked,
+      unchecked: unchecked,
+    };
+    props.editNote(props.list.id, newNote);
   }
   return (
-    <li >
+    <li>
       <div
         className={
           props.editable
-            ? classes.Editable + " " +  classes.Checkbox
+            ? classes.Editable + " " + classes.Checkbox
             : classes.NotEditable + " " + classes.Checkbox
         }
         onClick={props.editable ? toggleHandler : null}
@@ -40,8 +63,7 @@ function ListItem(props) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    listItemCheckedToggle: (noteId, listItem, checked) =>
-      dispatch(listItemCheckedToggle(noteId, listItem, checked)),
+    editNote: (id, note) => dispatch(editNote(id, note)),
   };
 };
 

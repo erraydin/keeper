@@ -177,7 +177,7 @@ function Note(props) {
                         key={item.id}
                         item={item}
                         checked={false}
-                        listId={props.note.id}
+                        list={props.note}
                       />
                     );
                   })}
@@ -194,7 +194,7 @@ function Note(props) {
                         key={item.id}
                         item={item}
                         checked={true}
-                        listId={props.note.id}
+                        list={props.note}
                       />
                     );
                   })}
