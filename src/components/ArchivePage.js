@@ -6,7 +6,12 @@ import Note from "./Note";
 import Masonry from "react-masonry-component";
 import Header from "./Header";
 import SideBar from "./SideBar";
-import { deleteNote, editNote } from "../actions/actions";
+import {
+  deleteNote,
+  editNote,
+  editAndArchive,
+  editAndUnarchive,
+} from "../actions/actions";
 
 import { connect } from "react-redux";
 
@@ -51,6 +56,9 @@ function ArchivePage(props) {
       <SideBar openEditLabels={props.openEditLabels} />
       {editing ? (
         <EditArea
+          editAndArchive={props.editAndArchive}
+          editAndUnarchive={props.editAndUnarchive}
+          archive={props.archive}
           ref={editArea}
           note={props.archive[editedIndex]}
           editNote={props.editNote}
@@ -65,26 +73,26 @@ function ArchivePage(props) {
       />
       {props.archive.length === 0 ? noNotes : null}
       <div className={classes.Notes}>
-      <Masonry>
-            {props.archive.map((note) => {
-              return (
-                <Note
-                  archived={true}
-                  editable={true}
-                  type={note.type}
-                  editedId={editedId}
-                  editing={editing}
-                  key={note.id}
-                  note={note}
-                  // index={index}
-                  deleteNote={props.deleteNote}
-                  deleteTooltip="Delete Note"
-                  showEditButton={true}
-                  onClick={editHandler}
-                />
-              );
-            })}
-          </Masonry>
+        <Masonry>
+          {props.archive.map((note) => {
+            return (
+              <Note
+                archived={true}
+                editable={true}
+                type={note.type}
+                editedId={editedId}
+                editing={editing}
+                key={note.id}
+                note={note}
+                // index={index}
+                deleteNote={props.deleteNote}
+                deleteTooltip="Delete Note"
+                showEditButton={true}
+                onClick={editHandler}
+              />
+            );
+          })}
+        </Masonry>
       </div>
     </div>
   );
@@ -96,10 +104,14 @@ const mapStateToProps = (state) => {
   };
 };
 const mapDispatchToProps = (dispatch) => {
-    return {
-      editNote: (id, note) => dispatch(editNote(id, note)),
-      deleteNote: (id) => dispatch(deleteNote(id)),
-    };
+  return {
+    editNote: (id, note) => dispatch(editNote(id, note)),
+    deleteNote: (id) => dispatch(deleteNote(id)),
+    editAndArchive: (oldNote, newNote) =>
+      dispatch(editAndArchive(oldNote, newNote)),
+    editAndUnarchive: (oldNote, newNote) =>
+      dispatch(editAndUnarchive(oldNote, newNote)),
   };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArchivePage);

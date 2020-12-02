@@ -14,6 +14,8 @@ import { Link } from "react-router-dom";
 import PaletteIcon from "@material-ui/icons/Palette";
 import ColorPopper from "./ColorPopper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import ArchiveIcon from "@material-ui/icons/Archive";
+import UnarchiveIcon from "@material-ui/icons/Unarchive";
 
 function colorToClass(color) {
   switch (color) {
@@ -75,6 +77,12 @@ function EditArea(props, ref) {
   const textAreaRef = useRef(null);
   const newListItemRef = useRef(null);
 
+  const editedIndexInArchive = props.archive.findIndex((note) => {
+    return props.note.id === note.id;
+  });
+
+  const isEditedNoteInArchive = editedIndexInArchive > -1;
+
   function changeColorHandler(newColor) {
     if (newColor !== color) {
       setColor(newColor);
@@ -124,6 +132,69 @@ function EditArea(props, ref) {
 
     props.closeEdit();
   }
+
+  function editAndArchiveHandler() {
+    if (props.note.type === "note") {
+      props.editAndArchive(props.note, {
+        title: title,
+        content: content,
+        id: props.note.id,
+        labels: chosenLabels,
+        type: "note",
+        pinned: isPinned,
+        color: color,
+      });
+    } else {
+      const newUncheckedList = [...uncheckedList];
+      if (content !== "") {
+        newUncheckedList.push({ item: content, id: uuidv4() });
+      }
+      props.editAndArchive(props.note, {
+        title: title,
+        checked: checkedList,
+        unchecked: newUncheckedList,
+        id: props.note.id,
+        labels: chosenLabels,
+        type: "list",
+        pinned: isPinned,
+        color: color,
+      });
+    }
+
+    props.closeEdit();
+  }
+
+  function editAndUnarchiveHandler() {
+    if (props.note.type === "note") {
+      props.editAndUnarchive(props.note, {
+        title: title,
+        content: content,
+        id: props.note.id,
+        labels: chosenLabels,
+        type: "note",
+        pinned: isPinned,
+        color: color,
+      });
+    } else {
+      const newUncheckedList = [...uncheckedList];
+      if (content !== "") {
+        newUncheckedList.push({ item: content, id: uuidv4() });
+      }
+      props.editAndUnarchive(props.note, {
+        title: title,
+        checked: checkedList,
+        unchecked: newUncheckedList,
+        id: props.note.id,
+        labels: chosenLabels,
+        type: "list",
+        pinned: isPinned,
+        color: color,
+      });
+    }
+
+    props.closeEdit();
+  }
+
   ref.current = confirmEditHandler;
   function enterHandlerForListItems(event) {
     if (event.key === "Enter") {
@@ -285,6 +356,7 @@ function EditArea(props, ref) {
       return !prevPinned;
     });
   }
+
   const popperRef = useRef(null);
   const create = (
     <div className={classes.Form1} ref={popperRef}>
@@ -360,6 +432,18 @@ function EditArea(props, ref) {
             <Button tooltipTitle="Cancel" onClick={props.closeEdit}>
               <CancelIcon />
             </Button>
+            {isEditedNoteInArchive ? (
+              <Button
+                tooltipTitle="unarchive"
+                onClick={editAndUnarchiveHandler}
+              >
+                <UnarchiveIcon />
+              </Button>
+            ) : (
+              <Button tooltipTitle="Archive" onClick={editAndArchiveHandler}>
+                <ArchiveIcon />
+              </Button>
+            )}
             <Button tooltipTitle="Edit Labels" onClick={openLabelEditHandler}>
               <LabelIcon />
             </Button>
@@ -559,6 +643,15 @@ function EditArea(props, ref) {
           <Button tooltipTitle="Cancel" onClick={props.closeEdit}>
             <CancelIcon />
           </Button>
+          {isEditedNoteInArchive ? (
+            <Button tooltipTitle="unarchive" onClick={editAndUnarchiveHandler}>
+              <UnarchiveIcon />
+            </Button>
+          ) : (
+            <Button tooltipTitle="Archive" onClick={editAndArchiveHandler}>
+              <ArchiveIcon />
+            </Button>
+          )}
           <Button tooltipTitle="Add Labels" onClick={openLabelEditHandler}>
             <LabelIcon />
           </Button>

@@ -198,46 +198,28 @@ const notesReducer = (state = initialState, action) => {
         ...state,
         notes: [action.list, ...state.notes],
       };
-    // case "LIST_ITEM_CHECKED_TOGGLE":
-    //   if (action.checked) {
-    //     let ListNoteIndex = state.notes.findIndex((note) => {
-    //       return action.noteId === note.id;
-    //     });
-    //     let listNote = state.notes[ListNoteIndex];
-    //     let newCheckedList = listNote.checked.filter((listItem) => {
-    //       return listItem.id !== action.listItem.id;
-    //     });
-    //     let newUncheckedList = [action.listItem, ...listNote.unchecked];
-    //     let newNotes = [...state.notes];
-    //     newNotes[ListNoteIndex] = {
-    //       ...listNote,
-    //       checked: newCheckedList,
-    //       unchecked: newUncheckedList,
-    //     };
-    //     return {
-    //       ...state,
-    //       notes: newNotes,
-    //     };
-    //   } else {
-    //     let ListNoteIndex = state.notes.findIndex((note) => {
-    //       return action.noteId === note.id;
-    //     });
-    //     let listNote = state.notes[ListNoteIndex];
-    //     let newCheckedList = [action.listItem, ...listNote.checked];
-    //     let newUncheckedList = listNote.unchecked.filter((listItem) => {
-    //       return listItem.id !== action.listItem.id;
-    //     });
-    //     let newNotes = [...state.notes];
-    //     newNotes[ListNoteIndex] = {
-    //       ...listNote,
-    //       checked: newCheckedList,
-    //       unchecked: newUncheckedList,
-    //     };
-    //     return {
-    //       ...state,
-    //       notes: newNotes,
-    //     };
-    //   }
+    case "EDIT_AND_ARCHIVE":
+      const editedAndArchivedNotes = state.notes.filter(note => {
+        return note.id !== action.oldNote.id
+      })
+      const unpinnedNote2 = {...action.newNote, pinned: false}
+      const editedAndArchivedArchive = [unpinnedNote2, ...state.archive]
+
+      return {
+        ...state,
+        notes: editedAndArchivedNotes,
+        archive: editedAndArchivedArchive,
+      };
+    case "EDIT_AND_UNARCHIVE":
+      const editedAndUnarchivedArchive = state.archive.filter(note => {
+        return note.id !== action.oldNote.id;
+      })
+      const editedAndUnarchivedNotes = [action.newNote, ...state.notes];
+      return {
+        ...state,
+        notes: editedAndUnarchivedNotes,
+        archive: editedAndUnarchivedArchive,
+      }
     default:
       return state;
   }

@@ -12,6 +12,10 @@ export const archiveNote = (note) => ({type: "ARCHIVE", note: note})
 
 export const archiveDirectly = (note) => ({type: "ARCHIVE_DIRECTLY", note: {...note, id: uuidv4()}});
 
+export const editAndArchive = (oldNote, newNote) => ({type: "EDIT_AND_ARCHIVE", oldNote: oldNote, newNote: newNote});
+
+export const editAndUnarchive = (oldNote, newNote) => ({type: "EDIT_AND_UNARCHIVE", oldNote: oldNote, newNote: newNote});
+
 export const unarchiveNote = (note) => ({type: "UNARCHIVE", note: note});
 
 export const restoreNote = (id) => ({type: "RESTORE", id: id});

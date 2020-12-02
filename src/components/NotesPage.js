@@ -4,7 +4,7 @@ import EditArea from "./EditArea";
 import { connect } from "react-redux";
 import Note from "./Note";
 import Masonry from "react-masonry-component";
-import { addNote, deleteNote, editNote } from "../actions/actions";
+import { addNote, deleteNote, editNote, archiveNote, editAndArchive, editAndUnarchive } from "../actions/actions";
 import { setFilterLabel } from "../actions/filters";
 import classes from "./NotesPage.module.css";
 import getVisibleNotes from "../selectors/notes";
@@ -16,7 +16,10 @@ function NotesPage(props) {
   const [editedId, setEditedId] = useState(null);
   const [editing, setEditing] = useState(false);
   const [editedNote, setEditedNote] = useState(null);
-
+  // const editedNoteIndexInArchive = props.archive.findIndex(note => {
+  //   return note.id === editedNote.id
+  // })
+  // const editedNoteInArchive = (editedNoteIndexInArchive > -1);
 
   const editArea = useRef(null);
   // let editedIndex = props.notes.findIndex((note) => {
@@ -104,6 +107,9 @@ function NotesPage(props) {
       <CreateArea filterLabel={filterLabel} />
       {editing ? (
         <EditArea
+          editAndUnarchive={props.editAndUnarchive}
+          editAndArchive={props.editAndArchive}
+          archive={props.archive}
           ref={editArea}
           note={editedNote}
           editNote={props.editNote}
@@ -224,6 +230,9 @@ const mapDispatchToProps = (dispatch) => {
     deleteNote: (id) => dispatch(deleteNote(id)),
     editNote: (id, note) => dispatch(editNote(id, note)),
     setFilterLabel: (filterLabel) => dispatch(setFilterLabel(filterLabel)),
+    archiveNote: (note) => dispatch(archiveNote(note)),
+    editAndArchive: (oldNote, newNote) => dispatch(editAndArchive(oldNote, newNote)),
+    editAndUnarchive: (oldNote, newNote) => dispatch(editAndUnarchive(oldNote, newNote)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NotesPage);
