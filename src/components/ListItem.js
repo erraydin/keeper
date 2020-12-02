@@ -49,6 +49,7 @@ function ListItem(props) {
       </div>
       <div
         style={{
+          textDecoration: props.checked ? "line-through" : "default",
           display: "inline-block",
           marginLeft: "21px",
           width: "82%",
