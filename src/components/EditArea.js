@@ -594,7 +594,7 @@ function EditArea(props, ref) {
           type="text"
           autoComplete="off"
           className={classes.Input1}
-          ref={newListItemRef}
+          ref={textAreaRef}
           onKeyPress={handleKeyPressForListItem}
           value={content}
           onChange={changeText}
