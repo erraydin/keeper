@@ -79,7 +79,7 @@ function ArchivePage(props) {
         onClick={backdropClickHandler}
         transparent={false}
       />
-      {props.archive.length === 0 ? noNotes : null}
+      {props.archive.length === 0 &&  props.text === ""? noNotes : null}
 
       <div className={classes.Notes}>
         {props.text === "" ? null : (

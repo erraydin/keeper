@@ -120,6 +120,7 @@ function NotesPage(props) {
       <Header />
       <SideBar openEditLabels={props.openEditLabels} />
       <CreateArea filterLabel={filterLabel} />
+
       {editing ? (
         <EditArea
           editAndUnarchive={props.editAndUnarchive}
@@ -137,13 +138,17 @@ function NotesPage(props) {
         onClick={backdropClickHandler}
         transparent={false}
       />
-      {displayedNotes.length === 0 && archivedNotes.length === 0
+      {displayedNotes.length === 0 &&
+      archivedNotes.length === 0 &&
+      props.text === ""
         ? noNotes
         : null}
 
       {pinnedNotes.length > 0 ? (
         <div className={classes.Notes}>
-          
+          {props.text === "" ? null : (
+            <h3 className={classes.SearchResult}>Search Results:</h3>
+          )}
           <h5>PINNED</h5>
           <Masonry>
             {pinnedNotes.map((note) => {
@@ -174,6 +179,10 @@ function NotesPage(props) {
           (pinnedNotes.length > 0 ? " " + classes.NotesWhenPinned : "")
         }
       >
+        {props.text !== "" && pinnedNotes.length === 0 ? (
+          <h3 className={classes.SearchResult}>Search Results:</h3>
+        ) : null}
+        {pinnedNotes.length > 0 && unpinnedNotes.length > 0 ? <h5>OTHERS</h5> : null}
         <Masonry>
           {unpinnedNotes.map((note) => {
             return (

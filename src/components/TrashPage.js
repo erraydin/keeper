@@ -12,36 +12,43 @@ import Header from "./Header";
 import SideBar from "./SideBar";
 import getVisibleNotes from "../selectors/notes";
 
-const noTrash = (
-  <div className={classes.Empty}>
-    <span
-      className={"material-icons " + classes.Icon}
-      style={{ verticalAlign: "middle" }}
-    >
-      delete_outline
-    </span>
-    <p className={classes.Note}>No notes in Trash</p>
-  </div>
-);
-
 function TrashPage(props) {
   // useEffect(() => {
   //   console.log(props);
   // });
-  const displayedTrashNotes = getVisibleNotes(props.trash, "", props.text, props.color);
-  const yesTrash = (
-    props.text === "" ?
-    <button
-      style={{ marginTop: "110px" }}
-      className={classes.Button}
-      type="button"
-      onClick={props.emptyTrash}
-    >
-      Click here to empty trash
-    </button> : 
-    <h3 className={classes.SearchResult}>Search Results:</h3>
+  const displayedTrashNotes = getVisibleNotes(
+    props.trash,
+    "",
+    props.text,
+    props.color
   );
-
+  const noTrash =
+    props.text === "" ? (
+      <div className={classes.Empty}>
+        <span
+          className={"material-icons " + classes.Icon}
+          style={{ verticalAlign: "middle" }}
+        >
+          delete_outline
+        </span>
+        <p className={classes.Note}>No notes in Trash</p>
+      </div>
+    ) : (
+      <h3 className={classes.SearchResult}>Search Results:</h3>
+    );
+  const yesTrash =
+    props.text === "" ? (
+      <button
+        style={{ marginTop: "110px" }}
+        className={classes.Button}
+        type="button"
+        onClick={props.emptyTrash}
+      >
+        Click here to empty trash
+      </button>
+    ) : (
+      <h3 className={classes.SearchResult}>Search Results:</h3>
+    );
 
   return (
     <div className={classes.NotePage}>
