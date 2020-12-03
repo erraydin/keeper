@@ -10,6 +10,11 @@ const filtersReducer = (state = initialState, action) => {
         ...state,
         filterText: action.filterText,
       };
+    case "SET_FILTER_COLOR":
+      return {
+        ...state,
+        filterColor: action.filterColor,
+      }
     default:
       return state;
   }

@@ -18,10 +18,13 @@ import Header from "./Header";
 import SideBar from "./SideBar";
 import Backdrop from "./Backdrop";
 
+
 function NotesPage(props) {
   const [editedId, setEditedId] = useState(null);
   const [editing, setEditing] = useState(false);
   const [editedNote, setEditedNote] = useState(null);
+
+  
   // const editedNoteIndexInArchive = props.archive.findIndex(note => {
   //   return note.id === editedNote.id
   // })
@@ -35,6 +38,7 @@ function NotesPage(props) {
   // useEffect(() => {
   //   console.log(editArea.current);
   // }, [editing]);
+  
 
   function editHandler(id) {
     setEditedId(id);
@@ -116,42 +120,81 @@ function NotesPage(props) {
   }
 
   return (
-    <div className={classes.NotesPage}>
-      <Header />
-      <SideBar openEditLabels={props.openEditLabels} />
-      <CreateArea filterLabel={filterLabel} />
+    <div >
+      
+      
+      <div className={classes.NotesPage} >
+        
+        <Header />
+        <SideBar openEditLabels={props.openEditLabels} />
+        <CreateArea filterLabel={filterLabel} />
 
-      {editing ? (
-        <EditArea
-          editAndUnarchive={props.editAndUnarchive}
-          editAndArchive={props.editAndArchive}
-          archive={props.archive}
-          ref={editArea}
-          note={editedNote}
-          editNote={props.editNote}
-          // editedId={editedId}
-          closeEdit={closeEditHandler}
-        ></EditArea>
-      ) : null}
-      <Backdrop
-        show={editing}
-        onClick={backdropClickHandler}
-        transparent={false}
-      />
-      {displayedNotes.length === 0 &&
-      archivedNotes.length === 0 &&
-      props.text === ""
-        ? noNotes
-        : null}
+        {editing ? (
+          <EditArea
+            editAndUnarchive={props.editAndUnarchive}
+            editAndArchive={props.editAndArchive}
+            archive={props.archive}
+            ref={editArea}
+            note={editedNote}
+            editNote={props.editNote}
+            // editedId={editedId}
+            closeEdit={closeEditHandler}
+          ></EditArea>
+        ) : null}
+        <Backdrop
+          show={editing}
+          onClick={backdropClickHandler}
+          transparent={false}
+        />
+        {displayedNotes.length === 0 &&
+        archivedNotes.length === 0 &&
+        props.text === ""
+          ? noNotes
+          : null}
 
-      {pinnedNotes.length > 0 ? (
-        <div className={classes.Notes}>
-          {props.text === "" ? null : (
+        {pinnedNotes.length > 0 ? (
+          <div className={classes.Notes}>
+            {props.text === "" ? null : (
+              <h3 className={classes.SearchResult}>Search Results:</h3>
+            )}
+            <h5>PINNED</h5>
+            <Masonry>
+              {pinnedNotes.map((note) => {
+                return (
+                  <Note
+                    archived={false}
+                    editable={true}
+                    type={note.type}
+                    editedId={editedId}
+                    editing={editing}
+                    key={note.id}
+                    note={note}
+                    // index={index}
+                    deleteNote={props.deleteNote}
+                    deleteTooltip="Delete Note"
+                    showEditButton={true}
+                    onClick={editHandler}
+                  />
+                );
+              })}
+            </Masonry>
+          </div>
+        ) : null}
+
+        <div
+          className={
+            classes.Notes +
+            (pinnedNotes.length > 0 ? " " + classes.NotesWhenPinned : "")
+          }
+        >
+          {props.text !== "" && pinnedNotes.length === 0 ? (
             <h3 className={classes.SearchResult}>Search Results:</h3>
-          )}
-          <h5>PINNED</h5>
+          ) : null}
+          {pinnedNotes.length > 0 && unpinnedNotes.length > 0 ? (
+            <h5>OTHERS</h5>
+          ) : null}
           <Masonry>
-            {pinnedNotes.map((note) => {
+            {unpinnedNotes.map((note) => {
               return (
                 <Note
                   archived={false}
@@ -171,67 +214,35 @@ function NotesPage(props) {
             })}
           </Masonry>
         </div>
-      ) : null}
 
-      <div
-        className={
-          classes.Notes +
-          (pinnedNotes.length > 0 ? " " + classes.NotesWhenPinned : "")
-        }
-      >
-        {props.text !== "" && pinnedNotes.length === 0 ? (
-          <h3 className={classes.SearchResult}>Search Results:</h3>
-        ) : null}
-        {pinnedNotes.length > 0 && unpinnedNotes.length > 0 ? <h5>OTHERS</h5> : null}
-        <Masonry>
-          {unpinnedNotes.map((note) => {
-            return (
-              <Note
-                archived={false}
-                editable={true}
-                type={note.type}
-                editedId={editedId}
-                editing={editing}
-                key={note.id}
-                note={note}
-                // index={index}
-                deleteNote={props.deleteNote}
-                deleteTooltip="Delete Note"
-                showEditButton={true}
-                onClick={editHandler}
-              />
-            );
-          })}
-        </Masonry>
-      </div>
-
-      <div
-        className={
-          classes.Notes +
-          (archivedNotes.length > 0 ? " " + classes.NotesWhenPinned : "")
-        }
-      >
-        {archivedNotes.length > 0 ? <h5>ARCHIVE</h5> : null}
-        <Masonry>
-          {archivedNotes.map((note) => {
-            return (
-              <Note
-                archived={true}
-                editable={true}
-                type={note.type}
-                editedId={editedId}
-                editing={editing}
-                key={note.id}
-                note={note}
-                // index={index}
-                deleteNote={props.deleteNote}
-                deleteTooltip="Delete Note"
-                showEditButton={true}
-                onClick={editHandler}
-              />
-            );
-          })}
-        </Masonry>
+        <div
+          className={
+            classes.Notes +
+            (archivedNotes.length > 0 ? " " + classes.NotesWhenPinned : "")
+          }
+        >
+          {archivedNotes.length > 0 ? <h5>ARCHIVE</h5> : null}
+          <Masonry>
+            {archivedNotes.map((note) => {
+              return (
+                <Note
+                  archived={true}
+                  editable={true}
+                  type={note.type}
+                  editedId={editedId}
+                  editing={editing}
+                  key={note.id}
+                  note={note}
+                  // index={index}
+                  deleteNote={props.deleteNote}
+                  deleteTooltip="Delete Note"
+                  showEditButton={true}
+                  onClick={editHandler}
+                />
+              );
+            })}
+          </Masonry>
+        </div>
       </div>
     </div>
   );

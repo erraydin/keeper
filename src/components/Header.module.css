@@ -24,7 +24,7 @@
 
 .Search {
     position: relative;
-    width: 500px;
+    width: 700px;
     height: 50px;
     display: inline-block;
     left: 80px;
@@ -35,7 +35,7 @@
 
 .Search input {
     display:inline-block;
-    width: 80%;
+    width: 79%;
     height: 100%;
     border: none;
     margin-left:5px;

@@ -35,33 +35,6 @@ function ColorPopper(props) {
             </Tooltip>
           );
         })}
-        {/* <Tooltip title="white">
-          <button type="button"></button>
-        </Tooltip>
-        <Tooltip title="orange">
-          <button type="button"></button>
-        </Tooltip>
-        <Tooltip title="yellow">
-          <button type="button"></button>
-        </Tooltip>
-        <Tooltip title="green">
-          <button type="button"></button>
-        </Tooltip>
-        <Tooltip title="turquoise">
-          <button type="button"></button>
-        </Tooltip>
-        <Tooltip title="blue">
-          <button type="button"></button>
-        </Tooltip>
-        <Tooltip title="darkblue">
-          <button type="button"></button>
-        </Tooltip>
-        <Tooltip title="purple">
-          <button type="button"></button>
-        </Tooltip>
-        <Tooltip title="pink">
-          <button type="button"></button>
-        </Tooltip> */}
       </div>
     </div>
   );
