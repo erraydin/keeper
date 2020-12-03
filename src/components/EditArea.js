@@ -198,7 +198,7 @@ function EditArea(props, ref) {
   ref.current = confirmEditHandler;
   function enterHandlerForListItems(event) {
     if (event.key === "Enter") {
-      newListItemRef.current.focus();
+      textAreaRef.current.focus();
     }
   }
 
@@ -300,7 +300,7 @@ function EditArea(props, ref) {
       });
       setContent("");
     }
-    newListItemRef.current.focus();
+    textAreaRef.current.focus();
   }
 
   function changeTitle(event) {
