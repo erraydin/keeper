@@ -1,79 +1,95 @@
 .header {
-    position: fixed;
-    background-color:#f5ba13;
-    margin: auto;
-    padding: 10px 32px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-    width: 100%;
-    top: 0px;
-    z-index: 2;
+  position: fixed;
+  background-color: #79a3b1;
+  margin: auto;
+  padding: 10px 32px;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+  border-bottom: solid 1px rgb(192, 192, 192);
+  width: 100%;
+  top: 0px;
+  z-index: 2;
 }
-  
+
 .header h1 {
-    color:#ffffffcb;
-    font-family: "McLaren", cursive;
-    font-weight: 200;
-    display: inline;
+  color: #ffffff;
+  font-family: "McLaren", cursive;
+  font-weight: 200;
+  display: inline;
+  /* text-shadow: 1px 1px #666666; */
 }
 
 .header a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 /* #f5ba13 */
+/* #dadada */
+/* #79a3b1 */
+/* #8db596 */
+/* #839b97 */
+/* #c56183 */
 
 .Search {
-    position: relative;
-    width: 700px;
-    height: 50px;
-    display: inline-block;
-    left: 80px;
-    background-color: #e9e9e993;
-    border-radius: 10px;
-    /* vertical-align: middle; */
+  position: relative;
+  width: 700px;
+  height: 50px;
+  display: inline-block;
+  left: 80px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 1px 5px rgb(138, 137, 137);
+  /* vertical-align: middle; */
 }
 
 .Search input {
-    display:inline-block;
-    width: 79%;
-    height: 100%;
-    border: none;
-    margin-left:5px;
-    font-size: 20px;
-    background-color: rgba(141, 141, 141, 0);
-    outline: none;
+  display: inline-block;
+  width: 79%;
+  height: 100%;
+  border: none;
+  margin-left: 5px;
+  font-size: 20px;
+  background-color: rgba(141, 141, 141, 0);
+  outline: none;
 }
 
-
 .SearchButton {
-    display:inline-block;
-    position: relative;
-    top: 4px;
-    padding-left: 10px;
+  display: inline-block;
+  position: relative;
+  top: 4px;
+  padding-left: 10px;
 }
 
 .ClearButton {
-    display:inline-block;
-    position: relative;
-    top: 4px;
-    padding-left: 10px;
-    
+  display: inline-block;
+  position: relative;
+  top: 4px;
+  padding-left: 10px;
+}
+
+.PaletteButton {
+  display: inline-block;
+  position: relative;
+  top: 4px;
+  margin-left: 10px;
+  border-radius: 100%;
+  height: 35px;
+  width: 35px;
 }
 
 .Search button {
-    background-color: inherit;
-    border: none;
-    outline: none;
-    border-radius: 100%;
-    height: 35px;
-    width: 35px;
-    color: #646464cb;
-    cursor: pointer;
+  background-color: inherit;
+  border: none;
+  outline: none;
+  border-radius: 100%;
+  height: 35px;
+  width: 35px;
+  color: #6d6d6d;
+  cursor: pointer;
 }
 
 .SearchButton button:hover,
 .SearchButton button:active {
-    background-color: rgba(172, 172, 172, 0.247);
+  background-color: rgba(172, 172, 172, 0.247);
 }
 
 .ClearButton button:hover,
@@ -81,4 +97,45 @@
   background-color: rgba(172, 172, 172, 0.247);
 }
 
+.PaletteButton button:hover,
+.PaletteButton button:active {
+  background-color: rgba(172, 172, 172, 0.247);
+}
 
+
+
+.white {
+  background-color: #ffffff;
+}
+.red {
+  background-color: #ffcfcf;
+}
+
+.orange {
+  background-color: #ffe3be;
+}
+
+.yellow {
+  background-color: #fffccb;
+}
+
+.green {
+  background-color: #edffcd;
+}
+.turquoise {
+  background-color: #d3fff8;
+}
+
+.blue {
+  background-color: #d5f2ff;
+}
+.darkblue {
+  background-color: #d7ddfd;
+}
+.purple {
+  background-color: #e8dbff;
+}
+
+.pink {
+  background-color: #fdd8f4;
+}

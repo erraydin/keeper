@@ -10,7 +10,39 @@ import PaletteOutlinedIcon from "@material-ui/icons/PaletteOutlined";
 import Popper from "@material-ui/core/Popper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import ColorPopper from "./ColorPopper";
+function color(color) {
+  switch (color) {
+    case "white":
+      return classes.white;
 
+    case "orange":
+      return classes.orange;
+
+    case "yellow":
+      return classes.yellow;
+
+    case "green":
+      return classes.green;
+
+    case "turquoise":
+      return classes.turquoise;
+
+    case "blue":
+      return classes.blue;
+
+    case "darkblue":
+      return classes.darkblue;
+
+    case "purple":
+      return classes.purple;
+
+    case "pink":
+      return classes.pink;
+
+    default:
+      return;
+  }
+}
 function Header(props) {
   const [colorPopperLocation, setColorPopperLocation] = useState(null);
 
@@ -53,11 +85,11 @@ function Header(props) {
         </div>
         <input
           type="text"
-          placeholder="Search"
+          placeholder={"Search" + (props.color==="" ? "" : " within " + props.color)}
           value={props.text}
           onChange={setfilterText}
         ></input>
-        <div className={classes.ClearButton}>
+        <div className={classes.PaletteButton + " " + (props.color === "" ? "" : color(props.color))}>
           <Button
             tooltipTitle="Filter by color"
             onClick={openColorEditHandler}
@@ -76,7 +108,7 @@ function Header(props) {
           </Popper>
         </ClickAwayListener>
         <div className={classes.ClearButton}>
-          <Button tooltipTitle="Clear search" onClick={clearSearch}>
+          <Button tooltipTitle="Clear Search and Color Filter" onClick={clearSearch}>
             <ClearIcon />
           </Button>
         </div>
@@ -88,6 +120,7 @@ function Header(props) {
 const mapStateToProps = (state) => {
   return {
     text: state.filters.filterText,
+    color: state.filters.filterColor,
   };
 };
 

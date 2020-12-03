@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import Note from "./Note";
 import Masonry from "react-masonry-component";
@@ -23,7 +23,7 @@ function TrashPage(props) {
     props.color
   );
   const noTrash =
-    props.text === "" ? (
+    props.text === "" && props.color === "" ? (
       <div className={classes.Empty}>
         <span
           className={"material-icons " + classes.Icon}
@@ -37,7 +37,7 @@ function TrashPage(props) {
       <h3 className={classes.SearchResult}>Search Results:</h3>
     );
   const yesTrash =
-    props.text === "" ? (
+    props.text === "" && props.color === "" ? (
       <button
         style={{ marginTop: "110px" }}
         className={classes.Button}

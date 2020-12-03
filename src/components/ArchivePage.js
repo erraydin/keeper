@@ -79,10 +79,10 @@ function ArchivePage(props) {
         onClick={backdropClickHandler}
         transparent={false}
       />
-      {props.archive.length === 0 &&  props.text === ""? noNotes : null}
+      {props.archive.length === 0 &&  props.text === "" && props.color === "" ? noNotes : null}
 
       <div className={classes.Notes}>
-        {props.text === "" ? null : (
+        {props.text === "" && props.color === "" ? null : (
           <h3 className={classes.SearchResult}>Search Results:</h3>
         )}
         <Masonry>

@@ -18,13 +18,11 @@ import Header from "./Header";
 import SideBar from "./SideBar";
 import Backdrop from "./Backdrop";
 
-
 function NotesPage(props) {
   const [editedId, setEditedId] = useState(null);
   const [editing, setEditing] = useState(false);
   const [editedNote, setEditedNote] = useState(null);
 
-  
   // const editedNoteIndexInArchive = props.archive.findIndex(note => {
   //   return note.id === editedNote.id
   // })
@@ -38,7 +36,6 @@ function NotesPage(props) {
   // useEffect(() => {
   //   console.log(editArea.current);
   // }, [editing]);
-  
 
   function editHandler(id) {
     setEditedId(id);
@@ -120,11 +117,8 @@ function NotesPage(props) {
   }
 
   return (
-    <div >
-      
-      
-      <div className={classes.NotesPage} >
-        
+    <div>
+      <div className={classes.NotesPage}>
         <Header />
         <SideBar openEditLabels={props.openEditLabels} />
         <CreateArea filterLabel={filterLabel} />
@@ -148,13 +142,13 @@ function NotesPage(props) {
         />
         {displayedNotes.length === 0 &&
         archivedNotes.length === 0 &&
-        props.text === ""
+        props.text === "" && props.color === ""
           ? noNotes
           : null}
 
         {pinnedNotes.length > 0 ? (
           <div className={classes.Notes}>
-            {props.text === "" ? null : (
+            {props.text === "" && props.color === "" ? null : (
               <h3 className={classes.SearchResult}>Search Results:</h3>
             )}
             <h5>PINNED</h5>
@@ -187,7 +181,7 @@ function NotesPage(props) {
             (pinnedNotes.length > 0 ? " " + classes.NotesWhenPinned : "")
           }
         >
-          {props.text !== "" && pinnedNotes.length === 0 ? (
+          {(props.text !== "" || props.color !== "") && pinnedNotes.length === 0 ? (
             <h3 className={classes.SearchResult}>Search Results:</h3>
           ) : null}
           {pinnedNotes.length > 0 && unpinnedNotes.length > 0 ? (
