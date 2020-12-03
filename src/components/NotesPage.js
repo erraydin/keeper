@@ -4,8 +4,14 @@ import EditArea from "./EditArea";
 import { connect } from "react-redux";
 import Note from "./Note";
 import Masonry from "react-masonry-component";
-import { addNote, deleteNote, editNote, archiveNote, editAndArchive, editAndUnarchive } from "../actions/actions";
-import { setFilterLabel } from "../actions/filters";
+import {
+  addNote,
+  deleteNote,
+  editNote,
+  archiveNote,
+  editAndArchive,
+  editAndUnarchive,
+} from "../actions/actions";
 import classes from "./NotesPage.module.css";
 import getVisibleNotes from "../selectors/notes";
 import Header from "./Header";
@@ -26,8 +32,6 @@ function NotesPage(props) {
   //   return note.id === editedId;
   // });
 
-  
-
   // useEffect(() => {
   //   console.log(editArea.current);
   // }, [editing]);
@@ -39,12 +43,12 @@ function NotesPage(props) {
       return note.id === id;
     });
     if (editedIndex > -1) {
-      setEditedNote(props.notes[editedIndex])
+      setEditedNote(props.notes[editedIndex]);
     } else {
       editedIndex = props.archive.findIndex((note) => {
         return note.id === id;
       });
-      setEditedNote(props.archive[editedIndex])
+      setEditedNote(props.archive[editedIndex]);
     }
   }
 
@@ -60,7 +64,13 @@ function NotesPage(props) {
   const path = props.match.path;
   const filterLabel = path === "/" ? "" : path.slice(7, path.length);
   const filterText = props.text;
-  const displayedNotes = getVisibleNotes(props.notes, filterLabel, filterText);
+  const filterColor = props.color;
+  const displayedNotes = getVisibleNotes(
+    props.notes,
+    filterLabel,
+    filterText,
+    filterColor
+  );
   const pinnedNotes = displayedNotes.filter((note) => {
     return note.pinned;
   });
@@ -69,7 +79,12 @@ function NotesPage(props) {
   });
   let archivedNotes = [];
   if (filterLabel !== "") {
-    archivedNotes = getVisibleNotes(props.archive, filterLabel, filterText);
+    archivedNotes = getVisibleNotes(
+      props.archive,
+      filterLabel,
+      filterText,
+      filterColor
+    );
   }
 
   const noNotes =
@@ -128,6 +143,7 @@ function NotesPage(props) {
 
       {pinnedNotes.length > 0 ? (
         <div className={classes.Notes}>
+          
           <h5>PINNED</h5>
           <Masonry>
             {pinnedNotes.map((note) => {
@@ -158,9 +174,6 @@ function NotesPage(props) {
           (pinnedNotes.length > 0 ? " " + classes.NotesWhenPinned : "")
         }
       >
-        {pinnedNotes.length > 0 && unpinnedNotes.length > 0 ? (
-          <h5>OTHERS</h5>
-        ) : null}
         <Masonry>
           {unpinnedNotes.map((note) => {
             return (
@@ -219,8 +232,8 @@ const mapStateToProps = (state) => {
     notes: state.main.notes,
     archive: state.main.archive,
     text: state.filters.filterText,
+    color: state.filters.filterColor,
     labels: state.main.labels,
-    filterLabel: state.filters.filterLabel,
   };
 };
 
@@ -229,10 +242,11 @@ const mapDispatchToProps = (dispatch) => {
     addNote: (note) => dispatch(addNote(note)),
     deleteNote: (id) => dispatch(deleteNote(id)),
     editNote: (id, note) => dispatch(editNote(id, note)),
-    setFilterLabel: (filterLabel) => dispatch(setFilterLabel(filterLabel)),
     archiveNote: (note) => dispatch(archiveNote(note)),
-    editAndArchive: (oldNote, newNote) => dispatch(editAndArchive(oldNote, newNote)),
-    editAndUnarchive: (oldNote, newNote) => dispatch(editAndUnarchive(oldNote, newNote)),
+    editAndArchive: (oldNote, newNote) =>
+      dispatch(editAndArchive(oldNote, newNote)),
+    editAndUnarchive: (oldNote, newNote) =>
+      dispatch(editAndUnarchive(oldNote, newNote)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NotesPage);

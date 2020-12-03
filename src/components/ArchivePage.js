@@ -6,6 +6,7 @@ import Note from "./Note";
 import Masonry from "react-masonry-component";
 import Header from "./Header";
 import SideBar from "./SideBar";
+import getVisibleNotes from "../selectors/notes";
 import {
   deleteNote,
   editNote,
@@ -23,6 +24,13 @@ function ArchivePage(props) {
   const editedIndex = props.archive.findIndex((note) => {
     return note.id === editedId;
   });
+
+  const displayedArchiveNotes = getVisibleNotes(
+    props.archive,
+    "",
+    props.text,
+    props.color
+  );
 
   function editHandler(id) {
     setEditedId(id);
@@ -72,9 +80,13 @@ function ArchivePage(props) {
         transparent={false}
       />
       {props.archive.length === 0 ? noNotes : null}
+
       <div className={classes.Notes}>
+        {props.text === "" ? null : (
+          <h3 className={classes.SearchResult}>Search Results:</h3>
+        )}
         <Masonry>
-          {props.archive.map((note) => {
+          {displayedArchiveNotes.map((note) => {
             return (
               <Note
                 archived={true}
@@ -101,6 +113,8 @@ function ArchivePage(props) {
 const mapStateToProps = (state) => {
   return {
     archive: state.main.archive,
+    text: state.filters.filterText,
+    color: state.filters.filterColor,
   };
 };
 const mapDispatchToProps = (dispatch) => {

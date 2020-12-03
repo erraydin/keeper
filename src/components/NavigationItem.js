@@ -1,11 +1,16 @@
 import React from "react";
 import classes from "./NavigationItem.module.css";
 import { NavLink } from "react-router-dom";
+import { setFilterText } from "../actions/filters";
+import { connect } from "react-redux";
 
 function NavigationItem(props) {
+  function onClickHandler () {
+    props.setFilterText("");
+  }
   return (
     <li className={classes.NavigationItem}>
-      <NavLink activeClassName={classes.active} to={props.path} exact>
+      <NavLink activeClassName={classes.active} to={props.path} exact onClick={onClickHandler}>
         <span
           className="material-icons-outlined"
           style={{
@@ -34,4 +39,10 @@ function NavigationItem(props) {
   );
 }
 
-export default NavigationItem;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setFilterText : (filterText) => dispatch(setFilterText(filterText))
+  };
+};
+
+export default connect(null, mapDispatchToProps)(NavigationItem);

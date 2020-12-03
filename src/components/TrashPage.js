@@ -10,6 +10,7 @@ import {
 import classes from "./TrashPage.module.css";
 import Header from "./Header";
 import SideBar from "./SideBar";
+import getVisibleNotes from "../selectors/notes";
 
 const noTrash = (
   <div className={classes.Empty}>
@@ -24,10 +25,12 @@ const noTrash = (
 );
 
 function TrashPage(props) {
-  useEffect(() => {
-    console.log(props);
-  });
+  // useEffect(() => {
+  //   console.log(props);
+  // });
+  const displayedTrashNotes = getVisibleNotes(props.trash, "", props.text, props.color);
   const yesTrash = (
+    props.text === "" ?
     <button
       style={{ marginTop: "110px" }}
       className={classes.Button}
@@ -35,8 +38,10 @@ function TrashPage(props) {
       onClick={props.emptyTrash}
     >
       Click here to empty trash
-    </button>
+    </button> : 
+    <h3 className={classes.SearchResult}>Search Results:</h3>
   );
+
 
   return (
     <div className={classes.NotePage}>
@@ -45,7 +50,7 @@ function TrashPage(props) {
       <div className={classes.Notes}>
         {props.trash.length === 0 ? noTrash : yesTrash}
         <Masonry>
-          {props.trash.map((note, index) => {
+          {displayedTrashNotes.map((note, index) => {
             return (
               <Note
                 archived={false}
@@ -70,6 +75,8 @@ const mapStateToProps = (state) => {
   return {
     trash: state.main.trash,
     notes: state.main.notes,
+    text: state.filters.filterText,
+    color: state.filters.filterColor,
   };
 };
 

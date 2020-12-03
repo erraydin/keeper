@@ -1,7 +1,7 @@
 .Form {
   position: relative;
   width: 480px;
-  margin: 30px auto 20px auto;
+  margin: 0 auto 20px auto;
   background: rgba(255, 255, 255, 0.993);
   padding: 1px 1px 1px 1px;
   border-radius: 7px;

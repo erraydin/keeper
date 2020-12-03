@@ -1,14 +1,14 @@
 const initialState = {
-  filterLabel: "",
+  filterColor: "",
   filterText: "",
 };
 
 const filtersReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "SET_FILTER_LABEL":
+    case "SET_FILTER_TEXT":
       return {
         ...state,
-        filterLabel: action.filterLabel,
+        filterText: action.filterText,
       };
     default:
       return state;

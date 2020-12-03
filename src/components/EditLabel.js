@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import Button from "./Button";
 import { connect } from "react-redux";
 import EditIcon from "@material-ui/icons/Edit";

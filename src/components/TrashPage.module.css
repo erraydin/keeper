@@ -60,6 +60,19 @@
   outline: none;
 }
 
+.SearchResult {
+  padding: 10px 7px;
+  border: none;
+  display: block;
+  font-size: 15px;
+  position: relative;
+  margin: 100px auto 0 20px;
+  background: white;
+  color: #383835;
+  outline: none;
+  font-weight: 500;
+}
+
 .Button:hover,
 .Button:active {
     background-color: rgb(245, 245, 245);

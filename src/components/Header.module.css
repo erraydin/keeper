@@ -1,8 +1,8 @@
 .header {
     position: fixed;
-    background-color: #f5ba13;
+    background-color:#f5ba13;
     margin: auto;
-    padding: 16px 32px;
+    padding: 10px 32px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
     width: 100%;
     top: 0px;
@@ -10,7 +10,7 @@
 }
   
 .header h1 {
-    color: rgb(255, 255, 255);
+    color:#ffffffcb;
     font-family: "McLaren", cursive;
     font-weight: 200;
     display: inline;
@@ -21,3 +21,64 @@
 }
 
 /* #f5ba13 */
+
+.Search {
+    position: relative;
+    width: 500px;
+    height: 50px;
+    display: inline-block;
+    left: 80px;
+    background-color: #e9e9e993;
+    border-radius: 10px;
+    /* vertical-align: middle; */
+}
+
+.Search input {
+    display:inline-block;
+    width: 80%;
+    height: 100%;
+    border: none;
+    margin-left:5px;
+    font-size: 20px;
+    background-color: rgba(141, 141, 141, 0);
+    outline: none;
+}
+
+
+.SearchButton {
+    display:inline-block;
+    position: relative;
+    top: 4px;
+    padding-left: 10px;
+}
+
+.ClearButton {
+    display:inline-block;
+    position: relative;
+    top: 4px;
+    padding-left: 10px;
+    
+}
+
+.Search button {
+    background-color: inherit;
+    border: none;
+    outline: none;
+    border-radius: 100%;
+    height: 35px;
+    width: 35px;
+    color: #646464cb;
+    cursor: pointer;
+}
+
+.SearchButton button:hover,
+.SearchButton button:active {
+    background-color: rgba(172, 172, 172, 0.247);
+}
+
+.ClearButton button:hover,
+.ClearButton button:active {
+  background-color: rgba(172, 172, 172, 0.247);
+}
+
+
