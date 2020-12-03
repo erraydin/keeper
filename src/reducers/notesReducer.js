@@ -1,4 +1,6 @@
-const initialState = {
+import { loadState } from "../utils/localStorage";
+const loadedState = loadState("main");
+const initialState = (loadedState !== null) ? loadedState : {
   notes: [],
   labels: [],
   trash: [],

@@ -74,7 +74,7 @@ function Header(props) {
   }
   return (
     <header className={classes.header}>
-      <Link to="/" exact="true">
+      <Link to="/" exact="true" onClick={clearSearch}>
         <h1>Keeper</h1>
       </Link>
       <div className={classes.Search}>

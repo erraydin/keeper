@@ -1,4 +1,6 @@
-const initialState = {
+import { loadState } from "../utils/localStorage";
+const loadedState = loadState("filters");
+const initialState = (loadedState !== null) ? loadedState : {
   filterColor: "",
   filterText: "",
 };
