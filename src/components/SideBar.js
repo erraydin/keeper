@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 function SideBar(props) {
   return (
     <React.Fragment>
-      <div className={classes.SideBar}>
+      <div className={classes.SideBar + " " +  (props.sidebarOpen ? classes.Open : classes.Close)}>
         <nav>
           <ul className={classes.NavigationItems}>
             <NavigationItem path="/" iconName="note" title="Notes" />
@@ -34,6 +34,7 @@ function SideBar(props) {
 const mapStateToProps = (state) => {
   return {
     labels: state.main.labels,
+    sidebarOpen: state.ui.sidebarOpenMobile,
   };
 };
 export default connect(mapStateToProps)(SideBar);

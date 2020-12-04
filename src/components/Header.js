@@ -5,11 +5,13 @@ import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from "@material-ui/icons/Clear";
 import Button from "./Button";
 import { setFilterText, setFilterColor } from "../actions/filters";
+import { openSidebar, closeSidebar } from '../actions/ui';
 import { connect } from "react-redux";
 import PaletteOutlinedIcon from "@material-ui/icons/PaletteOutlined";
 import Popper from "@material-ui/core/Popper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import ColorPopper from "./ColorPopper";
+import MenuIcon from '@material-ui/icons/Menu';
 function color(color) {
   switch (color) {
     case "white":
@@ -72,11 +74,23 @@ function Header(props) {
     props.setFilterText("");
     props.setFilterColor("");
   }
+
+  function toggleSidebar () {
+    if (props.sidebarOpen) {
+      props.closeSidebar();
+    } else {
+      props.openSidebar();
+    }
+  }
+
   return (
     <header className={classes.header}>
+      <span className={classes.HamburgerMenu} onClick={toggleSidebar}><MenuIcon fontSize="inherit"/></span>
+      <span className={classes.Keeper}>
       <Link to="/" exact="true" onClick={clearSearch}>
-        <h1>Keeper</h1>
+        <h1 ><i className="far fa-lightbulb"></i> <span>Keeper</span></h1>
       </Link>
+      </span>
       <div className={classes.Search}>
         <div className={classes.SearchButton}>
           <Button tooltipTitle="Search">
@@ -121,6 +135,7 @@ const mapStateToProps = (state) => {
   return {
     text: state.filters.filterText,
     color: state.filters.filterColor,
+    sidebarOpen: state.ui.sidebarOpenMobile,
   };
 };
 
@@ -128,6 +143,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setFilterText: (filterText) => dispatch(setFilterText(filterText)),
     setFilterColor: (filterColor) => dispatch(setFilterColor(filterColor)),
+    openSidebar: () => dispatch(openSidebar()),
+    closeSidebar: () => dispatch(closeSidebar()),
   };
 };
 

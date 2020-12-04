@@ -35,6 +35,7 @@
 @media (max-width: 533px) {
   .Form {
     width: 60%;
+    margin-left: 130px;
   }
 }
 .Hidden {

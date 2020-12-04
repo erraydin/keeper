@@ -18,6 +18,8 @@
   /* text-shadow: 1px 1px #666666; */
 }
 
+
+
 .header a {
   text-decoration: none;
 }
@@ -40,7 +42,6 @@
   box-shadow: 0 1px 5px rgb(138, 137, 137);
   /* vertical-align: middle; */
 }
-
 .Search input {
   display: inline-block;
   width: 79%;
@@ -51,6 +52,55 @@
   background-color: rgba(141, 141, 141, 0);
   outline: none;
 }
+.HamburgerMenu {
+  color: white;
+  font-size: 35px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+@media (min-width: 780px) {
+  .HamburgerMenu {
+    display: none;
+  }
+}
+
+@media (max-width: 1000px) {
+  .Search {
+    width: 480px;
+  }
+  .Search input{
+    width: 70%;
+  }
+}
+@media (max-width: 780px) {
+  .Keeper {
+    display: none;
+  }
+}
+@media (max-width: 640px) {
+  .Search {
+    width: 350px;
+  }
+  .Search input{
+    width: 60%;
+  }
+}
+
+@media (max-width: 533px) {
+  .Search {
+    width: 70%;
+  }
+  .Search input{
+    width: 50%;
+  }
+}
+
+@media (max-width: 460px) {
+  .Search input{
+    width: 40%;
+  }
+}
+
 
 .SearchButton {
   display: inline-block;
@@ -63,7 +113,7 @@
   display: inline-block;
   position: relative;
   top: 4px;
-  padding-left: 10px;
+  /* padding-left: 10px; */
 }
 
 .PaletteButton {
@@ -139,3 +189,4 @@
 .pink {
   background-color: #fdd8f4;
 }
+

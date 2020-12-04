@@ -11,11 +11,13 @@
     box-sizing: border-box;
     box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.3);
     z-index: 2;
+    transition: transform 0.3s ease-out;
 }
 
 @media (max-width: 780px) {
     .SideBar {
-      width: 100px;
+      transform: translateX(-100%);
+      box-shadow: none;
     }
   }
 
@@ -26,6 +28,17 @@
     list-style: none;
     height: 100%;
 }
-
+@media (max-width: 780px) {
+.Open {
+  transform: translateX(0);
+  box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.3);
+}
+}
+@media (max-width: 780px) {
+.Close {
+  transform: translateX(-100%);
+  box-shadow: none;
+}
+}
 
 
