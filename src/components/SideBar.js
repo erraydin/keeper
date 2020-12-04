@@ -7,11 +7,14 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import { closeSidebar } from "../actions/ui";
 
 function SideBar(props) {
-  function clickAwayHandler(event) {
-    props.closeSidebar();
+  function clickAwayHandler() {
+    if (props.sidebarOpen) {
+      props.closeSidebar();
+    }
+    
   }
   return (
-    <ClickAwayListener onClickAway={clickAwayHandler}>
+    <ClickAwayListener onClickAway={clickAwayHandler} touchEvent={false}>
       <div
         className={
           classes.SideBar +

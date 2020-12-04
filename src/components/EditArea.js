@@ -453,7 +453,7 @@ function EditArea(props, ref) {
           </div>
         </React.Fragment>
       </div>
-      <ClickAwayListener onClickAway={closeLabelEditHandler}>
+      <ClickAwayListener onClickAway={closeLabelEditHandler} touchEvent={false}>
         <Popper
           style={{ zIndex: "500" }}
           id={id}
@@ -474,7 +474,7 @@ function EditArea(props, ref) {
           />
         </Popper>
       </ClickAwayListener>
-      <ClickAwayListener onClickAway={closeColorEditHandler}>
+      <ClickAwayListener onClickAway={closeColorEditHandler} touchEvent={false}>
         <Popper
           id={colorId}
           open={colorOpen}
@@ -660,7 +660,7 @@ function EditArea(props, ref) {
           </Button>
         </div>
       </React.Fragment>
-      <ClickAwayListener onClickAway={closeLabelEditHandler}>
+      <ClickAwayListener onClickAway={closeLabelEditHandler} touchEvent={false}>
         <Popper
           style={{ zIndex: "500" }}
           id={id}
@@ -681,7 +681,7 @@ function EditArea(props, ref) {
           />
         </Popper>
       </ClickAwayListener>
-      <ClickAwayListener onClickAway={closeColorEditHandler}>
+      <ClickAwayListener onClickAway={closeColorEditHandler} touchEvent={false}>
         <Popper
           id={colorId}
           open={colorOpen}

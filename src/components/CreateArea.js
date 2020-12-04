@@ -95,7 +95,6 @@ function CreateArea(props) {
 
   function openPopperHandler(event) {
     event.stopPropagation();
-    console.log(event);
     setPopperLocation((oldPopperLocation) => {
       return oldPopperLocation ? null : event.currentTarget;
     });
@@ -109,7 +108,6 @@ function CreateArea(props) {
 
   function openColorEditHandler(event) {
     event.stopPropagation();
-    console.log(event);
     setColorPopperLocation((oldColorPopperLocation) => {
       return oldColorPopperLocation ? null : event.currentTarget;
     });
@@ -543,7 +541,7 @@ function CreateArea(props) {
               <PaletteIcon />
             </Button>
           </div>
-          <ClickAwayListener onClickAway={closeColorEditHandler}>
+          <ClickAwayListener onClickAway={closeColorEditHandler} touchEvent={false}>
             <Popper
               id={colorId}
               open={colorOpen}
@@ -553,7 +551,7 @@ function CreateArea(props) {
               <ColorPopper changeColorHandler={changeColorHandler} />
             </Popper>
           </ClickAwayListener>
-          <ClickAwayListener onClickAway={closePopperHandler}>
+          <ClickAwayListener onClickAway={closePopperHandler} touchEvent={false}>
             <Popper id={popperId} open={popperOpen} anchorEl={popperLocation}>
               <AddLabels
                 chosenLabels={chosenLabels}
@@ -729,7 +727,7 @@ function CreateArea(props) {
           </Button>
         </div>
 
-        <ClickAwayListener onClickAway={closeColorEditHandler}>
+        <ClickAwayListener onClickAway={closeColorEditHandler} touchEvent={false}>
           <Popper
             id={colorId}
             open={colorOpen}
@@ -739,7 +737,7 @@ function CreateArea(props) {
             <ColorPopper changeColorHandler={changeColorHandler} />
           </Popper>
         </ClickAwayListener>
-        <ClickAwayListener onClickAway={closePopperHandler}>
+        <ClickAwayListener onClickAway={closePopperHandler} touchEvent={false}>
           <Popper id={popperId} open={popperOpen} anchorEl={popperLocation}>
             <AddLabels
               chosenLabels={chosenLabels}

@@ -22,7 +22,13 @@
   
   @media (max-width: 780px) {
     .Notes {
-      margin-left: 136px;
+      margin-left: 80px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .Notes {
+      margin-left: 40px;
     }
   }
   .Empty {

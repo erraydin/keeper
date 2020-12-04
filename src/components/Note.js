@@ -354,7 +354,7 @@ function Note(props) {
           )}
         </div>
       </div>
-      <ClickAwayListener onClickAway={closeColorEditHandler}>
+      <ClickAwayListener onClickAway={closeColorEditHandler} touchEvent={false}>
         <Popper
           id={id}
           open={open}
@@ -364,7 +364,7 @@ function Note(props) {
           <ColorPopper changeColorHandler={changeColorHandler} />
         </Popper>
       </ClickAwayListener>
-      <ClickAwayListener onClickAway={closeLabelEditHandler}>
+      <ClickAwayListener onClickAway={closeLabelEditHandler} touchEvent={false}>
         <Popper
           style={{ zIndex: "500" }}
           id={labelId}
