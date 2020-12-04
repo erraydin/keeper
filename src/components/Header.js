@@ -75,7 +75,8 @@ function Header(props) {
     props.setFilterColor("");
   }
 
-  function toggleSidebar () {
+  function toggleSidebar (event) {
+    event.stopPropagation();
     if (props.sidebarOpen) {
       props.closeSidebar();
     } else {

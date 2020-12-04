@@ -3,11 +3,22 @@ import classes from "./SideBar.module.css";
 import NavigationItem from "./NavigationItem";
 import EditLabelsNavItem from "./EditLabelsNavItem";
 import { connect } from "react-redux";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import { closeSidebar } from "../actions/ui";
 
 function SideBar(props) {
+  function clickAwayHandler(event) {
+    props.closeSidebar();
+  }
   return (
-    <React.Fragment>
-      <div className={classes.SideBar + " " +  (props.sidebarOpen ? classes.Open : classes.Close)}>
+    <ClickAwayListener onClickAway={clickAwayHandler}>
+      <div
+        className={
+          classes.SideBar +
+          " " +
+          (props.sidebarOpen ? classes.Open : classes.Close)
+        }
+      >
         <nav>
           <ul className={classes.NavigationItems}>
             <NavigationItem path="/" iconName="note" title="Notes" />
@@ -23,12 +34,16 @@ function SideBar(props) {
               );
             })}
             <EditLabelsNavItem openEditLabels={props.openEditLabels} />
-            <NavigationItem path="/archive" iconName="archive" title="Archive" />
+            <NavigationItem
+              path="/archive"
+              iconName="archive"
+              title="Archive"
+            />
             <NavigationItem path="/trash" iconName="delete" title="Trash" />
           </ul>
         </nav>
       </div>
-    </React.Fragment>
+    </ClickAwayListener>
   );
 }
 const mapStateToProps = (state) => {
@@ -37,4 +52,10 @@ const mapStateToProps = (state) => {
     sidebarOpen: state.ui.sidebarOpenMobile,
   };
 };
-export default connect(mapStateToProps)(SideBar);
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    closeSidebar: () => dispatch(closeSidebar()),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SideBar);
