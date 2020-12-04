@@ -28,15 +28,16 @@
 }
 
 .Empty {
-  position: sticky;
+  position: fixed;
   width: 300px;
-  margin: 30px auto 20px auto;
+  margin: 150px auto 20px auto;
   left: 40%;
-  top: 20%;
-  padding-top: 80px;
+  top: 120px;
+  /* padding-top: 80px; */
   background: #fff;
   border-radius: 7px;
   text-align: center;
+  z-index: -1;
 }
 @media (max-width: 780px) {
   .Empty {

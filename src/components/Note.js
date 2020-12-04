@@ -16,6 +16,8 @@ import Popper from "@material-ui/core/Popper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import ArchiveIcon from "@material-ui/icons/Archive";
 import UnarchiveIcon from '@material-ui/icons/Unarchive';
+import LabelIcon from '@material-ui/icons/Label';
+import AddLabels from "./AddLabels";
 
 function color(color) {
   switch (color) {
@@ -56,11 +58,56 @@ function Note(props) {
   const open = Boolean(colorPopperLocation);
   const id = open ? "simple-popper" : undefined;
 
+  const [labelPopperLocation, setLabelPopperLocation] = useState(null);
+
+  const labelOpen = Boolean(labelPopperLocation);
+  const labelId = labelOpen ? "simple-popper" : undefined;
+
+
+  function addNewChosenLabelHandler(label) {
+    if (label !== "" && !props.note.labels.includes(label)) {
+      props.editNote(props.note.id, {
+        ...props.note,
+        labels: [label, ...props.note.labels]
+      })
+    }
+  }
+
+  function toggleLabelClickHandler(label, checked) {
+    if (checked) {
+      props.editNote(props.note.id, {
+        ...props.note,
+        labels: props.note.labels.filter(labelItem => {
+          return label !== labelItem
+        })
+      })
+    } else {
+      props.editNote(props.note.id, {
+        ...props.note,
+        labels: [label, ...props.note.labels]
+      })
+    }
+  }
+  function closeLabelEditHandler() {
+    if (labelOpen) {
+      setLabelPopperLocation(null);
+    }
+  }
+  function openLabelEditHandler(event) {
+    event.stopPropagation();
+    setLabelPopperLocation((oldLabelPopperLocation) => {
+      return oldLabelPopperLocation ? null : event.currentTarget;
+      // event.currentTarget
+    });
+    setColorPopperLocation(null);
+  }
+
   function openColorEditHandler(event) {
     event.stopPropagation();
     setColorPopperLocation((oldColorPopperLocation) => {
       return oldColorPopperLocation ? null : event.currentTarget;
     });
+    setLabelPopperLocation(null);
   }
 
   function closeColorEditHandler() {
@@ -264,11 +311,18 @@ function Note(props) {
           ) : null}
         </div>
         <div className={classes.ButtonArea}>
-          <div style={{ width: props.editable ? "85px" : "145px" }}></div>
+          <div style={{ width: props.editable ? "50px" : "145px" }}></div>
           {props.editable ? (
             <Tooltip title="Change color">
               <button type="button" onClick={openColorEditHandler}>
                 <PaletteIcon />
+              </button>
+            </Tooltip>
+          ) : null}
+          {props.editable ? (
+            <Tooltip title="Edit Labels">
+              <button type="button" onClick={openLabelEditHandler}>
+                <LabelIcon />
               </button>
             </Tooltip>
           ) : null}
@@ -308,6 +362,27 @@ function Note(props) {
           // disablePortal
         >
           <ColorPopper changeColorHandler={changeColorHandler} />
+        </Popper>
+      </ClickAwayListener>
+      <ClickAwayListener onClickAway={closeLabelEditHandler}>
+        <Popper
+          style={{ zIndex: "500" }}
+          id={labelId}
+          open={labelOpen}
+          anchorEl={labelPopperLocation}
+          // modifiers={{
+          //   preventOverflow: {
+          //     escapeWithReference: false,
+          //   },
+          // }}
+          // disablePortal
+        >
+          <AddLabels
+            chosenLabels={props.note.labels}
+            addNewChosenLabelHandler={addNewChosenLabelHandler}
+            clickHandler={toggleLabelClickHandler}
+            filterLabel={props.filterLabel}
+          />
         </Popper>
       </ClickAwayListener>
     </div>
