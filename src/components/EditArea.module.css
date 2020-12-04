@@ -27,9 +27,36 @@
   
 }
 
+.Form .Input {
+  padding-bottom: 2px;
+  padding-top: 5px;
+  padding-left: 10px;
+  overflow: hidden;
+  white-space:nowrap;
+  text-overflow: ellipsis;
+  font-size: 17px;
+  width: 84%;
+  margin: auto;
+  background: inherit;
+}
+
+.Form .Input1 {
+  padding-left: 40px;
+  width: 90%;
+}
+
 @media (max-width: 800px) {
   .Form {
     width: 400px;
+  }
+  .Form .Input {
+    width: 83%;
+  }
+}
+@media (max-width: 780px) {
+  .Form {
+    width: 400px;
+    left: 25%;
   }
 }
 
@@ -37,11 +64,35 @@
   .Form {
     width: 350px;
   }
+  .Form .Input {
+    width: 80%;
+  }
+  .Form .Input1 {
+    width: 88%;
+  }
+  .Form .Input2 {
+    width: 88%;
+  }
 }
 
 @media (max-width: 533px) {
   .Form {
     width: 240px;
+  }
+  .Form .Input {
+    width: 70%;
+  }
+  .Form .Input1 {
+    width: 82%;
+  }
+  .Form .Input2 {
+    width: 82%;
+  }
+}
+
+@media (max-width: 400px) {
+  .Form {
+    left: 15%;
   }
 }
 .PinButton {
@@ -61,23 +112,7 @@
 .PinInactive {
   color: #adadadcb;
 }
-.Form .Input {
-  padding-bottom: 2px;
-  padding-top: 5px;
-  padding-left: 10px;
-  overflow: hidden;
-  white-space:nowrap;
-  text-overflow: ellipsis;
-  font-size: 17px;
-  width: 85%;
-  margin: auto;
-  background: inherit;
-}
 
-.Form .Input1 {
-  padding-left: 40px;
-  width: 90%;
-}
 
 .Form input,
 .Form textarea {
@@ -95,6 +130,7 @@
 }
 .Form input {
   padding-top: 10px;
+  width: 90%;
 }
 
 .Form button {
@@ -103,12 +139,12 @@
   bottom: 0px;
   position: relative;
   float: right;
-  margin-right: 10px;
+  margin-right: 5px;
   background: inherit;
   color: #646464cb;
   border: none;
   border-radius: 100%;
-  width: 35px;
+  width: 30px;
   height: 30px;
   cursor: pointer;
   outline: none;
@@ -121,6 +157,7 @@
 
 .Buttons {
   height: 30px;
+  padding-right: 10px;
 }
 
 .Labels {

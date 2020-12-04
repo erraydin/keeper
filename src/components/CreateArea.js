@@ -1,6 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
-import { addNewLabel, addNote, addList, archiveDirectly } from "../actions/actions";
+import {
+  addNewLabel,
+  addNote,
+  addList,
+  archiveDirectly,
+} from "../actions/actions";
 import classes from "./CreateArea.module.css";
 import AddIcon from "@material-ui/icons/Add";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -20,6 +25,7 @@ import { v4 as uuidv4 } from "uuid";
 import PaletteIcon from "@material-ui/icons/Palette";
 import ColorPopper from "./ColorPopper";
 import ArchiveIcon from "@material-ui/icons/Archive";
+// import Tooltip from "@material-ui/core/Tooltip";
 // import ListCreateArea from "./ListCreateArea";
 
 function colorToClass(color) {
@@ -89,6 +95,7 @@ function CreateArea(props) {
 
   function openPopperHandler(event) {
     event.stopPropagation();
+    console.log(event);
     setPopperLocation((oldPopperLocation) => {
       return oldPopperLocation ? null : event.currentTarget;
     });
@@ -102,6 +109,7 @@ function CreateArea(props) {
 
   function openColorEditHandler(event) {
     event.stopPropagation();
+    console.log(event);
     setColorPopperLocation((oldColorPopperLocation) => {
       return oldColorPopperLocation ? null : event.currentTarget;
     });
@@ -112,8 +120,6 @@ function CreateArea(props) {
     setColorPopperLocation(null);
     colorOpen = false;
   }
-
-  
 
   const textAreaRef = useRef(null);
   const newListItemRef = useRef(null);
@@ -239,6 +245,8 @@ function CreateArea(props) {
   }
 
   function cancelExpand() {
+    closeColorEditHandler();
+    closePopperHandler();
     setExpanded(false);
     setNewNote(false);
     setNewList(false);
@@ -247,12 +255,7 @@ function CreateArea(props) {
     setColor("white");
     setPinned(false);
     setChosenLabels(initialChosenLabels);
-    closeColorEditHandler();
   }
-
-  
-
-  
 
   function addNoteHandler() {
     if (isNewNote) {
@@ -280,6 +283,8 @@ function CreateArea(props) {
         color: color,
       });
     }
+    closePopperHandler();
+    closeColorEditHandler();
     setTitle("");
     setContent("");
     setColor("white");
@@ -290,10 +295,9 @@ function CreateArea(props) {
     setNewNote(false);
     setNewList(false);
     setChosenLabels(initialChosenLabels);
-    closeColorEditHandler();
   }
 
-  function archiveDirectly () {
+  function archiveDirectly() {
     if (isNewNote) {
       props.archiveDirectly({
         type: "note",
@@ -330,6 +334,7 @@ function CreateArea(props) {
     setNewList(false);
     setChosenLabels(initialChosenLabels);
     closeColorEditHandler();
+    closePopperHandler();
   }
 
   function cancelNoteHandler() {
@@ -343,6 +348,7 @@ function CreateArea(props) {
     setNewList(false);
     setChosenLabels(initialChosenLabels);
     closeColorEditHandler();
+    closePopperHandler();
   }
 
   function handleKeyPressForTitle(event) {
@@ -427,6 +433,7 @@ function CreateArea(props) {
       newListItemRef.current.focus();
     }
   }
+  
 
   //Create Note Area
   let create = (
@@ -434,7 +441,8 @@ function CreateArea(props) {
       {isNewNote || isNewList ? (
         <div style={{ position: "relative" }}>
           <input
-            style={{ width: "90%" }}
+            className={classes.Input2}
+            // style={{ width: "90%" }}
             onKeyPress={handleKeyPressForTitle}
             autoComplete="off"
             value={title}
@@ -551,7 +559,6 @@ function CreateArea(props) {
                 chosenLabels={chosenLabels}
                 addNewChosenLabelHandler={addNewChosenLabelHandler}
                 clickHandler={toggleLabelClickHandler}
-                
                 filterLabel={props.filterLabel}
               />
               {/* <ColorPopper changeColorHandler={changeColorHandler} /> */}
@@ -568,7 +575,8 @@ function CreateArea(props) {
       <div style={{ position: "relative" }}>
         <input
           type="text"
-          style={{ width: "90%" }}
+          // style={{ width: "90%" }}
+          className={classes.Input2}
           onKeyPress={handleKeyPressForTitle}
           autoComplete="off"
           value={title}
@@ -708,7 +716,7 @@ function CreateArea(props) {
             <CancelIcon />
           </Button>
           <Button tooltipTitle="Archive" onClick={archiveDirectly}>
-              <ArchiveIcon />
+            <ArchiveIcon />
           </Button>
           <Button tooltipTitle="Add Labels" onClick={openPopperHandler}>
             <LabelIcon />
@@ -737,7 +745,6 @@ function CreateArea(props) {
               chosenLabels={chosenLabels}
               addNewChosenLabelHandler={addNewChosenLabelHandler}
               clickHandler={toggleLabelClickHandler}
-              
               filterLabel={props.filterLabel}
             />
             {/* <ColorPopper changeColorHandler={changeColorHandler} /> */}

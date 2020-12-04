@@ -61,13 +61,34 @@
   } */
   @media (max-width: 780px) {
     .Empty {
-      left: 35%;
+      left: 25%;
+    }
+  }
+  @media (max-width: 600px) {
+    .Empty {
+      left: 20%;
+    }
+  }
+  @media (max-width: 533px) {
+    .Empty {
+      left: 17%;
     }
   }
   
   @media (max-width: 480px) {
     .Empty {
       width: 250px;
+      left: 22%;
+    }
+  }
+  @media (max-width: 400px) {
+    .Empty {
+      left: 17%;
+    }
+  }
+  @media (max-width: 360px) {
+    .Empty {
+      left: 15%;
     }
   }
   

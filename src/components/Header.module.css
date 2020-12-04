@@ -8,6 +8,7 @@
   width: 100%;
   top: 0px;
   z-index: 2;
+  
 }
 
 .header h1 {
@@ -16,6 +17,7 @@
   font-weight: 200;
   display: inline;
   /* text-shadow: 1px 1px #666666; */
+  vertical-align: middle;
 }
 
 
@@ -40,7 +42,8 @@
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 1px 5px rgb(138, 137, 137);
-  /* vertical-align: middle; */
+  min-width: 240px;
+  vertical-align: middle;
 }
 .Search input {
   display: inline-block;
@@ -58,7 +61,7 @@
   vertical-align: middle;
   cursor: pointer;
 }
-@media (min-width: 780px) {
+@media (min-width: 781px) {
   .HamburgerMenu {
     display: none;
   }
@@ -76,10 +79,15 @@
   .Keeper {
     display: none;
   }
+  .Search {
+    left: 50px;
+    height: 40px;
+  }
 }
 @media (max-width: 640px) {
   .Search {
     width: 350px;
+    left: 30px;
   }
   .Search input{
     width: 60%;
@@ -98,6 +106,20 @@
 @media (max-width: 460px) {
   .Search input{
     width: 40%;
+  }
+}
+@media (max-width: 400px) {
+  .header {
+    padding-left: 16px;
+  }
+}
+
+@media (max-width: 370px) {
+  .header {
+    padding-left: 13px;
+  }
+  .Search {
+    left: 10px;
   }
 }
 

@@ -364,7 +364,7 @@ function EditArea(props, ref) {
         <div style={{ position: "relative" }}>
           <input
             type="text"
-            style={{ width: "90%" }}
+            className={classes.Input2}
             value={title}
             onChange={changeTitle}
             onKeyPress={handleKeyPressForTitle}
@@ -492,7 +492,7 @@ function EditArea(props, ref) {
       <div style={{ position: "relative" }}>
         <input
           type="text"
-          style={{ width: "90%" }}
+          className={classes.Input2}
           onKeyPress={handleKeyPressForTitle}
           autoComplete="off"
           value={title}

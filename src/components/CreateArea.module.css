@@ -7,39 +7,7 @@
   border-radius: 7px;
   box-shadow: 0 1px 5px rgb(138, 137, 137);
   top: 100px;
-}
-
-@media (max-width: 1000px) {
-  .Form {
-    margin-left: 252px;
-  }
-}
-@media (max-width: 780px) {
-  .Form {
-    margin-left: 153px;
-  }
-}
-
-@media (max-width: 640px) {
-  .Form {
-    width: 70%;
-  }
-}
-
-@media (max-width: 570px) {
-  .Form {
-    width: 65%;
-  }
-}
-
-@media (max-width: 533px) {
-  .Form {
-    width: 60%;
-    margin-left: 130px;
-  }
-}
-.Hidden {
- visibility: hidden;
+  min-width: 240px;
 }
 .Form input,
 .Form textarea {
@@ -68,6 +36,57 @@
   width: 90%;
 }
 
+.Form .Input2 {
+  width: 90%;
+}
+
+@media (max-width: 1000px) {
+  .Form {
+    margin-left: 252px;
+  }
+}
+@media (max-width: 780px) {
+  .Form {
+    margin-left: 120px;
+  }
+}
+
+@media (max-width: 640px) {
+  .Form {
+    width: 70%;
+    margin-left: 56px;
+  }
+}
+
+@media (max-width: 570px) {
+  .Form {
+    width: 65%;
+  }
+}
+
+@media (max-width: 533px) {
+  .Form {
+    width: 60%;
+    /* margin-left: 130px; */
+  }
+}
+
+@media (max-width: 460px) {
+  .Form .Input1 {
+    width: 87%;
+  }
+  .Form .Input {
+    width: 87%;
+  }
+  .Form .Input2 {
+    width: 87%;
+  }
+}
+.Hidden {
+ visibility: hidden;
+}
+
+
 .PinButton {
   display: inline-block;
   position: absolute;
@@ -95,13 +114,13 @@
   bottom: 0px;
   position: relative;
   float: right;
-  margin-right: 10px;
+  margin-right: 5px;
   background: inherit;
   color: #646464cb;
   border: none;
   border-radius: 100%;
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
   outline: none;
 }

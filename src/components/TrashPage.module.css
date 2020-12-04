@@ -29,9 +29,38 @@
 
 @media (max-width: 780px) {
     .Empty {
-      left: 40%;
+      left: 36%;
     }
+}
+
+@media (max-width: 580px) {
+  .Empty {
+      left: 32%;
   }
+}
+@media (max-width: 530px) {
+  .Empty {
+      left: 30%;
+  }
+}
+
+@media (max-width: 430px) {
+  .Empty {
+      left: 25%;
+  }
+}
+
+@media (max-width: 400px) {
+  .Empty {
+      left: 23%;
+  }
+}
+
+@media (max-width: 370px) {
+  .Empty {
+      left: 21%;
+  }
+}
 
 .Icon {
   font-size: 130px;
