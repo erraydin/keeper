@@ -1,21 +1,32 @@
-import { loadState } from "../utils/localStorage";
-const loadedState = loadState("main");
-const initialState = (loadedState !== null) ? loadedState : {
+// import { loadState } from "../utils/localStorage";
+// const loadedState = loadState("main");
+const initialState = {
   notes: [],
   labels: [],
   trash: [],
   archive: [],
 };
 
+// loadedState !== null
+//   ? loadedState
+//   : {
+//       notes: [],
+//       labels: [],
+//       trash: [],
+//       archive: [],
+//     };
+
 const notesReducer = (state = initialState, action) => {
   switch (action.type) {
+    case "SET_MAIN_STATE":
+      return action.state;
     case "ADD":
       return {
         ...state,
         notes: [action.note, ...state.notes],
       };
     case "ARCHIVE_DIRECTLY":
-      const unpinnedNote1 = {...action.note, pinned: false};
+      const unpinnedNote1 = { ...action.note, pinned: false };
       return {
         ...state,
         archive: [unpinnedNote1, ...state.archive],
@@ -41,7 +52,7 @@ const notesReducer = (state = initialState, action) => {
         notes: editedNotes,
         archive: editedArchive,
       };
-  
+
     case "ARCHIVE":
       const archiveIndex = state.notes.findIndex(
         (note) => note.id === action.note.id
@@ -68,8 +79,8 @@ const notesReducer = (state = initialState, action) => {
       return {
         ...state,
         archive: unarchivedArchive,
-        notes: [state.archive[unarchiveIndex], ...state.notes]
-      }
+        notes: [state.archive[unarchiveIndex], ...state.notes],
+      };
     case "DELETE":
       const deleteIndex = state.notes.findIndex(
         (note) => note.id === action.id
@@ -92,7 +103,7 @@ const notesReducer = (state = initialState, action) => {
         });
         deletedTrash = [state.archive[deleteIndexArchive], ...state.trash];
       }
-      
+
       return {
         ...state,
         notes: deletedNotes,
@@ -174,8 +185,8 @@ const notesReducer = (state = initialState, action) => {
             return label;
           }
         });
-        return {...note, labels: newLabelsOfArchiveNote}
-      })
+        return { ...note, labels: newLabelsOfArchiveNote };
+      });
 
       return {
         labels: editedLabels,
@@ -207,25 +218,25 @@ const notesReducer = (state = initialState, action) => {
           return label !== action.label;
         });
         return { ...note, labels: deletedLabelsOfArchive };
-      })
+      });
       return {
         labels: deletedLabels,
         notes: deletedLabelNotes,
         trash: deletedLabelTrash,
         archive: deletedLabelArchive,
       };
-    
+
     case "ADD_LIST":
       return {
         ...state,
         notes: [action.list, ...state.notes],
       };
     case "EDIT_AND_ARCHIVE":
-      const editedAndArchivedNotes = state.notes.filter(note => {
-        return note.id !== action.oldNote.id
-      })
-      const unpinnedNote2 = {...action.newNote, pinned: false}
-      const editedAndArchivedArchive = [unpinnedNote2, ...state.archive]
+      const editedAndArchivedNotes = state.notes.filter((note) => {
+        return note.id !== action.oldNote.id;
+      });
+      const unpinnedNote2 = { ...action.newNote, pinned: false };
+      const editedAndArchivedArchive = [unpinnedNote2, ...state.archive];
 
       return {
         ...state,
@@ -233,15 +244,15 @@ const notesReducer = (state = initialState, action) => {
         archive: editedAndArchivedArchive,
       };
     case "EDIT_AND_UNARCHIVE":
-      const editedAndUnarchivedArchive = state.archive.filter(note => {
+      const editedAndUnarchivedArchive = state.archive.filter((note) => {
         return note.id !== action.oldNote.id;
-      })
+      });
       const editedAndUnarchivedNotes = [action.newNote, ...state.notes];
       return {
         ...state,
         notes: editedAndUnarchivedNotes,
         archive: editedAndUnarchivedArchive,
-      }
+      };
     default:
       return state;
   }
