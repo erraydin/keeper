@@ -75,7 +75,7 @@ function EditArea(props, ref) {
   const id = open ? "simple-popper1" : undefined;
 
   const textAreaRef = useRef(null);
-  const newListItemRef = useRef(null);
+  // const newListItemRef = useRef(null);
 
   const editedIndexInArchive = props.archive.findIndex((note) => {
     return props.note.id === note.id;
@@ -323,7 +323,7 @@ function EditArea(props, ref) {
       });
       setContent("");
     }
-    newListItemRef.current.focus();
+    textAreaRef.current.focus();
   }
   function addCheckedListItem() {
     if (content !== "") {
@@ -333,7 +333,7 @@ function EditArea(props, ref) {
       setContent("");
       // textAreaRef.current.focus();
     }
-    newListItemRef.current.focus();
+    textAreaRef.current.focus();
   }
 
   function deleteListItem(item) {
