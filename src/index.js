@@ -5,7 +5,7 @@ import "./index.css";
 import App, { history } from "./App";
 import { Provider } from "react-redux";
 import configureStore from "./store/configureStore";
-// import { saveState } from "./utils/localStorage";
+import { login, logout } from "./actions/auth";
 import axios from "./axios-notes";
 import { createState } from "./utils/firebaseToState";
 import { firebase } from "./firebase/firebase";
@@ -34,7 +34,10 @@ ReactDOM.render(<p>Loading...</p>, document.getElementById("root"));
 //If not authenticated, just render app and send to login page
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
-    axios.get("/state.json").then((response) => {
+    store.dispatch(login(user.uid));
+    const route = "/users/" + user.uid + ".json";
+    // console.log(route);
+    axios.get(route).then((response) => {
       const state = createState(response.data);
       store.dispatch(setMainState(state));
       renderApp();
@@ -43,13 +46,16 @@ firebase.auth().onAuthStateChanged((user) => {
       }
     });
     //Whenever state changes, this saves it to firebase (or local storage)
-    store.subscribe(() => {
-      // const state = store.getState();
-      // saveState(state);
-      axios.put("/state.json", store.getState().main);
-    });
+    //This is not ideal in real world, you would put syncing with database inside your action creators, using thunk
+    //This fires a lot of times
+    // store.subscribe(() => {
+    //   // const state = store.getState();
+    //   // saveState(state);
+    //   axios.put("/state.json", store.getState().main);
+    // });
   } else {
     // console.log("log out");
+    store.dispatch(logout());
     renderApp();
     history.push("/");
   }

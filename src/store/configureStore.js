@@ -1,8 +1,9 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
 import notesReducer from "../reducers/notesReducer";
 import filtersReducer from "../reducers/filtersReducer";
 import uiReducer from "../reducers/uiReducer";
-import thunk from "redux-thunk";
+import authReducer from "../reducers/authReducer";
 
 const configureStore = () =>
   createStore(
@@ -10,6 +11,7 @@ const configureStore = () =>
       main: notesReducer,
       filters: filtersReducer,
       ui: uiReducer,
+      auth: authReducer,
     }),
     applyMiddleware(thunk)
   );

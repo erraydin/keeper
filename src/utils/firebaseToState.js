@@ -1,6 +1,3 @@
-import axios from "../axios-notes";
-import { setMainState } from "../actions/actions";
-
 export const transform = (responseData, type) => {
   if (responseData) {
     let subData = responseData.notes;
@@ -57,24 +54,4 @@ export const createState = (data) => {
     labels: allLabels,
   };
   return mainState;
-};
-
-export const initNotes = (store) => {
-  axios.get("/state.json").then((response) => {
-    // console.log(response.data.archived);
-    const notes = transform(response.data, "notes");
-    const trash = transform(response.data, "trash");
-    const archive = transform(response.data, "archive");
-    let allLabels = [];
-    if (response.data && response.data.labels !== undefined) {
-      allLabels = Object.values(response.data.labels);
-    }
-    const mainState = {
-      notes: notes,
-      trash: trash,
-      archive: archive,
-      labels: allLabels,
-    };
-    store.dispatch(setMainState(mainState));
-  });
 };
