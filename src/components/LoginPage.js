@@ -1,7 +1,9 @@
 import React from "react";
 import classes from "./LoginPage.module.css";
+import { connect } from "react-redux";
+import { startLogin } from "../actions/auth";
 
-const LoginPage = () => {
+const LoginPage = (props) => {
   return (
     <div className={classes.Screen}>
       <div className={classes.Form}>
@@ -16,11 +18,14 @@ const LoginPage = () => {
         </div>
         <div className={classes.ButtonArea}>
           <button>Guest Mode</button>
-          <button>Login</button>
+          <button onClick={props.startLogin}>Login</button>
         </div>
       </div>
     </div>
   );
 };
 
-export default LoginPage;
+const mapDispatchToProps = (dispatch) => ({
+  startLogin: () => dispatch(startLogin()),
+});
+export default connect(undefined, mapDispatchToProps)(LoginPage);

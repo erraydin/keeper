@@ -12,6 +12,8 @@ import Popper from "@material-ui/core/Popper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import ColorPopper from "./ColorPopper";
 import MenuIcon from "@material-ui/icons/Menu";
+import { startLogout } from "../actions/auth";
+
 function color(color) {
   switch (color) {
     case "white":
@@ -149,6 +151,9 @@ function Header(props) {
           </Button>
         </div>
       </div>
+      <div className={classes.LogoutButton}>
+        <button onClick={props.startLogout}>Logout</button>
+      </div>
     </header>
   );
 }
@@ -167,6 +172,7 @@ const mapDispatchToProps = (dispatch) => {
     setFilterColor: (filterColor) => dispatch(setFilterColor(filterColor)),
     openSidebar: () => dispatch(openSidebar()),
     closeSidebar: () => dispatch(closeSidebar()),
+    startLogout: () => dispatch(startLogout()),
   };
 };
 

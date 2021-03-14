@@ -1,4 +1,6 @@
+import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import { createState } from "../utils/firebaseToState";
 // import axios from "../axios-notes";
 
 export const addNote = (note) => ({
@@ -62,3 +64,12 @@ export const addList = (list) => ({
 });
 
 export const setMainState = (state) => ({ type: "SET_MAIN_STATE", state });
+
+export const startInitNotes = () => {
+  return (dispatch) => {
+    axios.get("/state.json").then((response) => {
+      const state = createState(response.data);
+      dispatch(setMainState(state));
+    });
+  };
+};

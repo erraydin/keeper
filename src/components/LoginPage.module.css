@@ -22,6 +22,7 @@
 
 .Form h1 {
   color: rgb(255, 255, 255);
+  font-family: "McLaren", cursive;
 }
 .Form input {
   border: 1px solid rgb(204, 204, 204);

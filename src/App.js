@@ -1,6 +1,7 @@
 import "./App.css";
 import React, { useState } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch } from "react-router-dom";
+import createHistory from "history/createBrowserHistory";
 // import Header from "./components/Header";
 // import SideBar from "./components/SideBar";
 import NotesPage from "./components/NotesPage";
@@ -11,6 +12,8 @@ import LoginPage from "./components/LoginPage";
 import { connect } from "react-redux";
 import EditLabels from "./components/EditLabels";
 import Backdrop from "./components/Backdrop";
+
+export const history = createHistory();
 
 function App(props) {
   const [editingLabels, setEditingLabels] = useState(false);
@@ -64,7 +67,7 @@ function App(props) {
     </Switch>
   );
   return (
-    <BrowserRouter>
+    <Router history={history}>
       {/* <Header />
       <SideBar openEditLabels={openEditLabels}/> */}
       {editingLabels ? <EditLabels closeEditLabels={closeEditLabels} /> : null}
@@ -74,7 +77,7 @@ function App(props) {
         transparent={false}
       />
       {routes}
-    </BrowserRouter>
+    </Router>
   );
 }
 
