@@ -11,7 +11,6 @@ function SideBar(props) {
     if (props.sidebarOpen) {
       props.closeSidebar();
     }
-    
   }
   return (
     <ClickAwayListener onClickAway={clickAwayHandler} touchEvent={false}>
@@ -24,7 +23,7 @@ function SideBar(props) {
       >
         <nav>
           <ul className={classes.NavigationItems}>
-            <NavigationItem path="/" iconName="note" title="Notes" />
+            <NavigationItem path="/notes" iconName="note" title="Notes" />
 
             {props.labels.map((label) => {
               return (

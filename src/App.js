@@ -7,6 +7,7 @@ import NotesPage from "./components/NotesPage";
 import TrashPage from "./components/TrashPage";
 import ArchivePage from "./components/ArchivePage";
 import NotFoundPage from "./components/NotFoundPage";
+import LoginPage from "./components/LoginPage";
 import { connect } from "react-redux";
 import EditLabels from "./components/EditLabels";
 import Backdrop from "./components/Backdrop";
@@ -24,8 +25,9 @@ function App(props) {
 
   const routes = (
     <Switch>
+      <Route path="/" exact render={(props) => <LoginPage />} />
       <Route
-        path="/"
+        path="/notes"
         exact
         render={(props) => (
           <NotesPage {...props} openEditLabels={openEditLabels} />

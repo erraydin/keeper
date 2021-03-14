@@ -1,0 +1,65 @@
+.Screen {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-image: url("https://www.transparenttextures.com/patterns/notebook-dark.png");
+}
+.Form {
+  height: 350px;
+  margin: auto;
+  background: #79a3b1;
+  padding: 20px;
+  border-radius: 3px;
+  box-shadow: 0 1px 5px rgb(138, 137, 137);
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.Form h1 {
+  color: rgb(255, 255, 255);
+}
+.Form input {
+  border: 1px solid rgb(204, 204, 204);
+  border-radius: 7px;
+  width: 100%;
+  padding: 10px;
+  outline: none;
+  font-size: 1.2em;
+  font-family: inherit;
+  resize: none;
+  background: rgb(255, 255, 255);
+}
+
+.Form .ButtonArea {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.Form button {
+  /* position: absolute;
+    right: 18px; */
+  width: 80px;
+  height: 40px;
+  bottom: 0px;
+  position: relative;
+  margin-right: 5px;
+  background: #79a3b1;
+  color: #ffffff;
+  border: 1px solid rgb(204, 204, 204);
+  border-radius: 3px;
+  cursor: pointer;
+  outline: none;
+  font-size: 15px;
+}
+
+.Form button:hover,
+.Form button:active {
+  background-color: rgba(172, 172, 172, 0.247);
+}

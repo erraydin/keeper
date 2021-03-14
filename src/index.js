@@ -15,7 +15,6 @@ const store = configureStore();
 initNotes(store);
 
 //Whenever state changes, this saves it to firebase (or local storage)
-//probably not efficient to always store in real life
 store.subscribe(() => {
   // const state = store.getState();
   // saveState(state);

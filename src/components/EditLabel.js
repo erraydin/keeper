@@ -43,7 +43,7 @@ function EditLabel(props) {
 
   function deleteHandler() {
     if ("/label/" + props.label === location.pathname) {
-      history.push("/");
+      history.push("/notes");
     }
     props.deleteLabelCompletely(props.label);
   }
@@ -94,20 +94,20 @@ function EditLabel(props) {
       >
         <DialogContent>
           <DialogContentText>
-            We’ll delete this label and remove it from all of your notes.
-            Your notes won’t be deleted
+            We’ll delete this label and remove it from all of your notes. Your
+            notes won’t be deleted
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <div className={classes.Button}>
-          <Button onClick={handleDialogClose} tooltipTitle="Cancel">
-            Cancel
-          </Button>
+            <Button onClick={handleDialogClose} tooltipTitle="Cancel">
+              Cancel
+            </Button>
           </div>
           <div className={classes.Button}>
-          <Button onClick={deleteHandler} tooltipTitle="Delete">
-            Delete
-          </Button>
+            <Button onClick={deleteHandler} tooltipTitle="Delete">
+              Delete
+            </Button>
           </div>
         </DialogActions>
       </Dialog>

@@ -60,7 +60,7 @@ function Header(props) {
   }
   function closeColorEditHandler(event) {
     if (open) {
-      console.log(event)
+      console.log(event);
       setColorPopperLocation(null);
     }
   }
@@ -85,15 +85,18 @@ function Header(props) {
       props.openSidebar();
     }
   }
-  
 
   return (
     <header className={classes.header}>
-      <span className={classes.HamburgerMenu} onClick={toggleSidebar} ref={menu} >
+      <span
+        className={classes.HamburgerMenu}
+        onClick={toggleSidebar}
+        ref={menu}
+      >
         <MenuIcon fontSize="inherit" />
       </span>
       <span className={classes.Keeper}>
-        <Link to="/" exact="true" onClick={clearSearch}>
+        <Link to="/notes" exact="true" onClick={clearSearch}>
           <h1>
             <i className="far fa-lightbulb"></i> <span>Keeper</span>
           </h1>
@@ -124,7 +127,10 @@ function Header(props) {
             <PaletteOutlinedIcon />
           </Button>
         </div>
-        <ClickAwayListener onClickAway={closeColorEditHandler} touchEvent={false}>
+        <ClickAwayListener
+          onClickAway={closeColorEditHandler}
+          touchEvent={false}
+        >
           <Popper
             id={id}
             open={open}
