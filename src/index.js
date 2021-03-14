@@ -6,7 +6,7 @@ import App, { history } from "./App";
 import { Provider } from "react-redux";
 import configureStore from "./store/configureStore";
 import { login, logout } from "./actions/auth";
-import axios from "./axios-notes";
+
 import { createState } from "./utils/firebaseToState";
 import { firebase } from "./firebase/firebase";
 import { setMainState } from "./actions/actions";
@@ -35,16 +35,20 @@ ReactDOM.render(<p>Loading...</p>, document.getElementById("root"));
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     store.dispatch(login(user.uid));
-    const route = "/users/" + user.uid + ".json";
+    const route = "/users/" + user.uid;
     // console.log(route);
-    axios.get(route).then((response) => {
-      const state = createState(response.data);
-      store.dispatch(setMainState(state));
-      renderApp();
-      if (history.location.pathname === "/") {
-        history.push("/notes");
-      }
-    });
+    firebase
+      .database()
+      .ref(route)
+      .once("value")
+      .then((response) => {
+        const state = createState(response.val());
+        store.dispatch(setMainState(state));
+        renderApp();
+        if (history.location.pathname === "/") {
+          history.push("/notes");
+        }
+      });
     //Whenever state changes, this saves it to firebase (or local storage)
     //This is not ideal in real world, you would put syncing with database inside your action creators, using thunk
     //This fires a lot of times

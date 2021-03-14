@@ -10,15 +10,13 @@ const LoginPage = (props) => {
         <h1>
           <i className="far fa-lightbulb"></i> <span>Keeper</span>
         </h1>
+
         <div>
-          <input placeholder="Email"></input>
-        </div>
-        <div>
-          <input placeholder="Password"></input>
+          <p>Keep your notes organized.</p>
         </div>
         <div className={classes.ButtonArea}>
-          <button>Guest Mode</button>
-          <button onClick={props.startLogin}>Login</button>
+          <button onClick={props.startLogin}>Login with Google</button>
+          {/* <button>Guest Mode</button> */}
         </div>
       </div>
     </div>

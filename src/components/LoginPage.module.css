@@ -7,7 +7,7 @@
   background-image: url("https://www.transparenttextures.com/patterns/notebook-dark.png");
 }
 .Form {
-  height: 350px;
+  height: 250px;
   margin: auto;
   background: #79a3b1;
   padding: 20px;
@@ -23,7 +23,16 @@
 .Form h1 {
   color: rgb(255, 255, 255);
   font-family: "McLaren", cursive;
+  font-size: 40px;
 }
+
+.Form p {
+  text-align: center;
+  font-size: 15px;
+  margin: 10px 0;
+  color: rgb(255, 255, 255);
+}
+
 .Form input {
   border: 1px solid rgb(204, 204, 204);
   border-radius: 7px;
@@ -36,17 +45,26 @@
   background: rgb(255, 255, 255);
 }
 
+.Form hr {
+  width: 40px;
+  border-top: 3px dotted rgba(219, 219, 219, 0.411);
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+}
+
 .Form .ButtonArea {
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-evenly;
+  align-items: center;
 }
 
 .Form button {
   /* position: absolute;
     right: 18px; */
-  width: 80px;
+  width: 150px;
   height: 40px;
   bottom: 0px;
   position: relative;

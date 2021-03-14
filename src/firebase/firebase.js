@@ -19,4 +19,4 @@ const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 //   name: "kelay",
 // });
 
-export { firebase, googleAuthProvider, database as default };
+export { firebase, googleAuthProvider, database };

@@ -1,7 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import axios from "../axios-notes";
-
-// import axios from "../axios-notes";
+import { firebase } from "../firebase/firebase";
 
 export const addNoteSync = (note) => ({
   type: "ADD",
@@ -12,8 +10,8 @@ export const addNote = (note) => {
   return (dispatch, getState) => {
     dispatch(addNoteSync(note));
     const uid = getState().auth.uid;
-    const route = "/users/" + uid + ".json";
-    axios.put(route, getState().main);
+    const route = "/users/" + uid;
+    firebase.database().ref(route).set(getState().main);
   };
 };
 
@@ -42,8 +40,8 @@ export const deleteNote = (id) => {
   return (dispatch, getState) => {
     dispatch(deleteNoteSync(id));
     const uid = getState().auth.uid;
-    const route = "/users/" + uid + ".json";
-    axios.put(route, getState().main);
+    const route = "/users/" + uid;
+    firebase.database().ref(route).set(getState().main);
   };
 };
 
@@ -56,8 +54,8 @@ export const deleteNotePermanently = (id) => {
   return (dispatch, getState) => {
     dispatch(deleteNotePermanentlySync(id));
     const uid = getState().auth.uid;
-    const route = "/users/" + uid + ".json";
-    axios.put(route, getState().main);
+    const route = "/users/" + uid;
+    firebase.database().ref(route).set(getState().main);
   };
 };
 
@@ -71,8 +69,8 @@ export const editNote = (id, note) => {
   return (dispatch, getState) => {
     dispatch(editNoteSync(id, note));
     const uid = getState().auth.uid;
-    const route = "/users/" + uid + ".json";
-    axios.put(route, getState().main);
+    const route = "/users/" + uid;
+    firebase.database().ref(route).set(getState().main);
   };
 };
 
@@ -82,8 +80,8 @@ export const archiveNote = (note) => {
   return (dispatch, getState) => {
     dispatch(archiveNoteSync(note));
     const uid = getState().auth.uid;
-    const route = "/users/" + uid + ".json";
-    axios.put(route, getState().main);
+    const route = "/users/" + uid;
+    firebase.database().ref(route).set(getState().main);
   };
 };
 
@@ -96,8 +94,8 @@ export const archiveDirectly = (note) => {
   return (dispatch, getState) => {
     dispatch(archiveDirectlySync(note));
     const uid = getState().auth.uid;
-    const route = "/users/" + uid + ".json";
-    axios.put(route, getState().main);
+    const route = "/users/" + uid;
+    firebase.database().ref(route).set(getState().main);
   };
 };
 
@@ -111,8 +109,8 @@ export const editAndArchive = (oldNote, newNote) => {
   return (dispatch, getState) => {
     dispatch(editAndArchiveSync(oldNote, newNote));
     const uid = getState().auth.uid;
-    const route = "/users/" + uid + ".json";
-    axios.put(route, getState().main);
+    const route = "/users/" + uid;
+    firebase.database().ref(route).set(getState().main);
   };
 };
 
@@ -126,8 +124,8 @@ export const editAndUnarchive = (oldNote, newNote) => {
   return (dispatch, getState) => {
     dispatch(editAndUnarchiveSync(oldNote, newNote));
     const uid = getState().auth.uid;
-    const route = "/users/" + uid + ".json";
-    axios.put(route, getState().main);
+    const route = "/users/" + uid;
+    firebase.database().ref(route).set(getState().main);
   };
 };
 
@@ -137,8 +135,8 @@ export const unarchiveNote = (note) => {
   return (dispatch, getState) => {
     dispatch(unarchiveNoteSync(note));
     const uid = getState().auth.uid;
-    const route = "/users/" + uid + ".json";
-    axios.put(route, getState().main);
+    const route = "/users/" + uid;
+    firebase.database().ref(route).set(getState().main);
   };
 };
 
@@ -148,8 +146,8 @@ export const restoreNote = (id) => {
   return (dispatch, getState) => {
     dispatch(restoreNoteSync(id));
     const uid = getState().auth.uid;
-    const route = "/users/" + uid + ".json";
-    axios.put(route, getState().main);
+    const route = "/users/" + uid;
+    firebase.database().ref(route).set(getState().main);
   };
 };
 
@@ -159,8 +157,8 @@ export const emptyTrash = () => {
   return (dispatch, getState) => {
     dispatch(emptyTrashSync());
     const uid = getState().auth.uid;
-    const route = "/users/" + uid + ".json";
-    axios.put(route, getState().main);
+    const route = "/users/" + uid;
+    firebase.database().ref(route).set(getState().main);
   };
 };
 
@@ -173,8 +171,8 @@ export const addNewLabel = (label) => {
   return (dispatch, getState) => {
     dispatch(addNewLabelSync(label));
     const uid = getState().auth.uid;
-    const route = "/users/" + uid + ".json";
-    axios.put(route, getState().main);
+    const route = "/users/" + uid;
+    firebase.database().ref(route).set(getState().main);
   };
 };
 
@@ -188,8 +186,8 @@ export const deleteLabelCompletely = (label) => {
   return (dispatch, getState) => {
     dispatch(deleteLabelCompletelySync(label));
     const uid = getState().auth.uid;
-    const route = "/users/" + uid + ".json";
-    axios.put(route, getState().main);
+    const route = "/users/" + uid;
+    firebase.database().ref(route).set(getState().main);
   };
 };
 
@@ -203,8 +201,8 @@ export const editLabel = (oldLabel, newLabel) => {
   return (dispatch, getState) => {
     dispatch(editLabelSync(oldLabel, newLabel));
     const uid = getState().auth.uid;
-    const route = "/users/" + uid + ".json";
-    axios.put(route, getState().main);
+    const route = "/users/" + uid;
+    firebase.database().ref(route).set(getState().main);
   };
 };
 
@@ -219,8 +217,8 @@ export const addList = (list) => {
   return (dispatch, getState) => {
     dispatch(addListSync(list));
     const uid = getState().auth.uid;
-    const route = "/users/" + uid + ".json";
-    axios.put(route, getState().main);
+    const route = "/users/" + uid;
+    firebase.database().ref(route).set(getState().main);
   };
 };
 
