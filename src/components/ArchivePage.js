@@ -42,6 +42,11 @@ function ArchivePage(props) {
     setEditedId(null);
   }
 
+  function backdropClickHandler() {
+    editArea.current();
+    closeEditHandler();
+  }
+
   const noNotes = (
     <div className={classes.Empty}>
       <span
@@ -53,10 +58,6 @@ function ArchivePage(props) {
       <p className={classes.Note}>Your archived notes appear here</p>
     </div>
   );
-  function backdropClickHandler() {
-    editArea.current();
-    closeEditHandler();
-  }
 
   return (
     <div className={classes.NotesPage}>
@@ -79,7 +80,9 @@ function ArchivePage(props) {
         onClick={backdropClickHandler}
         transparent={false}
       />
-      {props.archive.length === 0 &&  props.text === "" && props.color === "" ? noNotes : null}
+      {props.archive.length === 0 && props.text === "" && props.color === ""
+        ? noNotes
+        : null}
 
       <div className={classes.Notes}>
         {props.text === "" && props.color === "" ? null : (

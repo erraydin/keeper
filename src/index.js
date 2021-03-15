@@ -6,7 +6,7 @@ import App, { history } from "./App";
 import { Provider } from "react-redux";
 import configureStore from "./store/configureStore";
 import { login, logout } from "./actions/auth";
-
+import Loading from "./components/Loading";
 import { createState } from "./utils/firebaseToState";
 import { firebase } from "./firebase/firebase";
 import { setMainState } from "./actions/actions";
@@ -28,7 +28,7 @@ const renderApp = () => {
 };
 
 //Initial loading page
-ReactDOM.render(<p>Loading...</p>, document.getElementById("root"));
+ReactDOM.render(<Loading />, document.getElementById("root"));
 
 //Fetch notes from database if authenticated, set redux state, and render app
 //If not authenticated, just render app and send to login page

@@ -49,13 +49,14 @@ function TrashPage(props) {
     ) : (
       <h3 className={classes.SearchResult}>Search Results:</h3>
     );
+  const isThereTrash = props.trash.length === 0 ? noTrash : yesTrash;
 
   return (
     <div className={classes.NotePage}>
       <Header />
       <SideBar openEditLabels={props.openEditLabels} />
       <div className={classes.Notes}>
-        {props.trash.length === 0 ? noTrash : yesTrash}
+        {isThereTrash}
         <Masonry>
           {displayedTrashNotes.map((note, index) => {
             return (
