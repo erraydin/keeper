@@ -88,6 +88,8 @@
 
 .ButtonArea {
   display: inline-flex;
+  justify-content: flex-end;
+  width: 100%;
 }
 
 .Note .Label {
@@ -193,3 +195,28 @@
 .Note a {
   color: black;
 }
+
+@media (max-width: 580px) {
+  .Note {
+    width: 80vw;
+  }
+}
+
+@media (max-width: 500px) {
+  .Note {
+    width: 75vw;
+  }
+}
+
+/* @media (max-width: 450px) {
+  .Note {
+    width: 300px;
+  }
+}
+
+@media (max-width: 360px) {
+  .Note {
+    width: 85%;
+    padding-right: 10px;
+  }
+} */

@@ -8,6 +8,9 @@
   width: 100%;
   top: 0px;
   z-index: 2;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .header h1 {
@@ -32,15 +35,17 @@
 
 .Search {
   position: relative;
-  width: 700px;
+  width: 50%;
   height: 50px;
-  display: inline-block;
+  display: flex;
   left: 80px;
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 1px 5px rgb(138, 137, 137);
-  min-width: 240px;
+  min-width: 200px;
   vertical-align: middle;
+  padding: 0 10px;
+  align-items: center;
 }
 .Search input {
   display: inline-block;
@@ -51,6 +56,13 @@
   font-size: 20px;
   background-color: rgba(141, 141, 141, 0);
   outline: none;
+  flex-grow: 1;
+}
+
+.Search .RightButtons{
+  display: flex;
+  justify-content: flex-end;
+
 }
 .HamburgerMenu {
   color: white;
@@ -58,13 +70,8 @@
   vertical-align: middle;
   cursor: pointer;
 }
-@media (min-width: 781px) {
-  .HamburgerMenu {
-    display: none;
-  }
-}
 
-@media (max-width: 1000px) {
+/* @media (max-width: 1000px) {
   .Search {
     width: 480px;
   }
@@ -112,26 +119,23 @@
   .Search {
     left: 10px;
   }
-}
+} */
 
 .SearchButton {
   display: inline-block;
   position: relative;
-  top: 4px;
   padding-left: 10px;
 }
 
 .ClearButton {
   display: inline-block;
   position: relative;
-  top: 4px;
   /* padding-left: 10px; */
 }
 
 .PaletteButton {
   display: inline-block;
   position: relative;
-  top: 4px;
   margin-left: 10px;
   border-radius: 100%;
   height: 35px;
@@ -139,15 +143,18 @@
 }
 
 .LogoutButton {
-  position: relative;
+  /* display: inline-block;
+  position: relative; */
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
   top: 4px;
   margin-left: 10px;
-  margin-right: 30px;
-  border-radius: 100%;
-  float: right;
+  
 }
 
 .LogoutButton button {
+  display: inline-block;
   background-color: inherit;
   border: 1.5px solid rgb(219, 219, 219);
   outline: none;
@@ -223,4 +230,48 @@
 
 .pink {
   background-color: #fdd8f4;
+}
+
+
+@media (min-width: 781px) {
+  .HamburgerMenu {
+    display: none;
+  }
+}
+
+
+@media (max-width: 1000px) {
+  .Search input {
+    width: 70%;
+  }
+}
+
+@media (max-width: 780px) {
+  .Keeper {
+    display: none;
+  }
+  .Search {
+    left: 50px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 500px) {
+  .Search {
+    width: 70%;
+    max-width: 250px;
+    left: 10px;
+  }
+  .Search input {
+    width: 50%;
+  }
+  .header {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .LogoutButton button {
+    width: 50px;
+    height: 30px;
+    font-size: 10px;
+  }
 }

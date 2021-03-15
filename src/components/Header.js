@@ -118,37 +118,42 @@ function Header(props) {
           value={props.text}
           onChange={setfilterText}
         ></input>
-        <div
-          className={
-            classes.PaletteButton +
-            " " +
-            (props.color === "" ? "" : color(props.color))
-          }
-        >
-          <Button tooltipTitle="Filter by color" onClick={openColorEditHandler}>
-            <PaletteOutlinedIcon />
-          </Button>
-        </div>
-        <ClickAwayListener
-          onClickAway={closeColorEditHandler}
-          touchEvent={false}
-        >
-          <Popper
-            id={id}
-            open={open}
-            anchorEl={colorPopperLocation}
-            disablePortal
+        <div className={classes.RightButtons}>
+          <div
+            className={
+              classes.PaletteButton +
+              " " +
+              (props.color === "" ? "" : color(props.color))
+            }
           >
-            <ColorPopper changeColorHandler={setFilterColor} />
-          </Popper>
-        </ClickAwayListener>
-        <div className={classes.ClearButton}>
-          <Button
-            tooltipTitle="Clear Search and Color Filter"
-            onClick={clearSearch}
+            <Button
+              tooltipTitle="Filter by color"
+              onClick={openColorEditHandler}
+            >
+              <PaletteOutlinedIcon />
+            </Button>
+          </div>
+          <ClickAwayListener
+            onClickAway={closeColorEditHandler}
+            touchEvent={false}
           >
-            <ClearIcon />
-          </Button>
+            <Popper
+              id={id}
+              open={open}
+              anchorEl={colorPopperLocation}
+              disablePortal
+            >
+              <ColorPopper changeColorHandler={setFilterColor} />
+            </Popper>
+          </ClickAwayListener>
+          <div className={classes.ClearButton}>
+            <Button
+              tooltipTitle="Clear Search and Color Filter"
+              onClick={clearSearch}
+            >
+              <ClearIcon />
+            </Button>
+          </div>
         </div>
       </div>
       <div className={classes.LogoutButton}>

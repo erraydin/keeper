@@ -53,25 +53,34 @@
 
 @media (max-width: 640px) {
   .Form {
-    width: 70%;
+    width: 80%;
     margin-left: 56px;
   }
 }
 
-@media (max-width: 570px) {
+@media (max-width: 500px) {
   .Form {
-    width: 65%;
+    width: 75%;
   }
 }
 
-@media (max-width: 533px) {
+
+
+
+/* @media (max-width: 570px) {
+  .Form {
+    width: 80%;
+  }
+} */
+
+/* @media (max-width: 533px) {
   .Form {
     width: 60%;
-    /* margin-left: 130px; */
+    
   }
-}
+} */
 
-@media (max-width: 460px) {
+/* @media (max-width: 460px) {
   .Form .Input1 {
     width: 87%;
   }
@@ -81,7 +90,7 @@
   .Form .Input2 {
     width: 87%;
   }
-}
+} */
 .Hidden {
  visibility: hidden;
 }
