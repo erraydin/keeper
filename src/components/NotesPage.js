@@ -89,7 +89,7 @@ function NotesPage(props) {
   }
 
   const noNotes =
-    path === "/" ? (
+    path === "/notes" ? (
       <div className={classes.Empty}>
         <span
           className={"material-icons-outlined " + classes.Icon}
@@ -142,7 +142,8 @@ function NotesPage(props) {
         />
         {displayedNotes.length === 0 &&
         archivedNotes.length === 0 &&
-        props.text === "" && props.color === ""
+        props.text === "" &&
+        props.color === ""
           ? noNotes
           : null}
 
@@ -181,7 +182,8 @@ function NotesPage(props) {
             (pinnedNotes.length > 0 ? " " + classes.NotesWhenPinned : "")
           }
         >
-          {(props.text !== "" || props.color !== "") && pinnedNotes.length === 0 ? (
+          {(props.text !== "" || props.color !== "") &&
+          pinnedNotes.length === 0 ? (
             <h3 className={classes.SearchResult}>Search Results:</h3>
           ) : null}
           {pinnedNotes.length > 0 && unpinnedNotes.length > 0 ? (
