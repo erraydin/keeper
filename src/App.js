@@ -12,6 +12,7 @@ import LoginPage from "./components/LoginPage";
 import { connect } from "react-redux";
 import EditLabels from "./components/EditLabels";
 import Backdrop from "./components/Backdrop";
+import Loading from "./components/Loading";
 
 export const history = createHistory();
 
@@ -68,15 +69,21 @@ function App(props) {
   );
   return (
     <Router history={history}>
-      {/* <Header />
-      <SideBar openEditLabels={openEditLabels}/> */}
-      {editingLabels ? <EditLabels closeEditLabels={closeEditLabels} /> : null}
-      <Backdrop
-        show={editingLabels}
-        onClick={closeEditLabels}
-        transparent={false}
-      />
-      {routes}
+      {props.loggingIn ? (
+        <Loading />
+      ) : (
+        <React.Fragment>
+          {editingLabels ? (
+            <EditLabels closeEditLabels={closeEditLabels} />
+          ) : null}
+          <Backdrop
+            show={editingLabels}
+            onClick={closeEditLabels}
+            transparent={false}
+          />
+          {routes}
+        </React.Fragment>
+      )}
     </Router>
   );
 }
@@ -84,6 +91,7 @@ function App(props) {
 const mapStateToProps = (state) => {
   return {
     labels: state.main.labels,
+    loggingIn: state.auth.loggingIn,
   };
 };
 

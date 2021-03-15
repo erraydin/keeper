@@ -5,7 +5,7 @@ import "./index.css";
 import App, { history } from "./App";
 import { Provider } from "react-redux";
 import configureStore from "./store/configureStore";
-import { login, logout } from "./actions/auth";
+import { login, logout, setLoggingIn } from "./actions/auth";
 import Loading from "./components/Loading";
 import { createState } from "./utils/firebaseToState";
 import { firebase } from "./firebase/firebase";
@@ -48,6 +48,7 @@ firebase.auth().onAuthStateChanged((user) => {
         if (history.location.pathname === "/") {
           history.push("/notes");
         }
+        store.dispatch(setLoggingIn(false));
       });
   } else {
     // console.log("log out");

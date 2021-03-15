@@ -18,6 +18,13 @@ export const startLogin = () => {
   };
 };
 
+export const setLoggingIn = (truth) => {
+  return {
+    type: "SET_LOGGING_IN",
+    truth: truth,
+  };
+};
+
 export const logout = () => {
   return {
     type: "LOGOUT",
