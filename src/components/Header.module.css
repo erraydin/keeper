@@ -42,7 +42,7 @@
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 1px 5px rgb(138, 137, 137);
-  min-width: 200px;
+  min-width: 180px;
   vertical-align: middle;
   padding: 0 10px;
   align-items: center;
@@ -153,7 +153,7 @@
   
 }
 
-.LogoutButton button {
+.LogoutButton .Logout {
   display: inline-block;
   background-color: inherit;
   border: 1.5px solid rgb(219, 219, 219);
@@ -165,6 +165,47 @@
   cursor: pointer;
   font-size: 15px;
 }
+
+.LogoutButton .Cloud {
+  display: inline-block;
+  background-color: inherit;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  /* cursor: pointer; */
+  font-size: 15px;
+  margin-right: 15px;
+  border-radius: 100%;
+}
+
+.LogoutButton .Red {
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  border-radius: 0;
+  font-size: 13px;
+  background-color:rgb(167, 80, 80);
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+}
+
+
+
+.LogoutButton .Loader {
+  border: 2px solid #f3f3f3; /* Light grey */
+  border-top: 2px solid #72acc0; /* Blue */
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
 .Search button {
   background-color: inherit;
   border: none;
@@ -179,6 +220,11 @@
 .LogoutButton button:hover,
 .LogoutButton button:active {
   background-color: rgba(172, 172, 172, 0.247);
+}
+
+.LogoutButton .Red:hover,
+.LogoutButton .Red:active {
+  background-color: rgb(209, 113, 113);
 }
 
 .SearchButton button:hover,
@@ -240,7 +286,10 @@
 }
 
 
-@media (max-width: 1000px) {
+@media (max-width: 1030px) {
+  .Search {
+    left: 60px;
+  }
   .Search input {
     width: 70%;
   }
@@ -256,9 +305,15 @@
   }
 }
 
+@media (max-width: 640px) {
+  .Search {
+    left: 30px;
+  }
+}
+
 @media (max-width: 500px) {
   .Search {
-    width: 70%;
+    width: 75%;
     max-width: 250px;
     left: 10px;
   }
@@ -269,9 +324,44 @@
     padding-left: 10px;
     padding-right: 10px;
   }
-  .LogoutButton button {
-    width: 50px;
+  .LogoutButton .Logout {
+    width: 45px;
     height: 30px;
-    font-size: 10px;
+    font-size: 11px;
+  }
+
+  .LogoutButton .Red {
+    font-size: 9px;
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+  }
+
+  .LogoutButton .Cloud {
+    margin-right: 10px;
+  }
+
+  /* .LogoutButton {
+    justify-content: space-between;
+  } */
+}
+
+@media (max-width: 400px) {
+  .Search {
+    max-width: 235px;
+  }
+
+  .LogoutButton .Logout {
+    height: 25px;
+    font-size: 9px;
+  }
+
+  .LogoutButton .Red {
+    margin-right: 5px;
+  }
+
+  .LogoutButton .Cloud {
+    margin: 0 5px;
+    
   }
 }

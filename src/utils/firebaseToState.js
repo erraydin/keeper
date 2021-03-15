@@ -55,3 +55,26 @@ export const createState = (data) => {
   };
   return mainState;
 };
+
+export const updateDatabase = (
+  dispatch,
+  getState,
+  syncingStart,
+  syncSuccess,
+  syncFail,
+  firebase
+) => {
+  const uid = getState().auth.uid;
+  const route = "/users/" + uid;
+  dispatch(syncingStart());
+  firebase
+    .database()
+    .ref(route)
+    .set(getState().main)
+    .then(() => {
+      dispatch(syncSuccess());
+    })
+    .catch(() => {
+      dispatch(syncFail());
+    });
+};

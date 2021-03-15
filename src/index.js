@@ -49,14 +49,6 @@ firebase.auth().onAuthStateChanged((user) => {
           history.push("/notes");
         }
       });
-    //Whenever state changes, this saves it to firebase (or local storage)
-    //This is not ideal in real world, you would put syncing with database inside your action creators, using thunk
-    //This fires a lot of times
-    // store.subscribe(() => {
-    //   // const state = store.getState();
-    //   // saveState(state);
-    //   axios.put("/state.json", store.getState().main);
-    // });
   } else {
     // console.log("log out");
     store.dispatch(logout());

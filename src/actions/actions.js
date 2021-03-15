@@ -1,5 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { firebase } from "../firebase/firebase";
+import { syncFail, syncingStart, syncSuccess } from "./ui";
+import { updateDatabase } from "../utils/firebaseToState";
 
 export const addNoteSync = (note) => ({
   type: "ADD",
@@ -9,15 +11,32 @@ export const addNoteSync = (note) => ({
 export const addNote = (note) => {
   return (dispatch, getState) => {
     dispatch(addNoteSync(note));
-    const uid = getState().auth.uid;
-    const route = "/users/" + uid;
-    firebase.database().ref(route).set(getState().main);
+    updateDatabase(
+      dispatch,
+      getState,
+      syncingStart,
+      syncSuccess,
+      syncFail,
+      firebase
+    );
+    // const uid = getState().auth.uid;
+    // const route = "/users/" + uid;
+    // dispatch(syncingStart());
+    // firebase
+    //   .database()
+    //   .ref(route)
+    //   .set(getState().main)
+    //   .then(() => {
+    //     dispatch(syncSuccess());
+    //   })
+    //   .catch(() => {
+    //     dispatch(syncFail());
+    //   });
   };
 };
 
 //If you want put the data to database before putting it redux store
 // In many cases this makes much more sense. in this app I don't think it matters that much, if you catch errors and let the client know sync failed
-// You won't try to catch errors for this app anyways
 
 // export const addNote = (note) => {
 //   return (dispatch, getState) => {
@@ -39,9 +58,14 @@ export const deleteNoteSync = (id) => ({ type: "DELETE", id: id });
 export const deleteNote = (id) => {
   return (dispatch, getState) => {
     dispatch(deleteNoteSync(id));
-    const uid = getState().auth.uid;
-    const route = "/users/" + uid;
-    firebase.database().ref(route).set(getState().main);
+    updateDatabase(
+      dispatch,
+      getState,
+      syncingStart,
+      syncSuccess,
+      syncFail,
+      firebase
+    );
   };
 };
 
@@ -53,9 +77,14 @@ export const deleteNotePermanentlySync = (id) => ({
 export const deleteNotePermanently = (id) => {
   return (dispatch, getState) => {
     dispatch(deleteNotePermanentlySync(id));
-    const uid = getState().auth.uid;
-    const route = "/users/" + uid;
-    firebase.database().ref(route).set(getState().main);
+    updateDatabase(
+      dispatch,
+      getState,
+      syncingStart,
+      syncSuccess,
+      syncFail,
+      firebase
+    );
   };
 };
 
@@ -68,9 +97,14 @@ export const editNoteSync = (id, note) => ({
 export const editNote = (id, note) => {
   return (dispatch, getState) => {
     dispatch(editNoteSync(id, note));
-    const uid = getState().auth.uid;
-    const route = "/users/" + uid;
-    firebase.database().ref(route).set(getState().main);
+    updateDatabase(
+      dispatch,
+      getState,
+      syncingStart,
+      syncSuccess,
+      syncFail,
+      firebase
+    );
   };
 };
 
@@ -79,9 +113,14 @@ export const archiveNoteSync = (note) => ({ type: "ARCHIVE", note: note });
 export const archiveNote = (note) => {
   return (dispatch, getState) => {
     dispatch(archiveNoteSync(note));
-    const uid = getState().auth.uid;
-    const route = "/users/" + uid;
-    firebase.database().ref(route).set(getState().main);
+    updateDatabase(
+      dispatch,
+      getState,
+      syncingStart,
+      syncSuccess,
+      syncFail,
+      firebase
+    );
   };
 };
 
@@ -93,9 +132,14 @@ export const archiveDirectlySync = (note) => ({
 export const archiveDirectly = (note) => {
   return (dispatch, getState) => {
     dispatch(archiveDirectlySync(note));
-    const uid = getState().auth.uid;
-    const route = "/users/" + uid;
-    firebase.database().ref(route).set(getState().main);
+    updateDatabase(
+      dispatch,
+      getState,
+      syncingStart,
+      syncSuccess,
+      syncFail,
+      firebase
+    );
   };
 };
 
@@ -108,9 +152,14 @@ export const editAndArchiveSync = (oldNote, newNote) => ({
 export const editAndArchive = (oldNote, newNote) => {
   return (dispatch, getState) => {
     dispatch(editAndArchiveSync(oldNote, newNote));
-    const uid = getState().auth.uid;
-    const route = "/users/" + uid;
-    firebase.database().ref(route).set(getState().main);
+    updateDatabase(
+      dispatch,
+      getState,
+      syncingStart,
+      syncSuccess,
+      syncFail,
+      firebase
+    );
   };
 };
 
@@ -123,9 +172,14 @@ export const editAndUnarchiveSync = (oldNote, newNote) => ({
 export const editAndUnarchive = (oldNote, newNote) => {
   return (dispatch, getState) => {
     dispatch(editAndUnarchiveSync(oldNote, newNote));
-    const uid = getState().auth.uid;
-    const route = "/users/" + uid;
-    firebase.database().ref(route).set(getState().main);
+    updateDatabase(
+      dispatch,
+      getState,
+      syncingStart,
+      syncSuccess,
+      syncFail,
+      firebase
+    );
   };
 };
 
@@ -134,9 +188,14 @@ export const unarchiveNoteSync = (note) => ({ type: "UNARCHIVE", note: note });
 export const unarchiveNote = (note) => {
   return (dispatch, getState) => {
     dispatch(unarchiveNoteSync(note));
-    const uid = getState().auth.uid;
-    const route = "/users/" + uid;
-    firebase.database().ref(route).set(getState().main);
+    updateDatabase(
+      dispatch,
+      getState,
+      syncingStart,
+      syncSuccess,
+      syncFail,
+      firebase
+    );
   };
 };
 
@@ -145,9 +204,14 @@ export const restoreNoteSync = (id) => ({ type: "RESTORE", id: id });
 export const restoreNote = (id) => {
   return (dispatch, getState) => {
     dispatch(restoreNoteSync(id));
-    const uid = getState().auth.uid;
-    const route = "/users/" + uid;
-    firebase.database().ref(route).set(getState().main);
+    updateDatabase(
+      dispatch,
+      getState,
+      syncingStart,
+      syncSuccess,
+      syncFail,
+      firebase
+    );
   };
 };
 
@@ -156,9 +220,14 @@ export const emptyTrashSync = () => ({ type: "EMPTY_TRASH" });
 export const emptyTrash = () => {
   return (dispatch, getState) => {
     dispatch(emptyTrashSync());
-    const uid = getState().auth.uid;
-    const route = "/users/" + uid;
-    firebase.database().ref(route).set(getState().main);
+    updateDatabase(
+      dispatch,
+      getState,
+      syncingStart,
+      syncSuccess,
+      syncFail,
+      firebase
+    );
   };
 };
 
@@ -170,9 +239,14 @@ export const addNewLabelSync = (label) => ({
 export const addNewLabel = (label) => {
   return (dispatch, getState) => {
     dispatch(addNewLabelSync(label));
-    const uid = getState().auth.uid;
-    const route = "/users/" + uid;
-    firebase.database().ref(route).set(getState().main);
+    updateDatabase(
+      dispatch,
+      getState,
+      syncingStart,
+      syncSuccess,
+      syncFail,
+      firebase
+    );
   };
 };
 
@@ -185,9 +259,14 @@ export const deleteLabelCompletelySync = (label) => ({
 export const deleteLabelCompletely = (label) => {
   return (dispatch, getState) => {
     dispatch(deleteLabelCompletelySync(label));
-    const uid = getState().auth.uid;
-    const route = "/users/" + uid;
-    firebase.database().ref(route).set(getState().main);
+    updateDatabase(
+      dispatch,
+      getState,
+      syncingStart,
+      syncSuccess,
+      syncFail,
+      firebase
+    );
   };
 };
 
@@ -200,9 +279,14 @@ export const editLabelSync = (oldLabel, newLabel) => ({
 export const editLabel = (oldLabel, newLabel) => {
   return (dispatch, getState) => {
     dispatch(editLabelSync(oldLabel, newLabel));
-    const uid = getState().auth.uid;
-    const route = "/users/" + uid;
-    firebase.database().ref(route).set(getState().main);
+    updateDatabase(
+      dispatch,
+      getState,
+      syncingStart,
+      syncSuccess,
+      syncFail,
+      firebase
+    );
   };
 };
 
@@ -216,9 +300,14 @@ export const addListSync = (list) => ({
 export const addList = (list) => {
   return (dispatch, getState) => {
     dispatch(addListSync(list));
-    const uid = getState().auth.uid;
-    const route = "/users/" + uid;
-    firebase.database().ref(route).set(getState().main);
+    updateDatabase(
+      dispatch,
+      getState,
+      syncingStart,
+      syncSuccess,
+      syncFail,
+      firebase
+    );
   };
 };
 

@@ -3,6 +3,7 @@ import classes from "./Header.module.css";
 import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from "@material-ui/icons/Clear";
+import CloudDoneOutlinedIcon from "@material-ui/icons/CloudDoneOutlined";
 import Button from "./Button";
 import { setFilterText, setFilterColor } from "../actions/filters";
 import { openSidebar, closeSidebar } from "../actions/ui";
@@ -13,6 +14,10 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import ColorPopper from "./ColorPopper";
 import MenuIcon from "@material-ui/icons/Menu";
 import { startLogout } from "../actions/auth";
+import Tooltip from "@material-ui/core/Tooltip";
+import RefreshIcon from "@material-ui/icons/Refresh";
+import { syncingStart, syncSuccess, syncFail } from "../actions/ui";
+import { firebase } from "../firebase/firebase";
 
 function color(color) {
   switch (color) {
@@ -88,6 +93,51 @@ function Header(props) {
     }
   }
 
+  function refreshSyncHandler() {
+    const route = "/users/" + props.uid;
+    props.syncingStart();
+    firebase
+      .database()
+      .ref(route)
+      .set(props.main)
+      .then(() => {
+        console.log("success");
+        props.syncSuccess();
+      })
+      .catch(() => {
+        props.syncFail();
+      });
+  }
+
+  let syncButton = (
+    <Tooltip title="synced">
+      <button className={classes.Cloud}>
+        <CloudDoneOutlinedIcon />
+      </button>
+    </Tooltip>
+  );
+
+  if (props.syncStatus === "syncing") {
+    syncButton = (
+      <Tooltip title="synced">
+        <button className={classes.Cloud}>
+          <div class={classes.Loader}></div>
+        </button>
+      </Tooltip>
+    );
+  } else if (props.syncStatus === "failed") {
+    syncButton = (
+      <Tooltip title="Failed to sync. Click here to try again.">
+        <button
+          className={classes.Cloud + " " + classes.Red}
+          onClick={refreshSyncHandler}
+        >
+          <RefreshIcon />
+        </button>
+      </Tooltip>
+    );
+  }
+
   return (
     <header className={classes.header}>
       <span
@@ -156,8 +206,12 @@ function Header(props) {
           </div>
         </div>
       </div>
+
       <div className={classes.LogoutButton}>
-        <button onClick={props.startLogout}>Logout</button>
+        {syncButton}
+        <button onClick={props.startLogout} className={classes.Logout}>
+          Logout
+        </button>
       </div>
     </header>
   );
@@ -168,6 +222,9 @@ const mapStateToProps = (state) => {
     text: state.filters.filterText,
     color: state.filters.filterColor,
     sidebarOpen: state.ui.sidebarOpenMobile,
+    syncStatus: state.ui.syncStatus,
+    uid: state.auth.uid,
+    main: state.main,
   };
 };
 
@@ -178,6 +235,9 @@ const mapDispatchToProps = (dispatch) => {
     openSidebar: () => dispatch(openSidebar()),
     closeSidebar: () => dispatch(closeSidebar()),
     startLogout: () => dispatch(startLogout()),
+    syncingStart: () => dispatch(syncingStart()),
+    syncSuccess: () => dispatch(syncSuccess()),
+    syncFail: () => dispatch(syncFail()),
   };
 };
 
