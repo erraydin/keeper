@@ -11,6 +11,7 @@ import classes from "./TrashPage.module.css";
 import Header from "./Header";
 import SideBar from "./SideBar";
 import getVisibleNotes from "../selectors/notes";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 
 function TrashPage(props) {
   // useEffect(() => {
@@ -25,7 +26,11 @@ function TrashPage(props) {
   const noTrash =
     props.text === "" && props.color === "" ? (
       <div className={classes.Empty}>
-        <span className={"material-icons " + classes.Icon}>delete_outline</span>
+        <DeleteOutlineIcon
+          className={classes.Icon}
+          style={{ fontSize: "130px" }}
+        />
+        {/* <span className={"material-icons " + classes.Icon}>delete_outline</span> */}
         <p className={classes.Note}>No notes in Trash</p>
       </div>
     ) : (
