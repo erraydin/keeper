@@ -91,22 +91,12 @@ function NotesPage(props) {
   const noNotes =
     path === "/notes" ? (
       <div className={classes.Empty}>
-        <span
-          className={"material-icons-outlined " + classes.Icon}
-          style={{ verticalAlign: "middle" }}
-        >
-          note
-        </span>
+        <span className={"material-icons-outlined " + classes.Icon}>note</span>
         <p className={classes.Note}>Notes you add appear here</p>
       </div>
     ) : (
       <div className={classes.Empty}>
-        <span
-          className={"material-icons " + classes.Icon}
-          style={{ verticalAlign: "middle" }}
-        >
-          label_outline
-        </span>
+        <span className={"material-icons " + classes.Icon}>label_outline</span>
         <p className={classes.Note}>No notes with this label yet</p>
       </div>
     );

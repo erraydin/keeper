@@ -49,12 +49,7 @@ function ArchivePage(props) {
 
   const noNotes = (
     <div className={classes.Empty}>
-      <span
-        className={"material-icons-outlined " + classes.Icon}
-        style={{ verticalAlign: "middle" }}
-      >
-        archive
-      </span>
+      <span className={"material-icons-outlined " + classes.Icon}>archive</span>
       <p className={classes.Note}>Your archived notes appear here</p>
     </div>
   );

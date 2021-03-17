@@ -25,12 +25,7 @@ function TrashPage(props) {
   const noTrash =
     props.text === "" && props.color === "" ? (
       <div className={classes.Empty}>
-        <span
-          className={"material-icons " + classes.Icon}
-          style={{ verticalAlign: "middle" }}
-        >
-          delete_outline
-        </span>
+        <span className={"material-icons " + classes.Icon}>delete_outline</span>
         <p className={classes.Note}>No notes in Trash</p>
       </div>
     ) : (
